@@ -8,7 +8,13 @@ AX Engineering Research (AER)
 
 Mission
 
-Establish a practical engineering methodology for organizational transformation in the AI era.
+AER aims to construct a reusable AX Engineering Thinking Framework (AETF).
+
+The framework is intended to provide a structured thinking model that can be tailored to individual AX projects.
+
+Rather than prescribing fixed solutions, the framework defines what should be questioned, defined, validated and verified throughout an AX project.
+
+The primary objective is to expand engineering thinking and support systematic decision-making during future enterprise AX initiatives.
 
 ---
 
@@ -25,6 +31,24 @@ Research Scope
 - Enterprise Memory
 - Organizational Transformation
 - AI-enabled Enterprise Operation
+
+---
+
+Current Scope
+
+- AX Engineering Thinking Framework
+- Thinking Structure
+- Decision Structure
+- Project Tailoring Concept
+
+---
+
+Out of Scope (Current Stage)
+
+- Complete Methodology
+- Playbook
+- Industrial Standard
+- Academic Validation
 
 ---
 
