@@ -1,26 +1,308 @@
 # Current State
 
-Version
-v0.1.1
+Repository Version
+
+AER v1.0
+
+Research State Version
+
+AETF v0.1.2
 
 Current Sprint
-Sprint-002
 
-Current Objective
-Design Level 0 of AX Engineering Thinking Framework (AETF)
+Sprint-002 Extension
 
-Approved
+Current Status
 
-- Research target: AETF
-- Framework first
+Repository Integration In Progress
+
+---
+
+# Current Objective
+
+Integrate the approved AETF Proposal-Stage Strategy Reasoning Model into the research repository.
+
+본 단계의 목적은 공공부문 IT·AX·ISP·복합 정보시스템 구축 제안에서
+사용할 수 있는 제안단계 사고모델을 공식 연구자산으로 반영하고,
+기존 AETF 연구상태 및 OP-001과의 관계를 정합화하는 것이다.
+
+---
+
+# Approved Research Direction
+
+- Research target: AX Engineering Thinking Framework
+- Framework-first research
 - Tailorable thinking structure
+- Inductive research through practical cases
+- Explicit-fact-first reasoning
+- Network-based document validation
+- Hypothesis generation only from identified logical gaps
+- Human approval before repository update
 
-Pending
+---
 
-- Definitions
-- Principles
-- Methodology
+# Research Assets Approved for Integration
 
-Next Task
+## Research Session
 
-Design Level 0 Thinking Structure.
+SESSION-003 Proposal-Stage Strategy Reasoning Model
+
+Path:
+
+09_RESEARCH_LOG/SESSION_003_PROPOSAL_STAGE_REASONING.md
+
+## Evidence
+
+EV-001 Proposal-Stage Reasoning Model RFP Validation Cases
+
+Path:
+
+05_EVIDENCE/EV001_PROPOSAL_RFP_VALIDATION_CASES.md
+
+## Reasoning
+
+RS-001 Generalizability of the Proposal-Stage Strategy Reasoning Model
+
+Path:
+
+06_REASONING/RS001_PROPOSAL_MODEL_GENERALIZATION.md
+
+## Principle
+
+PR-001 Proposal-Stage Strategy Reasoning Principles
+
+Path:
+
+02_PRINCIPLES/PR001_PROPOSAL_STAGE_REASONING.md
+
+## Decision
+
+DEC-001 Adopt the AETF Proposal-Stage Strategy Reasoning Model
+
+Path:
+
+07_DECISIONS/DEC001_ADOPT_PROPOSAL_STAGE_REASONING_MODEL.md
+
+## Open Problem Update
+
+OP-001 PM Linkage Criteria
+
+Path:
+
+08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md
+
+Status:
+
+Partially Resolved
+
+---
+
+# Model Scope Approved for Integration
+
+현재 모델의 승인된 적용범위는 다음과 같다.
+
+- 공공부문 AX 전략 제안
+- 공공부문 ISP·ISMP 제안
+- AI 및 데이터 플랫폼 컨설팅 제안
+- 복합 정보시스템 구축 제안
+- 사업수주 단계의 사업이해
+- 제안전략 골격 생성
+- 전략 간 통합
+- 평가조건 기반 자원배분
+- 정보 충분성 관리
+- 추가정보에 따른 선택적 재분석
+
+---
+
+# Model Core Approved for Integration
+
+공식 입력자료 확보
+
+↓
+
+사업목적·현황·요구사항·제약조건 해석
+
+↓
+
+고객 AS-IS와 TO-BE 도출
+
+↓
+
+회사 및 컨소시엄 자산과 수행조건 결합
+
+↓
+
+고객효과 중심 전략 생성
+
+↓
+
+공통효과 또는 인과관계로 전략 통합
+
+↓
+
+평가배점·목차·페이지·시간·발표조건에 따른 배치
+
+↓
+
+수행 가능성·기술적 실현성·결격 위험 검증
+
+↓
+
+정보 충분성 판정
+
+↓
+
+부족정보 요청
+
+↓
+
+추가정보 입력 시 영향영역 선택 재분석
+
+↓
+
+전략과 확정도 갱신
+
+---
+
+# Information States Approved for Integration
+
+## Confirmed
+
+현재 공식정보와 근거만으로 결론을 확정할 수 있음
+
+## Conditional
+
+방향은 타당하지만 추가정보 확인이 필요함
+
+## Deferred
+
+핵심정보가 부족하거나 충돌하여 현재 결론을 확정할 수 없음
+
+---
+
+# Additional Information Classes Approved for Integration
+
+## Essential
+
+없으면 전략·수행 가능성·참여 가능성을 확정할 수 없는 정보
+
+## High-Value
+
+없어도 기본 골격은 만들 수 있으나 차별성·정확도·우선순위를 크게 개선하는 정보
+
+## Supporting
+
+표현과 세부설계를 개선하지만 핵심결론을 크게 변경하지 않는 정보
+
+---
+
+# Generalizability Status
+
+First-Level Validated
+
+Validated Domain:
+
+- Public-sector AX strategy proposals
+- Public-sector ISP and ISMP proposals
+- AI and data-platform consulting proposals
+- Complex information-system implementation proposals
+- Proposal-stage business understanding and strategy-structure generation
+
+Not Yet Validated:
+
+- Operation and maintenance projects
+- Simple equipment or solution delivery
+- Research and development projects
+- Private-sector proposals
+- Pricing strategy
+- Competitor prediction
+- Final differentiation using actual company assets
+- Transferability to other proposal managers
+- Causal relationship with winning outcomes
+
+---
+
+# OP-001 Status
+
+Title:
+
+PM Linkage Criteria
+
+Status:
+
+Partially Resolved
+
+Resolved Elements:
+
+- Purpose Alignment
+- Requirement Alignment
+- Evaluation Alignment
+- Causal Alignment
+- Asset Alignment
+- Feasibility Alignment
+- Evidence Alignment
+- Information Gap and Logical Gap distinction
+- Confirmed, Conditional, Deferred and Invalid Link states
+
+Remaining Questions:
+
+- Linkage strength
+- Minimum evidence threshold
+- Intermediate hypothesis criteria
+- Official information conflict resolution
+- Cross-domain transferability
+
+---
+
+# Pending Repository Integration
+
+- README Current Status update
+- CHANGELOG update
+- Repository version-label clarification
+- Final consistency check across references and filenames
+- Git diff review
+- Research Commit execution
+
+---
+
+# Research Pending
+
+다음 연구주제는 아직 확정하지 않는다.
+
+Potential Candidates:
+
+- OP-001 linkage strength and evidence threshold
+- Information-sufficiency criteria
+- Company-asset input structure
+- Strategy change-impact management
+- Relationship between the proposal-stage model and AETF Level 0
+- Validation using actual company assets
+- Validation outside public IT proposals
+
+---
+
+# Next Task
+
+Complete repository integration and consistency review.
+
+구체적인 다음 작업은 다음과 같다.
+
+1. README의 Current Status를 현재 연구상태에 맞게 갱신한다.
+2. CHANGELOG에 승인된 연구자산과 버전 의미를 기록한다.
+3. AER 구조버전과 AETF 연구상태 버전을 구분한다.
+4. 파일명·식별자·참조관계의 일관성을 검토한다.
+5. Git diff를 검토한 뒤 승인된 Research Commit을 수행한다.
+
+---
+
+# Governance Note
+
+AER v1.0은 저장소 구조와 운영규칙의 버전이다.
+
+AETF v0.1.2는 현재 연구내용의 진행상태를 나타낸다.
+
+이번 연구는 AER의 폴더구조·거버넌스·운영규칙을 변경하지 않는다.
+
+Repository Structural Version Change:
+
+None

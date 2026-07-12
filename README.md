@@ -49,13 +49,213 @@ Only approved Research Commits become repository assets.
 - Research before documentation.
 - Documentation before storage.
 - Storage only through approved Research Commit.
-- Separate Fact, Inference and Opinion.
+- Separate Fact, Observation, Inference and Decision.
 - Repository is the Single Source of Truth.
+- Human approval is required before repository update.
+- Research assets are revised through traceable Research Commits.
+- Framework principles are separated from detailed methodology.
+- Individual exceptions are not automatically promoted to general rules.
 
 ---
 
-Current Status
+## Version Separation
 
-Sprint-000
+### AER Repository Version
 
-Repository Initialization
+AER v1.0
+
+Meaning:
+
+The version of the repository structure, governance and operating rules.
+
+### AETF Research State Version
+
+AETF v0.1.2
+
+Meaning:
+
+The current development state of the AX Engineering Thinking Framework research content.
+
+AER and AETF versions are managed separately.
+
+Changes to research assets do not automatically change the AER repository structural version.
+
+---
+
+## Current Research Status
+
+Current Sprint:
+
+Sprint-002 Extension
+
+Current Status:
+
+Repository Integration In Progress
+
+Current Objective:
+
+Integrate the approved AETF Proposal-Stage Strategy Reasoning Model into the official research repository.
+
+---
+
+## Research Assets Approved for Integration
+
+### Research Session
+
+SESSION-003 Proposal-Stage Strategy Reasoning Model
+
+Path:
+
+09_RESEARCH_LOG/SESSION_003_PROPOSAL_STAGE_REASONING.md
+
+### Evidence
+
+EV-001 Proposal-Stage Reasoning Model RFP Validation Cases
+
+Path:
+
+05_EVIDENCE/EV001_PROPOSAL_RFP_VALIDATION_CASES.md
+
+### Reasoning
+
+RS-001 Generalizability of the Proposal-Stage Strategy Reasoning Model
+
+Path:
+
+06_REASONING/RS001_PROPOSAL_MODEL_GENERALIZATION.md
+
+### Principle
+
+PR-001 Proposal-Stage Strategy Reasoning Principles
+
+Path:
+
+02_PRINCIPLES/PR001_PROPOSAL_STAGE_REASONING.md
+
+### Decision
+
+DEC-001 Adopt the AETF Proposal-Stage Strategy Reasoning Model
+
+Path:
+
+07_DECISIONS/DEC001_ADOPT_PROPOSAL_STAGE_REASONING_MODEL.md
+
+### Open Problem
+
+OP-001 PM Linkage Criteria
+
+Path:
+
+08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md
+
+Status:
+
+Partially Resolved
+
+---
+
+## Current Approved Model
+
+The approved proposal-stage reasoning model follows this structure:
+
+Official input collection
+
+→ Project purpose, current state, requirements and constraints analysis
+
+→ Customer AS-IS and TO-BE definition
+
+→ Integration of company assets, consortium capabilities and execution conditions
+
+→ Customer-effect-centered strategy generation
+
+→ Strategy integration through common effect or causality
+
+→ Allocation based on evaluation weight, page limits, time and presentation constraints
+
+→ Execution feasibility, technical realizability and disqualification-risk validation
+
+→ Information sufficiency assessment
+
+→ Additional information request
+
+→ Selective reanalysis of affected layers
+
+→ Strategy and conclusion-status update
+
+---
+
+## Validated Application Domain
+
+The current model has first-level validation in the following domain:
+
+- Public-sector AX strategy proposals
+- Public-sector ISP and ISMP proposals
+- AI and data-platform consulting proposals
+- Complex information-system implementation proposals
+- Proposal-stage business understanding
+- Proposal strategy structure generation
+- Incremental information update and selective reanalysis
+
+---
+
+## Not Yet Validated
+
+The following areas remain outside the currently validated scope:
+
+- Operation and maintenance projects
+- Simple equipment or solution delivery
+- Research and development projects
+- Private-sector proposals
+- Pricing strategy
+- Competitor prediction
+- Final differentiation using actual company assets
+- Transferability to other proposal managers
+- Causal relationship with winning outcomes
+
+---
+
+## Current Open Research Questions
+
+- Linkage strength between explicit facts
+- Minimum evidence threshold
+- Intermediate hypothesis criteria
+- Official information conflict resolution
+- Information-sufficiency criteria
+- Company-asset input structure
+- Strategy change-impact management
+- Relationship between the proposal-stage model and AETF Level 0
+- Validation outside public IT proposals
+
+---
+
+## Next Task
+
+Complete repository integration and consistency review.
+
+The remaining integration tasks are:
+
+1. Update CHANGELOG.
+2. Review identifier, filename and reference consistency.
+3. Review Git diff.
+4. Execute the approved Research Commit.
+5. Update the repository state from integration-in-progress to completed.
+
+---
+
+## Governance Notice
+
+This repository does not treat conversation output as official knowledge.
+
+A research result becomes an official repository asset only after:
+
+Research Question
+
+→ Reasoning
+
+→ Knowledge Extraction
+
+→ Research Commit Proposal
+
+→ Human Approval
+
+→ Repository Update
