@@ -90,7 +90,7 @@ Sprint-002 Extension
 
 Current Status:
 
-Repository Integration In Progress
+Repository Integration Completed
 
 Current Objective:
 
@@ -98,7 +98,7 @@ Integrate the approved AETF Proposal-Stage Strategy Reasoning Model into the off
 
 ---
 
-## Research Assets Approved for Integration
+## Current Approved Research Assets
 
 ### Research Session
 
@@ -228,17 +228,39 @@ The following areas remain outside the currently validated scope:
 
 ---
 
+## Repository Integration
+
+Status:
+
+Completed
+
+Research Commit:
+
+`4761da1`
+
+Commit Title:
+
+`research: adopt proposal-stage strategy reasoning model`
+
+AER repository structure and governance remain at `AER v1.0`.
+
+AETF research content is currently at `AETF v0.1.2`.
+
+---
+
 ## Next Task
 
-Complete repository integration and consistency review.
+Select the next research question.
 
-The remaining integration tasks are:
+Current research candidates include:
 
-1. Update CHANGELOG.
-2. Review identifier, filename and reference consistency.
-3. Review Git diff.
-4. Execute the approved Research Commit.
-5. Update the repository state from integration-in-progress to completed.
+- OP-001 linkage strength and minimum evidence threshold
+- Information-sufficiency criteria
+- Company-asset input structure
+- Strategy change-impact management
+- Relationship between the proposal-stage model and AETF Level 0
+- Validation using actual company assets
+- Validation outside public IT proposals
 
 ---
 

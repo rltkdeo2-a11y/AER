@@ -58,7 +58,7 @@ Date
 
 Status
 
-Approved Research Asset Integration
+Integrated
 
 Research Commit Proposal
 
@@ -183,3 +183,17 @@ Future revision of the proposal-stage reasoning model requires:
 - a Research Commit Proposal,
 - human approval,
 - and a traceable repository update.
+
+### Integration Commit
+
+Commit:
+
+`4761da1`
+
+Commit Title:
+
+`research: adopt proposal-stage strategy reasoning model`
+
+Repository Integration Status:
+
+Completed
