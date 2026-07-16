@@ -743,3 +743,59 @@ Conditional 또는 Deferred
 Principle Status:
 
 Approved
+
+---
+
+# 10. RFP Bottleneck Reasoning Extension
+
+Related Research:
+
+- EV-002 RFP Bottleneck Validation Cases
+- RS-002 RFP Bottleneck Reasoning Kernel
+- DEC-002 Adopt the RFP Bottleneck Reasoning Kernel
+- SESSION-004 RFP Bottleneck Reasoning
+
+## PR-001-23. Generate Hypotheses Broadly and Promote Them Strictly
+
+핵심 가설과 전략 Candidate는 탐색을 위해 관대하게 생성한다.
+
+다만 Candidate를 Working 또는 Decision으로 승격할 때는 근거, 논리와 사용조건을 엄격하게 검증한다.
+
+## PR-001-24. Separate Use Authority from Validation State
+
+Candidate, Working, Decision의 사용 권한과
+Confirmed, Conditional, Deferred, Invalid의 검증 상태를 별도 축으로 관리한다.
+
+탐색에 사용할 수 있다는 사실이 핵심전략으로 확정할 수 있다는 의미는 아니다.
+
+## PR-001-25. Validate Only Uncertainty That Can Change the Strategy
+
+모든 미확인 정보를 동일하게 검증하지 않는다.
+
+전제 실패가 전략, 고객효과, 기술, 일정, 비용, 인력, 차별화 또는 필수요건을 실제로 변경하는 불확실성에 검증자원을 집중한다.
+
+## PR-001-26. Consider Failure Impact and Realistic Alternatives
+
+미확인 전제를 판단할 때 전제 실패 시 실제 변화와 동일한 고객목표를 유지할 수 있는 현실적 대체수단을 함께 고려한다.
+
+대체수단이 있으면 영향도를 낮출 수 있으며, 안전한 대체수단이 없으면 검증·보수적 전환 또는 전략 보류를 검토한다.
+
+## PR-001-27. Preserve Only Minimal Sufficient Reasoning
+
+모든 중간 사고를 기록하지 않는다.
+
+결정적 사실, 핵심 가설, 결론을 바꿀 수 있는 조건, 실제 영향, 대체수단, 현재 조치와 재검토 조건만 판단을 복원할 수 있을 만큼 보존한다.
+
+## PR-001-28. Design Deeply and Run Minimally
+
+추론구조는 예외와 고위험 상황을 설명할 수 있을 만큼 깊게 설계한다.
+
+일상 Runtime에는 최소 Kernel만 사용하고 상세 진단은 실제 필요성이 확인될 때 호출한다.
+
+## PR-001-29. Stop Repetitive Validation
+
+서로 다른 사례에서 동일한 Core의 작동성이 확인되면 유사 사례의 반복 검증을 중단한다.
+
+반복 실패, 중요 누락, 구조적으로 다른 사업유형 또는 진단모듈의 실제 필요성이 확인될 때만 검증을 재개한다.
+
+상세 Link Governance, Bottleneck 판정절차, 기록형식과 조건부 대응은 RS-002를 참조한다.

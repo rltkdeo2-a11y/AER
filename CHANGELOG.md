@@ -197,3 +197,56 @@ Commit Title:
 Repository Integration Status:
 
 Completed
+
+---
+
+## RC-004 Research Release
+
+Date
+
+2026-07-16
+
+Status
+
+Applied
+
+Closure Mode
+
+Release
+
+Research Commit Proposal
+
+RC-004 AER RFP Bottleneck Reasoning Kernel
+
+### Added
+
+- Adopted the RFP Bottleneck Reasoning Kernel.
+- Added Link Governance using `Source → Relation → Why → Target`.
+- Added separate Link use-authority and validation-state controls.
+- Added Bottleneck identification based on actual strategy change and realistic alternatives.
+- Added the Bottleneck six-line record format.
+- Added selective validation, local reanalysis and the Validation Stop Rule.
+
+### Added Research Objects
+
+- `05_EVIDENCE/EV002_RFP_BOTTLENECK_VALIDATION_CASES.md`
+- `06_REASONING/RS002_RFP_BOTTLENECK_REASONING_KERNEL.md`
+- `07_DECISIONS/DEC002_ADOPT_RFP_BOTTLENECK_REASONING_KERNEL.md`
+- `09_RESEARCH_LOG/SESSION_004_RFP_BOTTLENECK_REASONING.md`
+- `09_RESEARCH_LOG/AER_RFP_Bottleneck_Handoff_2026-07-16.md`
+
+### Changed
+
+- Updated `02_PRINCIPLES/PR001_PROPOSAL_STAGE_REASONING.md`.
+- Updated `08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md`.
+- Kept OP-001 at `Partially Resolved`.
+- Updated `09_RESEARCH_LOG/RESEARCH_TIMELINE.md`.
+
+### Boundary
+
+- Proposal Production Layer remains excluded.
+- Deferred Diagnostic Modules were not promoted into the default Runtime.
+- No new Open Problem was created.
+- AER repository structure remains unchanged.
+- AER structural version remains `AER v1.0`.
+- Research-state version remains unchanged.

@@ -572,3 +572,77 @@ Partially Resolved
 Open Problem Status:
 
 Partially Resolved
+
+---
+
+# 11. RC-004 Progress Update
+
+Updated:
+
+2026-07-16
+
+Related Research:
+
+- EV-002 RFP Bottleneck Validation Cases
+- RS-002 RFP Bottleneck Reasoning Kernel
+- DEC-002 Adopt the RFP Bottleneck Reasoning Kernel
+- SESSION-004 RFP Bottleneck Reasoning
+
+## 11.1 Progress in This Research
+
+이번 연구에서 다음 범위가 추가로 진전되었다.
+
+### Minimal Link Structure
+
+Link를 다음 최소구조로 검사한다.
+
+```text
+Source
+→ Relation
+→ Why
+→ Target
+```
+
+Why 검사를 통해 Source가 Target의 해석·전략·결론을 실제로 지지하는지 확인한다.
+
+### Use Authority and Validation State
+
+Candidate, Working, Decision의 사용 권한과
+Confirmed, Conditional, Deferred, Invalid의 검증 상태를 별도 축으로 관리한다.
+
+### Bottleneck Definition
+
+전제 실패가 현재 전략의 선택, 핵심효과, 기술구조, 일정, 비용, 인력, 차별화 또는 필수요건을 실질적으로 변경하는 미확인 전제 또는 조건군만 Bottleneck으로 식별한다.
+
+### Failure Impact and Realistic Alternatives
+
+전제 실패 시 실제 변화와 동일한 고객목표를 유지할 현실적 대체수단을 검사한다.
+
+대체수단이 있으면 Bottleneck에서 제외하거나 영향도를 낮출 수 있다.
+
+### Selective Validation and Local Reanalysis
+
+모든 불확실성을 검증하지 않고 전략을 실제로 변경하는 Bottleneck에 검증자원을 집중한다.
+
+추가 정보가 입력되면 영향을 받는 Link와 전략만 국소 재분석한다.
+
+## 11.2 Remaining Problems
+
+다음 문제는 여전히 해결되지 않았다.
+
+- Link 강도
+- Conditional Link를 Confirmed Link로 변경하는 최소 증거 임계값
+- 중간가설 생성기준
+- 공식정보 충돌 시 우선순위
+- Direct/Mediated Link 정밀 판정
+- 복합 Bottleneck의 상호작용과 연쇄효과
+- 정량 검증 우선순위
+- 공공 IT·AX·구축 및 전략·컨설팅형 이외 영역의 적용성
+
+Resolution Assessment:
+
+Partially Resolved
+
+Open Problem Status:
+
+Partially Resolved

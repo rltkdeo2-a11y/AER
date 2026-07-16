@@ -1086,3 +1086,63 @@ Potential Candidates:
 Next Task Status
 
 Pending Human Direction
+
+---
+
+# SESSION-004 RFP Bottleneck Reasoning
+
+Date:
+
+2026-07-16
+
+Closure Mode:
+
+Release
+
+## Research Topic
+
+RFP 기반 제안전략에서 Link의 사용 권한과 검증 상태를 분리하고, 전략을 실제로 변경하는 미확인 전제 또는 조건군만 Bottleneck으로 식별하는 최소 추론 Kernel을 연구하였다.
+
+## Approved Core Conclusions
+
+- `Source → Relation → Why → Target` 최소 Link 구조
+- Candidate, Working, Decision 사용 권한
+- Confirmed, Conditional, Deferred, Invalid 검증 상태
+- 전제 실패 영향과 현실적 대체수단을 이용한 Bottleneck 판정
+- 검증 또는 조건부 대응
+- Bottleneck 최소 6행 기록형식
+- 최소 충분 기록과 국소 재분석
+- Deep Design, Minimal Runtime
+- Validation Stop Rule
+
+## Validation Cases
+
+- 인천공항 데이터플랫폼 구축
+- 금융감독 AX 전략 수립 컨설팅
+
+## Included Boundary
+
+- Link Governance
+- Bottleneck Link 및 조건군
+- 검증대상 선택과 조건부 대응
+- Core Kernel과 Diagnostic Modules의 경계
+
+## Excluded Boundary
+
+- Proposal Production Layer
+- 제안서 목차·페이지 배분·스토리라인
+- 슬라이드 명세와 PPT 생성
+- Deferred Diagnostic Modules의 기본 Runtime 승격
+- 모든 산업과 제안유형에 대한 보편성
+
+## Open Problem
+
+OP-001 PM Linkage Criteria는 `Partially Resolved` 상태를 유지한다.
+
+## Next Research Topic
+
+Proposal Production Layer
+
+Repository Integration Status:
+
+Applied
