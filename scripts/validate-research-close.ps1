@@ -190,8 +190,9 @@ function Test-ProtectedFiles {
     param([string[]]$ChangedFiles, [string]$ClosureMode, [bool]$AllowProtected)
 
     $protected = @(
-        "BOOTSTRAP.md", "SPECIFICATION.md", "OPERATION_RULES.md", "PROJECT_CHARTER.md",
-        "RESEARCH_PHILOSOPHY.md", "README.md", "CHANGELOG.md", "00_GOVERNANCE/CURRENT_STATE"
+        "BOOTSTRAP.md", "README.md", "CHANGELOG.md", "00_GOVERNANCE/CURRENT_STATE",
+        "00_GOVERNANCE/SPECIFICATION.md", "00_GOVERNANCE/OPERATION_RULES.md",
+        "00_GOVERNANCE/PROJECT_CHARTER.md", "00_GOVERNANCE/RESEARCH_PHILOSOPHY.md"
     )
     $found = @($ChangedFiles | Where-Object { $protected -contains $_ })
     if ($found.Count -eq 0) {

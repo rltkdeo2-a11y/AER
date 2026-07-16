@@ -90,9 +90,14 @@ Inspect repository conventions and propose the smallest sufficient set before ed
 
 Files that must not be modified:
 
+- BOOTSTRAP.md
 - README.md
 - CHANGELOG.md
 - 00_GOVERNANCE/CURRENT_STATE
+- 00_GOVERNANCE/SPECIFICATION.md
+- 00_GOVERNANCE/OPERATION_RULES.md
+- 00_GOVERNANCE/PROJECT_CHARTER.md
+- 00_GOVERNANCE/RESEARCH_PHILOSOPHY.md
 
 Remove an item only when the approved Closure Mode and conclusions explicitly require its modification.
 

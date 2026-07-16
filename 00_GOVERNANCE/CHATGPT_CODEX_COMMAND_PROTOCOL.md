@@ -393,12 +393,13 @@ Codex must stop during Pre-Application Review unless those changes are explicitl
 
 ## 9. Human Review Points
 
-Human approval is required at four decision points.
+Human approval is required at five decision points.
 
 1. Research conclusion approval
 2. Minimum repository change-set approval
 3. Diff and Stage approval
-4. Commit and Push approval
+4. Commit approval
+5. Push approval
 
 Approval at one point does not imply approval at later points.
 

@@ -46,13 +46,13 @@ Do not expand the task into unrelated cleanup, restructuring, or formatting.
 Do not modify the following unless the approved handoff explicitly requires it:
 
 - BOOTSTRAP.md
-- SPECIFICATION.md
-- OPERATION_RULES.md
-- PROJECT_CHARTER.md
-- RESEARCH_PHILOSOPHY.md
 - README.md
 - CHANGELOG.md
 - 00_GOVERNANCE/CURRENT_STATE
+- 00_GOVERNANCE/SPECIFICATION.md
+- 00_GOVERNANCE/OPERATION_RULES.md
+- 00_GOVERNANCE/PROJECT_CHARTER.md
+- 00_GOVERNANCE/RESEARCH_PHILOSOPHY.md
 
 README and CHANGELOG are release-level documents and are not updated for ordinary research sessions.
 
