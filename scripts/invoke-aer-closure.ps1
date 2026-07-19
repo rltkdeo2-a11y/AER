@@ -296,19 +296,15 @@ function Invoke-ClosureValidation {
         throw "Unable to determine the current PowerShell executable."
     }
 
-    $validationArguments = @(
-        "-NoProfile",
-        "-ExecutionPolicy", "Bypass",
-        "-File", $scriptPath,
-        "-Mode", $Mode,
-        "-ExpectedFiles"
-    ) + $ChangedFiles
-
+    $expectedFileLiterals = @($ChangedFiles | ForEach-Object {
+        "'" + $_.Replace("'", "''") + "'"
+    })
+    $validationCommand = "& '$($scriptPath.Replace("'", "''"))' -Mode '$($Mode.Replace("'", "''"))' -ExpectedFiles @($($expectedFileLiterals -join ','))"
     if ($AllowProtectedFiles.IsPresent) {
-        $validationArguments += "-AllowProtectedFiles"
+        $validationCommand += " -AllowProtectedFiles"
     }
 
-    & $powerShellPath @validationArguments
+    & $powerShellPath -NoProfile -ExecutionPolicy Bypass -Command $validationCommand
     $validationExitCode = $LASTEXITCODE
     if ($validationExitCode -ne 0) {
         throw "Repository closure validation failed with exit code $validationExitCode."
