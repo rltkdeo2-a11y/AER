@@ -1,5 +1,9 @@
 # Current State
 
+Last Updated
+
+2026-07-20
+
 Repository Version
 
 AER v1.0
@@ -8,205 +12,177 @@ Research State Version
 
 AETF v0.1.2
 
-Current Sprint
+Current Phase
 
-Sprint-002 Extension
+Post-RC-004 Operationalization
 
 Current Status
 
-Repository Integration Completed
+Approved proposal-stage Core integrated; research-closure automation prioritized
 
 ---
 
-# Current Objective
+# 1. Current Objective
 
-Integrate the approved AETF Proposal-Stage Strategy Reasoning Model into the research repository.
+현재 최우선 과제는 새로운 사고규칙을 추가하는 것이 아니라,
+연구 논의 종료 후 발생하는 반복적인 Handoff·Codex·검증·Commit 수작업을 줄이는 것이다.
 
-본 단계의 목적은 공공부문 IT·AX·ISP·복합 정보시스템 구축 제안에서
-사용할 수 있는 제안단계 사고모델을 공식 연구자산으로 반영하고,
-기존 AETF 연구상태 및 OP-001과의 관계를 정합화하는 것이다.
+목표 운영흐름은 다음과 같다.
+
+```text
+기존 연구기록 검토
+→ 오늘 저장할 논의내용 요약
+→ 인간의 단일 승인·수정·미반영 결정
+→ 내부 Handoff 생성
+→ Repository 반영
+→ 정합성·Diff 검증
+→ Commit
+→ 결과 보고
+```
+
+인간은 무엇을 연구자산으로 저장할지만 승인한다.
+파일 위치, 문단 수정, 검증, Commit과 같은 실행과정은 LLM 기반 연구도구가 수행하는 것을 목표로 한다.
+
+이 목표상태는 아직 구현 완료된 현행 정책이 아니다.
+현재 Repository 운영은 기존 승인·Handoff·Git 안전규칙을 따른다.
 
 ---
 
-# Approved Research Direction
+# 2. Authoritative Research Core
 
-- Research target: AX Engineering Thinking Framework
-- Framework-first research
-- Tailorable thinking structure
-- Inductive research through practical cases
-- Explicit-fact-first reasoning
-- Network-based document validation
-- Hypothesis generation only from identified logical gaps
-- Human approval before repository update
+현행 AER 제안단계 Core는 다음 두 승인모델의 결합이다.
+
+```text
+DEC-001 Proposal-Stage Strategy Reasoning Model
++
+DEC-002 RFP Bottleneck Reasoning Kernel
+```
+
+## Base Model
+
+DEC-001은 공식 입력자료를 고객의 문제·변화·효과·실행조건과 연결하여
+제안단계의 전략골격을 생성하고, 정보충분성과 선택적 재분석을 관리한다.
+
+## Bottleneck Extension
+
+DEC-002는 기존 모델 위에 다음을 추가한다.
+
+- `Source → Relation → Why → Target` 최소 Link 구조
+- Candidate, Working, Decision 사용 권한
+- Confirmed, Conditional, Deferred, Invalid 검증 상태
+- 사용 권한과 검증 상태의 분리
+- 전제 실패 영향과 현실적 대체수단을 이용한 Bottleneck 판정
+- 검증대상 집중과 조건부 대응
+- Bottleneck 최소 6행 기록
+- 추가정보 입력 시 영향영역 국소 재분석
+- Deep Design, Minimal Runtime
+- Validation Stop Rule
 
 ---
 
-# Research Assets Approved for Integration
+# 3. Current Approved Runtime
 
-## Research Session
+```text
+RFP 및 공식자료 구조화
+→ 사실·요구·평가·제약·자산·결손정보 분리
+→ AS-IS·변화 필요·TO-BE·고객효과 해석
+→ 문제·원인·전략 Candidate와 경쟁가설 생성
+→ Source–Relation–Why–Target 검사
+→ Candidate → Working → Decision 사용권한 통제
+→ Confirmed / Conditional / Deferred / Invalid 상태 구분
+→ 복수 Working Strategy 유지
+→ 전략을 실제로 변경하는 전제 또는 조건군 식별
+→ 전제 실패 영향과 현실적 대체수단 검사
+→ Bottleneck 집중검증 또는 조건부 대응
+→ Decision Strategy 선택
+→ 요구사항·평가·기술·일정·비용·보안·법규 통합검사
+→ 추가정보 발생 시 영향영역 국소 재분석
+```
 
-SESSION-003 Proposal-Stage Strategy Reasoning Model
+Required Bottleneck Record:
 
-Path:
+```text
+대상 전략·범위:
+미확인 전제 또는 조건군:
+전제 실패 시 실제 변화:
+현실적 대체수단:
+현재 조치:
+재검토 조건:
+```
 
-09_RESEARCH_LOG/SESSION_003_PROPOSAL_STAGE_REASONING.md
+---
 
-## Evidence
-
-EV-001 Proposal-Stage Reasoning Model RFP Validation Cases
-
-Path:
-
-05_EVIDENCE/EV001_PROPOSAL_RFP_VALIDATION_CASES.md
-
-## Reasoning
-
-RS-001 Generalizability of the Proposal-Stage Strategy Reasoning Model
-
-Path:
-
-06_REASONING/RS001_PROPOSAL_MODEL_GENERALIZATION.md
+# 4. Current Approved Research Assets
 
 ## Principle
 
-PR-001 Proposal-Stage Strategy Reasoning Principles
+- `02_PRINCIPLES/PR001_PROPOSAL_STAGE_REASONING.md`
 
-Path:
+## Evidence
 
-02_PRINCIPLES/PR001_PROPOSAL_STAGE_REASONING.md
+- `05_EVIDENCE/EV001_PROPOSAL_RFP_VALIDATION_CASES.md`
+- `05_EVIDENCE/EV002_RFP_BOTTLENECK_VALIDATION_CASES.md`
 
-## Decision
+## Reasoning
 
-DEC-001 Adopt the AETF Proposal-Stage Strategy Reasoning Model
+- `06_REASONING/RS001_PROPOSAL_MODEL_GENERALIZATION.md`
+- `06_REASONING/RS002_RFP_BOTTLENECK_REASONING_KERNEL.md`
 
-Path:
+## Decisions
 
-07_DECISIONS/DEC001_ADOPT_PROPOSAL_STAGE_REASONING_MODEL.md
+- `07_DECISIONS/DEC001_ADOPT_PROPOSAL_STAGE_REASONING_MODEL.md`
+- `07_DECISIONS/DEC002_ADOPT_RFP_BOTTLENECK_REASONING_KERNEL.md`
 
-## Open Problem Update
+## Open Problem
 
-OP-001 PM Linkage Criteria
+- `08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md`
+- Status: `Partially Resolved`
 
-Path:
+## Closed Research Sessions
 
-08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md
-
-Status:
-
-Partially Resolved
-
----
-
-# Model Scope Approved for Integration
-
-현재 모델의 승인된 적용범위는 다음과 같다.
-
-- 공공부문 AX 전략 제안
-- 공공부문 ISP·ISMP 제안
-- AI 및 데이터 플랫폼 컨설팅 제안
-- 복합 정보시스템 구축 제안
-- 사업수주 단계의 사업이해
-- 제안전략 골격 생성
-- 전략 간 통합
-- 평가조건 기반 자원배분
-- 정보 충분성 관리
-- 추가정보에 따른 선택적 재분석
+- `09_RESEARCH_LOG/SESSION_003_PROPOSAL_STAGE_REASONING.md`
+- `09_RESEARCH_LOG/SESSION_004_RFP_BOTTLENECK_REASONING.md`
 
 ---
 
-# Model Core Approved for Integration
+# 5. Repository Integration State
 
-공식 입력자료 확보
+RC-003 Integration:
 
-↓
+- Commit: `4761da1`
+- Title: `research: adopt proposal-stage strategy reasoning model`
+- Status: Completed
 
-사업목적·현황·요구사항·제약조건 해석
+RC-004 Integration:
 
-↓
+- Commit: `4fbcb7f`
+- Title: `research: add AER RFP bottleneck reasoning kernel`
+- Status: Applied and pushed to `origin/main`
 
-고객 AS-IS와 TO-BE 도출
+Repository Structural Version:
 
-↓
+- `AER v1.0`
 
-회사 및 컨소시엄 자산과 수행조건 결합
+Research State Version:
 
-↓
+- `AETF v0.1.2`
 
-고객효과 중심 전략 생성
-
-↓
-
-공통효과 또는 인과관계로 전략 통합
-
-↓
-
-평가배점·목차·페이지·시간·발표조건에 따른 배치
-
-↓
-
-수행 가능성·기술적 실현성·결격 위험 검증
-
-↓
-
-정보 충분성 판정
-
-↓
-
-부족정보 요청
-
-↓
-
-추가정보 입력 시 영향영역 선택 재분석
-
-↓
-
-전략과 확정도 갱신
+Git history is the authoritative record for later documentation-synchronization Commits.
+A second status Commit must not be created merely to record a preceding Commit hash.
 
 ---
 
-# Information States Approved for Integration
+# 6. Validated Scope
 
-## Confirmed
-
-현재 공식정보와 근거만으로 결론을 확정할 수 있음
-
-## Conditional
-
-방향은 타당하지만 추가정보 확인이 필요함
-
-## Deferred
-
-핵심정보가 부족하거나 충돌하여 현재 결론을 확정할 수 없음
-
----
-
-# Additional Information Classes Approved for Integration
-
-## Essential
-
-없으면 전략·수행 가능성·참여 가능성을 확정할 수 없는 정보
-
-## High-Value
-
-없어도 기본 골격은 만들 수 있으나 차별성·정확도·우선순위를 크게 개선하는 정보
-
-## Supporting
-
-표현과 세부설계를 개선하지만 핵심결론을 크게 변경하지 않는 정보
-
----
-
-# Generalizability Status
-
-First-Level Validated
-
-Validated Domain:
+First-Level Validated:
 
 - Public-sector AX strategy proposals
 - Public-sector ISP and ISMP proposals
 - AI and data-platform consulting proposals
 - Complex information-system implementation proposals
 - Proposal-stage business understanding and strategy-structure generation
+- RFP-based Link Governance and Bottleneck reasoning
+- Incremental information update and local reanalysis
 
 Not Yet Validated:
 
@@ -219,10 +195,13 @@ Not Yet Validated:
 - Final differentiation using actual company assets
 - Transferability to other proposal managers
 - Causal relationship with winning outcomes
+- Universal application across all industries and proposal types
+
+미검증 범위를 승인된 일반원칙으로 강화하지 않는다.
 
 ---
 
-# OP-001 Status
+# 7. OP-001 Status
 
 Title:
 
@@ -232,108 +211,125 @@ Status:
 
 Partially Resolved
 
-Resolved Elements:
+Progressed Elements:
 
-- Purpose Alignment
-- Requirement Alignment
-- Evaluation Alignment
-- Causal Alignment
-- Asset Alignment
-- Feasibility Alignment
-- Evidence Alignment
+- Purpose, Requirement, Evaluation, Causal, Asset, Feasibility and Evidence Alignment
 - Information Gap and Logical Gap distinction
-- Confirmed, Conditional, Deferred and Invalid Link states
+- `Source → Relation → Why → Target`
+- Candidate, Working and Decision use authority
+- Confirmed, Conditional, Deferred and Invalid validation states
+- Bottleneck definition
+- Failure-impact and realistic-alternative checks
+- Selective validation and local reanalysis
 
 Remaining Questions:
 
-- Linkage strength
-- Minimum evidence threshold
-- Intermediate hypothesis criteria
-- Official information conflict resolution
-- Cross-domain transferability
+- Link strength
+- Minimum evidence threshold for Confirmed Link
+- Intermediate-hypothesis criteria
+- Priority when official information conflicts
+- Direct/Mediated Link precision
+- Combined Bottleneck interactions and chain effects
+- Quantitative validation priority
+- Cross-domain applicability
+
+These questions remain deferred unless repeated failure, a structurally different case, or a high-risk judgment demonstrates actual need.
 
 ---
 
-# Repository Integration Result
+# 8. Research Boundary
 
-Status:
+## Excluded from the Current Core
 
-Completed
+- Proposal Blueprint
+- Proposal table of contents and page allocation
+- Proposal storyline generation
+- Requirement-to-slide placement
+- Slide-level message, evidence and visual specification
+- PPT generation and rendering
+- Deferred Diagnostic Modules as default Runtime
 
-Research Commit:
+## Deferred Diagnostic Modules
 
-4761da1
+- Bridge epistemic and functional types
+- Direct/Mediated Link precision
+- Selection/Mechanism/Execution/Claim diagnostics
+- Claim-failure taxonomy
+- Combined Bottleneck operator
+- Quantitative validation prioritization
+- Detailed Link metadata
+- Audit-record expansion
 
-Commit Title:
-
-research: adopt proposal-stage strategy reasoning model
-
-Integrated Assets:
-
-- PR-001 Proposal-Stage Strategy Reasoning Principles
-- EV-001 Proposal-Stage Reasoning Model RFP Validation Cases
-- RS-001 Generalizability of the Proposal-Stage Strategy Reasoning Model
-- DEC-001 Adopt the AETF Proposal-Stage Strategy Reasoning Model
-- SESSION-003 Proposal-Stage Strategy Reasoning Model
-- OP-001 PM Linkage Criteria update
-- README update
-- CHANGELOG update
-- RESEARCH_TIMELINE update
-
-Repository Structural Version:
-
-AER v1.0
-
-Research State Version:
-
-AETF v0.1.2
+개별 오류나 예외를 곧바로 새로운 일반규칙으로 승격하지 않는다.
 
 ---
 
-# Research Pending
+# 9. Active Work Order
 
-다음 연구주제는 아직 확정하지 않는다.
+진행순서는 다음으로 승인되었다.
 
-Potential Candidates:
+1. Research Closure Automation MVP
+2. `aer-reasoning` execution-integrity validation and minimum session binding if needed
+3. Proposal Production Layer minimum structure
+4. Dialectical Reasoning Pair manual prototype
 
-- OP-001 linkage strength and evidence threshold
-- Information-sufficiency criteria
-- Company-asset input structure
-- Strategy change-impact management
-- Relationship between the proposal-stage model and AETF Level 0
-- Validation using actual company assets
-- Validation outside public IT proposals
+## Priority 1: Research Closure Automation MVP
+
+현재 최대 운영 Bottleneck을 해결한다.
+기존의 `RESEARCH_CLOSURE_POLICY`, `CHATGPT_CODEX_COMMAND_PROTOCOL`,
+`RESEARCH_HANDOFF_SPEC`, Codex Apply Prompt와 검증 스크립트를 재사용한다.
+
+목표는 규약을 새로 증식시키는 것이 아니라 다음 수작업 연결을 제거하는 것이다.
+
+- Handoff 수기 복사
+- 반복적인 적용 확인
+- 반복적인 Diff·Stage·Commit 확인
+- 저장과정 때문에 발생하는 연구종료의 심리적 저항
+
+## Priority 2: AER Execution Integrity
+
+`aer-reasoning` 호출 이후 후속 대화가 실제로 AER의 현재 추론상태를 유지하는지 검증한다.
+실패가 반복될 때에만 최소한의 세션 수준 바인딩을 검토한다.
+사례별 전략규칙은 추가하지 않는다.
+
+## Priority 3: Proposal Production Layer
+
+Repository가 지정한 다음 공식 사고모델 연구계층이다.
+Decision Strategy를 연결된 Proposal Strategy, 실행과제, 요구사항·평가항목과 Proposal Blueprint로 전환하는 최소구조를 연구한다.
+
+## Priority 4: Dialectical Reasoning Pair
+
+Guilliman–Inquisitor 구조는 Repository Core가 아닌 실험 후보이다.
+독립 Agent 구축 전에 수동 프로토타입으로 실제 정확도·손실탐지·속도 개선을 검증한다.
 
 ---
 
-# Next Task
+# 10. Repository and External Runtime Boundary
 
-Select the next research question.
+Repository에서 확인되는 것:
 
-Current Candidates:
+- 승인된 연구 Core
+- 기존 연구종료 정책과 ChatGPT–Codex 프로토콜
+- Handoff 명세와 Template
+- Codex Apply Prompt
+- Git 안전규칙과 검증 스크립트
 
-- OP-001 linkage strength and minimum evidence threshold
-- Information-sufficiency criteria
-- Company-asset input structure
-- Strategy change-impact management
-- Relationship between the proposal-stage model and AETF Level 0
-- Validation using actual company assets
-- Validation outside public IT proposals
+Repository에서 확인되지 않는 것:
 
-Next Research Status:
+- 외부 `aer-reasoning` 스킬의 실제 파일과 실행내용
+- AER 대화 지속모드 구현
+- Guilliman–Inquisitor 구현
+- 독립 Agent 구현
 
-Pending Human Direction
+Repository 외부 구현체를 공식 Core 또는 완료된 기능으로 간주하지 않는다.
 
 ---
 
-# Governance Note
+# 11. Governance Note
 
 AER v1.0은 저장소 구조와 운영규칙의 버전이다.
 
 AETF v0.1.2는 현재 연구내용의 진행상태를 나타낸다.
 
-이번 연구는 AER의 폴더구조·거버넌스·운영규칙을 변경하지 않는다.
-
-Repository Structural Version Change:
-
-None
+현재 단계는 Core의 재설계가 아니라 운영 Bottleneck 해소와 실행 무결성 검증을 우선한다.
+새로운 규칙, 상태값, 진단모듈은 반복적이고 구조적인 실패가 확인될 때에만 최소한으로 검토한다.
