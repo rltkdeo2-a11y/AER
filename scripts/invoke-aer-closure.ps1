@@ -34,22 +34,91 @@ function Write-Step {
     Write-Host ("[AER Closure] {0}" -f $Message)
 }
 
+function ConvertTo-GitCommandLineArgument {
+    param([AllowEmptyString()][string]$Argument)
+
+    if ($null -eq $Argument) {
+        throw "Git arguments cannot be null."
+    }
+
+    $escaped = [regex]::Replace($Argument, '(\\*)"', '$1$1\"')
+    $trailingBackslashes = [regex]::Match($Argument, '(\\*)$').Groups[1].Value
+    return '"' + $escaped + $trailingBackslashes + '"'
+}
+
+function ConvertFrom-GitOutputText {
+    param([AllowEmptyString()][string]$Text)
+
+    if ([string]::IsNullOrEmpty($Text)) {
+        return @()
+    }
+
+    $trimmed = $Text.TrimEnd([char[]]@("`r", "`n"))
+    if ([string]::IsNullOrEmpty($trimmed)) {
+        return @()
+    }
+
+    return @([regex]::Split($trimmed, "\r\n|\n|\r"))
+}
+
+function Format-GitDiagnostics {
+    param(
+        [string[]]$StandardOutput,
+        [string[]]$StandardError
+    )
+
+    $details = New-Object 'Collections.Generic.List[string]'
+    if (@($StandardOutput).Count -gt 0) {
+        [void]$details.Add("stdout: $($StandardOutput -join [Environment]::NewLine)")
+    }
+    if (@($StandardError).Count -gt 0) {
+        [void]$details.Add("stderr: $($StandardError -join [Environment]::NewLine)")
+    }
+    if ($details.Count -eq 0) {
+        return "no output"
+    }
+    return ($details -join [Environment]::NewLine)
+}
+
 function Invoke-Git {
     param(
         [Parameter(Mandatory = $true)][string[]]$Arguments,
         [switch]$AllowFailure
     )
 
-    $output = & git @Arguments 2>&1
-    $exitCode = $LASTEXITCODE
+    $process = New-Object Diagnostics.Process
+    $process.StartInfo = New-Object Diagnostics.ProcessStartInfo
+    $process.StartInfo.FileName = "git"
+    $process.StartInfo.Arguments = (@($Arguments | ForEach-Object {
+        ConvertTo-GitCommandLineArgument $_
+    }) -join ' ')
+    $process.StartInfo.WorkingDirectory = (Get-Location).ProviderPath
+    $process.StartInfo.UseShellExecute = $false
+    $process.StartInfo.RedirectStandardOutput = $true
+    $process.StartInfo.RedirectStandardError = $true
+    $process.StartInfo.CreateNoWindow = $true
+
+    if (-not $process.Start()) {
+        throw "Unable to start Git."
+    }
+
+    $standardOutputTask = $process.StandardOutput.ReadToEndAsync()
+    $standardErrorTask = $process.StandardError.ReadToEndAsync()
+    $process.WaitForExit()
+    $standardOutput = @(ConvertFrom-GitOutputText $standardOutputTask.Result)
+    $standardError = @(ConvertFrom-GitOutputText $standardErrorTask.Result)
+    $exitCode = $process.ExitCode
+    $process.Dispose()
 
     if (($exitCode -ne 0) -and (-not $AllowFailure)) {
-        throw "Git command failed (git $($Arguments -join ' ')): $($output -join [Environment]::NewLine)"
+        $diagnostics = Format-GitDiagnostics -StandardOutput $standardOutput -StandardError $standardError
+        throw "Git command failed (git $($Arguments -join ' ')): $diagnostics"
     }
 
     return [pscustomobject]@{
         ExitCode = $exitCode
-        Output = @($output)
+        StandardOutput = $standardOutput
+        StandardError = $standardError
     }
 }
 
@@ -57,7 +126,7 @@ function Get-GitLine {
     param([Parameter(Mandatory = $true)][string[]]$Arguments)
 
     $result = Invoke-Git -Arguments $Arguments
-    return (($result.Output | Select-Object -First 1).ToString().Trim())
+    return (($result.StandardOutput | Select-Object -First 1).ToString().Trim())
 }
 
 function Normalize-RepositoryPath {
@@ -83,9 +152,10 @@ function Resolve-Commit {
 
     $result = Invoke-Git -Arguments @("rev-parse", "--verify", "$Revision^{commit}") -AllowFailure
     if ($result.ExitCode -ne 0) {
-        throw "Commit or revision cannot be resolved: $Revision"
+        $diagnostics = Format-GitDiagnostics -StandardOutput $result.StandardOutput -StandardError $result.StandardError
+        throw "Commit or revision cannot be resolved: $Revision. $diagnostics"
     }
-    return (($result.Output | Select-Object -First 1).ToString().Trim())
+    return (($result.StandardOutput | Select-Object -First 1).ToString().Trim())
 }
 
 function Test-InProgressGitOperation {
@@ -119,9 +189,10 @@ function Update-RemoteBranch {
     $remoteRevision = "$RemoteName/$BranchName"
     $result = Invoke-Git -Arguments @("rev-parse", "--verify", "$remoteRevision^{commit}") -AllowFailure
     if ($result.ExitCode -ne 0) {
-        throw "Remote branch cannot be resolved after fetch: $remoteRevision"
+        $diagnostics = Format-GitDiagnostics -StandardOutput $result.StandardOutput -StandardError $result.StandardError
+        throw "Remote branch cannot be resolved after fetch: $remoteRevision. $diagnostics"
     }
-    return (($result.Output | Select-Object -First 1).ToString().Trim())
+    return (($result.StandardOutput | Select-Object -First 1).ToString().Trim())
 }
 
 function Get-ChangedFiles {
@@ -135,7 +206,7 @@ function Get-ChangedFiles {
 
     foreach ($command in $commands) {
         $result = Invoke-Git -Arguments $command
-        foreach ($line in $result.Output) {
+        foreach ($line in $result.StandardOutput) {
             $path = $line.ToString().Trim()
             if (-not [string]::IsNullOrWhiteSpace($path)) {
                 [void]$paths.Add((Normalize-RepositoryPath $path))
@@ -152,11 +223,12 @@ function Assert-AllowedFiles {
         [string[]]$Allowed
     )
 
-    if (($null -eq $Allowed) -or ($Allowed.Count -eq 0)) {
+    $allowedFiles = @($Allowed)
+    if ($allowedFiles.Count -eq 0) {
         throw "AllowedFiles must be provided for Finalize."
     }
 
-    $allowedPatterns = @($Allowed | ForEach-Object {
+    $allowedPatterns = @($allowedFiles | ForEach-Object {
         if (-not [string]::IsNullOrWhiteSpace($_)) { Normalize-RepositoryPath $_ }
     })
 
@@ -185,7 +257,7 @@ function Assert-AllowedFiles {
 
 function Assert-CleanWorkingTree {
     $status = Invoke-Git -Arguments @("status", "--porcelain=v1", "--untracked-files=all")
-    $lines = @($status.Output | Where-Object { -not [string]::IsNullOrWhiteSpace($_.ToString()) })
+    $lines = @($status.StandardOutput | Where-Object { -not [string]::IsNullOrWhiteSpace($_.ToString()) })
     if ($lines.Count -gt 0) {
         throw "Working tree is not clean: $($lines -join [Environment]::NewLine)"
     }
@@ -197,7 +269,8 @@ function Assert-NoStagedChanges {
         throw "Staged changes already exist before Finalize."
     }
     if ($result.ExitCode -ne 0) {
-        throw "Unable to inspect staged changes."
+        $diagnostics = Format-GitDiagnostics -StandardOutput $result.StandardOutput -StandardError $result.StandardError
+        throw "Unable to inspect staged changes. $diagnostics"
     }
 }
 
@@ -289,7 +362,7 @@ try {
 
     Assert-NoStagedChanges
 
-    $changedFiles = Get-ChangedFiles
+    $changedFiles = @(Get-ChangedFiles)
     if ($changedFiles.Count -eq 0) {
         Write-Step "No repository change required"
         Write-Output "Result: NO-OP"
@@ -309,7 +382,7 @@ try {
     Invoke-Git -Arguments (@("add", "--") + $changedFiles) | Out-Null
 
     $stagedFilesResult = Invoke-Git -Arguments @("diff", "--cached", "--name-only", "--")
-    $stagedFiles = @($stagedFilesResult.Output | ForEach-Object {
+    $stagedFiles = @($stagedFilesResult.StandardOutput | ForEach-Object {
         $value = $_.ToString().Trim()
         if (-not [string]::IsNullOrWhiteSpace($value)) { Normalize-RepositoryPath $value }
     })
@@ -343,7 +416,8 @@ try {
         Write-Step "Pushing $Branch to $Remote"
         $pushResult = Invoke-Git -Arguments @("push", $Remote, "$Branch`:$Branch") -AllowFailure
         if ($pushResult.ExitCode -ne 0) {
-            throw "Push failed. Local Commit preserved: $newCommit. $($pushResult.Output -join [Environment]::NewLine)"
+            $diagnostics = Format-GitDiagnostics -StandardOutput $pushResult.StandardOutput -StandardError $pushResult.StandardError
+            throw "Push failed. Local Commit preserved: $newCommit. $diagnostics"
         }
 
         $remoteAfterPush = Update-RemoteBranch -RemoteName $Remote -BranchName $Branch
@@ -363,7 +437,7 @@ try {
     }
 
     $remaining = Invoke-Git -Arguments @("status", "--porcelain=v1", "--untracked-files=all")
-    $remainingLines = @($remaining.Output | Where-Object { -not [string]::IsNullOrWhiteSpace($_.ToString()) })
+    $remainingLines = @($remaining.StandardOutput | Where-Object { -not [string]::IsNullOrWhiteSpace($_.ToString()) })
     if ($remainingLines.Count -gt 0) {
         throw "Working tree is not clean after Finalize: $($remainingLines -join [Environment]::NewLine)"
     }
