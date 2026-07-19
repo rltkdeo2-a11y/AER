@@ -31,7 +31,7 @@ $ErrorActionPreference = "Stop"
 
 function Write-Step {
     param([Parameter(Mandatory = $true)][string]$Message)
-    Write-Output ("[AER Closure] {0}" -f $Message)
+    Write-Host ("[AER Closure] {0}" -f $Message)
 }
 
 function Invoke-Git {
