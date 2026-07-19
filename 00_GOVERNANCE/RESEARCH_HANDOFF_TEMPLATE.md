@@ -14,7 +14,7 @@ Lightweight | Standard | Release
 
 Git Permission:
 
-Analysis Only | Apply Only | Stage After Review | Commit After Review | Push After Review
+Analysis Only | Apply Only | Stage After Review | Commit After Review | Push After Review | Autonomous Closure
 
 Source Research Session:
 
@@ -82,13 +82,42 @@ Derive Minimum Set
 
 Instruction:
 
-Inspect repository conventions and propose the smallest sufficient set before editing.
+Inspect repository conventions and derive the smallest sufficient set inside the approved semantic and repository boundary.
+
+### Autonomous Execution Parameters
+
+Complete when `Git Permission: Autonomous Closure`.
+
+Expected Base Commit:
+
+[commit hash]
+
+Target Branch:
+
+main
+
+Proposed Commit Title:
+
+[commit title]
+
+Push Authorized:
+
+Yes | No
+
+Allowed Path Boundary:
+
+- [explicit relative path or bounded path pattern]
+
+Protected Files Explicitly Permitted:
+
+- None
+- [explicit protected file]
 
 ---
 
 ## 7. Protected Files
 
-Files that must not be modified:
+Files that must not be modified unless explicitly listed above:
 
 - BOOTSTRAP.md
 - README.md
@@ -98,8 +127,6 @@ Files that must not be modified:
 - 00_GOVERNANCE/OPERATION_RULES.md
 - 00_GOVERNANCE/PROJECT_CHARTER.md
 - 00_GOVERNANCE/RESEARCH_PHILOSOPHY.md
-
-Remove an item only when the approved Closure Mode and conclusions explicitly require its modification.
 
 ---
 
@@ -114,9 +141,12 @@ Remove an item only when the approved Closure Mode and conclusions explicitly re
 
 Required:
 
-- Git status check
+- Git status and branch check
+- expected base and remote check
 - changed-file list
+- approved-scope comparison
 - `git diff --check`
+- repository closure validation
 - non-zero size for new or restored files
 - filename and internal-ID consistency
 - reference-path validation
@@ -131,11 +161,20 @@ Additional Validation:
 
 ## 10. Completion Condition
 
-The Handoff is Applied when:
+### Autonomous Closure
+
+The Handoff is complete when:
 
 - the minimum approved files have been created or modified,
-- all required validation has passed or failures have been disclosed,
-- a concise diff summary has been presented,
-- no unauthorized Git action has occurred.
+- all required validation has passed,
+- actual changes remain inside the approved boundary,
+- one Commit has been created when changes exist,
+- Push has completed when authorized,
+- local and remote result has been reported,
+- no unauthorized Git action occurred.
 
-Commit and Push require the permission stated at the top of this Handoff.
+A No-op result creates no empty Commit.
+
+### Manual Closure
+
+The Handoff is Applied when files have been modified and validated. Commit and Push require the permission stated at the top of this Handoff.

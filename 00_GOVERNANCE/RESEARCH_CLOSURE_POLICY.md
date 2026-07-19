@@ -24,21 +24,22 @@ Research closure must preserve:
 
 Research closure must not create duplicate documentation merely to repeat the same conclusion, status, version, or Commit information.
 
-The default target is:
+The default Autonomous Closure target is:
 
-- one human diff review,
+- one human semantic approval,
+- one minimum repository change set,
+- one automated validation sequence,
 - one research Commit,
-- no duplicate status Commit,
-- no manual copying of full documents between ChatGPT and VS Code,
-- no README or CHANGELOG update for ordinary research sessions.
+- one non-force Push when authorized,
+- no repeated manual transfer or Git approval.
+
+Manual Closure remains available as fallback.
 
 ---
 
 ## 2. Closure Cost Target
 
-Closure effort should remain proportional to research value.
-
-Default operational targets:
+Closure effort must remain proportional to research value.
 
 ### Lightweight Closure
 
@@ -68,25 +69,105 @@ Determined by release scope
 
 Release Closure is exceptional and must not become the default.
 
-These targets are operational guidance, not absolute limits.
-
-Codex must warn when the proposed change set materially exceeds the default range.
+These targets are operational guidance, not absolute limits. A materially larger change set must already be visible in the approved semantic summary or trigger a stop before Commit.
 
 ---
 
-## 3. Closure Mode Selection
+## 3. Two Independent Dimensions
+
+Every approved Handoff must specify both:
+
+### Closure Mode
+
+- Lightweight
+- Standard
+- Release
+
+Closure Mode determines documentation scope.
+
+### Git Permission
+
+- Analysis Only
+- Apply Only
+- Stage After Review
+- Commit After Review
+- Push After Review
+- Autonomous Closure
+
+Git Permission determines execution authority.
+
+Do not treat Closure Mode as Git permission or Git permission as documentation scope.
+
+---
+
+## 4. Execution Modes
+
+### 4.1 Autonomous Closure
+
+Autonomous Closure is the default target operating mode for normal AER research closure.
+
+Trigger:
+
+```text
+[AER 논의 종료]
+```
+
+ChatGPT presents a semantic approval summary containing:
+
+- conclusions to record,
+- items to defer or omit,
+- impact on existing conclusions,
+- expected repository scope,
+- Closure Mode,
+- execution boundary.
+
+The human responds with one of:
+
+```text
+[승인]
+[수정: ...]
+[미반영]
+```
+
+`[승인]` authorizes the approved scope through editing, validation, explicit-path Stage, one Commit, and non-force Push to the approved branch.
+
+Normal Autonomous Closure must not request separate:
+
+- minimum-set approval,
+- Diff approval,
+- Stage approval,
+- Commit approval,
+- Push approval.
+
+### 4.2 Manual Closure
+
+Use Manual Closure only when:
+
+- the human explicitly requests stepwise review,
+- the automation environment is unavailable,
+- an Autonomous Closure stop condition occurs.
+
+Manual Closure uses the staged permissions and commands defined in the ChatGPT–Codex Research Command Protocol.
+
+---
+
+## 5. Closure Mode Selection
 
 The Handoff must explicitly select one Closure Mode.
 
 Codex must not choose Release merely because several files could be updated.
 
-When uncertain between two modes, prefer the lighter mode and report what would remain undocumented.
+When uncertain between two modes, prefer the lighter mode when it can preserve the approved research meaning without creating an undocumented structural change.
+
+In Autonomous Closure, Codex may derive the minimum sufficient file set inside the approved semantic and repository boundary without another human approval.
+
+It must stop when the lighter mode would omit an approved material conclusion or require an unapproved protected-file or version change.
 
 ---
 
-# 4. Lightweight Closure
+## 6. Lightweight Closure
 
-## 4.1 Intended Use
+### Intended Use
 
 Use Lightweight Closure for:
 
@@ -98,65 +179,21 @@ Use Lightweight Closure for:
 - updating one Open Problem without creating a new framework object,
 - closing an exploratory session that produced no reusable principle.
 
-## 4.2 Default Repository Actions
+### Default Scope
 
-Allowed by default:
+Normally:
 
-- modify one existing research object,
-- optionally modify one directly related Open Problem or session log.
+- 1 to 2 changed files,
+- one Commit,
+- no README, CHANGELOG, CURRENT_STATE, version, Decision, Principle, or release-record change.
 
-Normally prohibited:
-
-- README modification,
-- CHANGELOG modification,
-- CURRENT_STATE modification,
-- version change,
-- new Decision object,
-- new Principle object,
-- new release record.
-
-## 4.3 Maximum Default Scope
-
-Default maximum:
-
-- 2 changed files,
-- 1 Commit,
-- no follow-up status Commit.
-
-If more files appear necessary, Codex must explain why Lightweight is insufficient before editing them.
-
-## 4.4 Typical Examples
-
-Example A:
-
-Restore missing content in an Evidence object.
-
-Expected changes:
-
-- one Evidence file.
-
-Example B:
-
-Clarify an unresolved question in an Open Problem.
-
-Expected changes:
-
-- one Open Problem file,
-- optionally one Session file.
-
-Example C:
-
-Record that a proposed hypothesis was rejected.
-
-Expected changes:
-
-- one Session or Reasoning file.
+If a larger scope is already stated in the approved summary, it may proceed only when the selected Closure Mode remains substantively correct.
 
 ---
 
-# 5. Standard Closure
+## 7. Standard Closure
 
-## 5.1 Intended Use
+### Intended Use
 
 Use Standard Closure for:
 
@@ -167,7 +204,7 @@ Use Standard Closure for:
 - recording a completed research session,
 - integrating a validated but non-release-level model refinement.
 
-## 5.2 Default Repository Actions
+### Default Scope
 
 A Standard Closure may include:
 
@@ -176,35 +213,20 @@ A Standard Closure may include:
 - one related Open Problem update,
 - optionally one CURRENT_STATE update only when the active research direction materially changes.
 
-Normally prohibited:
+Normally:
 
-- README modification,
-- CHANGELOG modification,
-- repository structural version change,
-- framework release declaration,
-- duplicate Decision and Principle objects containing substantially the same content.
+- 2 to 4 changed files,
+- one Commit,
+- no README or CHANGELOG change,
+- no repository structural version or framework release declaration.
 
-## 5.3 Maximum Default Scope
-
-Default maximum:
-
-- 4 changed files,
-- 1 Commit,
-- no second Commit solely to record completion or the first Commit hash.
-
-When more than 4 files are proposed, Codex must first report:
-
-1. why each file is necessary,
-2. which information would be duplicated,
-3. whether a lighter change set is possible.
-
-## 5.4 Object Selection Rules
+### Object Selection
 
 Create a Principle only when:
 
 - the conclusion is reusable,
 - it has evidence beyond a single isolated case,
-- the human has approved it as a general rule.
+- the human approved it as a general rule.
 
 Create a Decision only when:
 
@@ -212,46 +234,17 @@ Create a Decision only when:
 - the human explicitly selected one,
 - recording the choice is useful independently of the Principle or Reasoning.
 
-Create Evidence separately only when:
+Create Evidence separately only when it has reusable and independently traceable value.
 
-- the evidence record has reusable value,
-- the evidence is substantial,
-- it should be independently traceable.
-
-Create a Session record when:
-
-- the research process itself must be traceable,
-- the session contains decisions or unresolved questions not captured elsewhere.
+Create a Session record when the research process itself contains decisions or unresolved questions not preserved elsewhere.
 
 Do not create all object types by default.
 
-## 5.5 Typical Examples
-
-Example A:
-
-A repeated reasoning pattern is validated across several cases.
-
-Expected changes:
-
-- one Reasoning or Session record,
-- one Principle,
-- one related Open Problem update.
-
-Example B:
-
-A new evidence set changes the strength of an existing Principle.
-
-Expected changes:
-
-- one Evidence file,
-- one Principle modification,
-- optionally one Open Problem modification.
-
 ---
 
-# 6. Release Closure
+## 8. Release Closure
 
-## 6.1 Intended Use
+### Intended Use
 
 Use Release Closure only for:
 
@@ -263,44 +256,38 @@ Use Release Closure only for:
 - major approved scope change,
 - release-level documentation update.
 
-## 6.2 Permitted Repository Actions
+### Permitted Scope
 
 Release Closure may include:
 
 - README,
 - CHANGELOG,
 - CURRENT_STATE,
-- governance documents,
-- specification documents,
+- governance or specification documents,
 - version records,
 - multiple research objects,
 - release notes.
 
-## 6.3 Required Conditions
+### Required Conditions
 
-Release Closure requires all of the following:
+Release Closure requires:
 
-- `Approval Status: Approved`
-- `Closure Mode: Release`
-- explicit human approval for protected-file modification
-- explicit version decision
-- complete changed-file justification
-- repository-wide consistency validation
-- one final diff review
+- `Approval Status: Approved`,
+- `Closure Mode: Release`,
+- explicit approved scope for each protected file,
+- an explicit version decision when a version is changed,
+- complete changed-file justification,
+- repository-wide consistency validation.
 
-## 6.4 Commit Policy
+Under Autonomous Closure, the approved semantic summary replaces a separate final human Diff review. Codex must still perform a complete self-review and stop if the actual change materially exceeds the approved summary.
 
 Prefer one release Commit when practical.
 
-A second Commit is permitted only when it represents a genuinely independent correction or technical necessity.
-
 Do not create a second Commit solely to write the first Commit hash into documentation.
-
-Git history is the authoritative Commit record.
 
 ---
 
-# 7. Files Not Updated by Default
+## 9. Files Not Updated by Default
 
 The following files are not updated for ordinary research closure:
 
@@ -308,51 +295,36 @@ The following files are not updated for ordinary research closure:
 - CHANGELOG.md
 - 00_GOVERNANCE/CURRENT_STATE
 
-Exceptions:
-
 ### README.md
 
-Update only when:
-
-- repository purpose changes,
-- public structure changes,
-- major public framework status changes,
-- a release explicitly requires it.
+Update only when repository purpose, public structure, major public framework status, or an approved release requires it.
 
 ### CHANGELOG.md
 
-Update only when:
-
-- preparing a release,
-- grouping multiple research Commits into a release,
-- governance explicitly requires a release note.
+Update only when preparing a release, grouping research Commits into a release, or governance explicitly requires a release note.
 
 ### CURRENT_STATE
 
-Update only when:
-
-- active research objective changes,
-- active sprint or research phase changes,
-- the next authoritative research direction changes.
+Update only when the active research objective, active phase, or next authoritative research direction changes.
 
 Do not update CURRENT_STATE merely to record that a Commit succeeded.
 
 ---
 
-# 8. Duplicate Documentation Control
+## 10. Duplicate Documentation Control
 
-Before creating or modifying a file, Codex must ask:
+Before creating or modifying a file, determine:
 
-1. Is this information already preserved in another authoritative object?
-2. Does this file have an independent research function?
-3. Would omitting this update materially reduce future research usability?
-4. Is the file being changed only to repeat status or Commit information?
+1. whether the information is already preserved in another authoritative object,
+2. whether the file has an independent research function,
+3. whether omission would materially reduce future research usability,
+4. whether the change only repeats status or Commit information.
 
-If the answer to Question 4 is yes, do not modify the file unless the Handoff explicitly justifies it.
+Do not modify a file only to repeat status or Commit information unless the approved Handoff explicitly justifies it.
 
 ---
 
-# 9. Minimum Sufficient Record
+## 11. Minimum Sufficient Record
 
 A research closure is sufficient when a future researcher can determine:
 
@@ -364,112 +336,80 @@ A research closure is sufficient when a future researcher can determine:
 - what remains unresolved,
 - what repository files changed.
 
-The closure need not preserve:
-
-- every conversational turn,
-- every discarded hypothesis,
-- every intermediate draft,
-- repeated summaries of the same decision,
-- Commit hashes in multiple documents.
+The closure need not preserve every conversational turn, discarded hypothesis, intermediate draft, repeated summary, or Commit hash in multiple documents.
 
 ---
 
-# 10. Automatic Downgrade Check
+## 12. Autonomous Stop Conditions
 
-Before applying a Standard or Release Handoff, Codex must evaluate whether the task can be completed using a lighter mode.
+Stop before Commit when:
 
-Codex must report:
+- the approved semantic summary is ambiguous or internally inconsistent,
+- the actual change would strengthen the approved conclusion,
+- an unexpected protected-file or version change is required,
+- the actual file scope materially exceeds the approved repository boundary,
+- an unexplained pre-existing working-tree change exists,
+- the branch or expected base Commit differs,
+- Merge or Rebase is in progress,
+- the remote base changed after Preflight,
+- required validation still fails after one in-scope correction attempt,
+- repository convention conflicts cannot be resolved without changing research meaning.
 
-- requested Closure Mode,
-- minimum sufficient Closure Mode,
-- proposed changed-file count,
-- protected files affected,
-- duplicated content risk.
+Do not silently expand scope, Stash user work, reset, clean, merge, or rebase.
 
-Codex must not silently change the approved Closure Mode.
-
-It may recommend a downgrade and wait for human confirmation.
-
----
-
-# 11. Escalation Conditions
-
-Codex must stop and request human review when:
-
-- the change set exceeds the default file limit,
-- a protected file is required unexpectedly,
-- a new version appears necessary,
-- multiple objects would contain substantially duplicated content,
-- existing repository conventions conflict,
-- the Handoff does not provide enough evidence for a Principle,
-- a Release Closure appears necessary despite a lighter approved mode.
+If Commit succeeds but Push fails, preserve the local Commit and report the failure.
 
 ---
 
-# 12. Git Workflow by Closure Mode
+## 13. Git Workflow
 
-## Lightweight
+### Autonomous Closure
 
-Default sequence:
+1. Validate the approved Handoff and semantic scope.
+2. Run repository Preflight.
+3. Inspect only relevant existing objects.
+4. Derive and apply the minimum sufficient change set.
+5. Run required validation and `git diff --check`.
+6. Compare actual changed files with the approved scope.
+7. Stage only explicit validated paths.
+8. Create one Commit.
+9. Recheck the remote base.
+10. Push without force when authorized.
+11. Verify local and remote HEAD.
+12. Report the result.
 
-1. Apply approved change.
-2. Validate.
-3. Present diff summary.
-4. Wait for Stage approval.
-5. Commit once.
-6. Push only after separate approval.
+### Manual Closure
 
-## Standard
-
-Default sequence:
-
-1. Inspect related objects.
-2. Propose minimum change set.
-3. Apply approved change.
-4. Validate object IDs, paths, scope, and limitations.
-5. Present one consolidated diff.
-6. Wait for Stage and Commit approval.
-7. Commit once.
-8. Push only after separate approval.
-
-## Release
-
-Default sequence:
-
-1. Confirm release approval and version decision.
-2. Inspect repository-wide impact.
-3. Apply approved changes.
-4. Run repository-wide consistency validation.
-5. Present complete diff and release summary.
-6. Wait for explicit Commit approval.
-7. Commit.
-8. Push only after separate approval.
+Use the staged review and permission sequence defined in `00_GOVERNANCE/CHATGPT_CODEX_COMMAND_PROTOCOL.md`.
 
 ---
 
-# 13. Completion Reports
+## 14. Completion Reports
 
-Every closure report must contain only:
+An Autonomous Closure report contains:
 
 - Closure Mode,
-- files created,
-- files modified,
+- approved conclusions reflected,
+- files created and modified,
 - files intentionally not modified,
-- validations performed,
-- warnings,
-- proposed Commit title,
-- required next approval.
+- validation result,
+- warnings or unresolved issues,
+- Commit hash and title,
+- Push and remote-verification result,
+- next baseline Commit.
 
-Do not produce a long procedural narrative unless a validation failure requires explanation.
+A Manual Closure report also states the next required approval.
+
+Do not produce a long procedural narrative unless a stop condition or failure requires explanation.
 
 ---
 
-# 14. Policy Success Criterion
+## 15. Policy Success Criterion
 
 This policy succeeds when:
 
 - research conclusions remain traceable,
-- zero-byte and wrong-path errors are prevented,
-- ordinary closure completes within minutes rather than hours,
-- the user reviews one concise diff,
+- ordinary closure requires one human semantic approval,
+- zero-byte, wrong-path, and out-of-scope changes are prevented,
+- one research Commit closes the approved change,
 - repository management remains subordinate to research activity.

@@ -16,19 +16,20 @@ Define the transfer contract through which a human-approved research conclusion 
 
 A Research Handoff connects two separate activities.
 
-Research Discussion:
+### Research Discussion
 
 - explore questions,
 - generate and challenge hypotheses,
 - distinguish evidence from inference,
 - determine approved conclusions.
 
-Repository Application:
+### Repository Application
 
 - inspect existing repository objects,
 - create or update the minimum necessary files,
 - validate the changes,
-- present a diff for human review.
+- complete only the authorized Git workflow,
+- report the result.
 
 The Handoff transfers approved conclusions.
 
@@ -40,22 +41,41 @@ It does not transfer private reasoning, conversational noise, discarded alternat
 
 A Handoff authorizes repository editing only when all of the following are present:
 
-- `Approval Status: Approved`
+- `Approval Status: Approved`,
 - an explicit Closure Mode,
 - approved conclusions,
 - scope and limitations,
-- repository actions or a clear instruction to derive the minimum action set,
+- repository actions or a clear approved boundary for deriving the minimum action set,
 - explicit Git permission.
 
-The existence of a Handoff does not authorize Stage, Commit, or Push unless those permissions are separately stated.
+### Manual Default
 
-Default Git Permission:
+Default Git Permission for Manual Closure:
 
+```text
 Apply Only
+```
 
 Meaning:
 
 Codex may edit approved files and run validation, but may not Stage, Commit, or Push.
+
+### Autonomous Authority
+
+```text
+Git Permission: Autonomous Closure
+```
+
+means that the human approved the immediately preceding semantic summary and authorizes, within the approved scope:
+
+- file creation or modification,
+- validation,
+- explicit-path Stage,
+- one Commit,
+- non-force Push to the approved branch,
+- final result reporting.
+
+No separate Diff, Stage, Commit, or Push approval is required in the normal Autonomous path.
 
 ---
 
@@ -68,10 +88,6 @@ Every Research Handoff must contain the following fields.
 Format:
 
 `RH-YYYYMMDD-NNN`
-
-Example:
-
-`RH-20260715-001`
 
 ### Approval Status
 
@@ -101,8 +117,9 @@ Allowed values:
 - Stage After Review
 - Commit After Review
 - Push After Review
+- Autonomous Closure
 
-Permissions are cumulative only when explicitly stated.
+Manual permissions are cumulative only when explicitly stated.
 
 ### Research Question
 
@@ -126,7 +143,16 @@ Unvalidated areas, uncertainty, dependencies, and claims that must not be streng
 
 ### Repository Actions
 
-The files to create, modify, or intentionally leave unchanged.
+The files to create, modify, inspect, or intentionally leave unchanged, or the approved boundary for deriving the minimum action set.
+
+For Autonomous Closure, Repository Actions must additionally state:
+
+- expected base Commit,
+- target branch,
+- proposed Commit title,
+- whether Push is authorized,
+- protected files explicitly permitted,
+- allowed file paths or a bounded path pattern.
 
 ### Unresolved Questions
 
@@ -134,7 +160,7 @@ Questions that remain open after the current research.
 
 ### Validation Requirements
 
-Checks that must pass before the changes may be proposed for Stage or Commit.
+Checks that must pass before Commit.
 
 ---
 
@@ -142,34 +168,21 @@ Checks that must pass before the changes may be proposed for Stage or Commit.
 
 ### Lightweight
 
-Use for:
-
-- research-log additions,
-- minor clarification,
-- small corrections,
-- evidence or status restoration,
-- non-structural updates.
+Use for minor clarification, small correction, evidence or status restoration, or non-structural updates.
 
 Default maximum:
 
 - one or two modified research files,
-- no README update,
-- no CHANGELOG update,
+- no README or CHANGELOG update,
 - no version change.
 
 ### Standard
 
-Use for:
-
-- a reusable reasoning result,
-- a new or revised principle,
-- material evidence,
-- an Open Problem update,
-- a research-session conclusion.
+Use for a reusable reasoning result, new or revised Principle, material Evidence, Open Problem update, or research-session conclusion.
 
 Default maximum:
 
-- one session or reasoning record,
+- one Session or Reasoning record,
 - one reusable knowledge object,
 - one Open Problem or state update.
 
@@ -177,37 +190,17 @@ README and CHANGELOG remain unchanged unless explicitly justified.
 
 ### Release
 
-Use only for:
+Use only for repository structure, governance, framework-level release, public status, explicit version, or release-level documentation change.
 
-- repository structural change,
-- governance change,
-- framework-level release,
-- public status change,
-- explicit version change.
-
-Release mode may include:
-
-- README,
-- CHANGELOG,
-- CURRENT_STATE,
-- specification or governance documents,
-- version updates.
-
-Release mode requires explicit human approval.
+Release may include protected governance and public files only when explicitly approved.
 
 ---
 
 ## 5. Repository Action Types
 
-Allowed action types:
-
 ### Create
 
-Create a new research object after verifying:
-
-- the identifier is unused,
-- the path follows repository convention,
-- the file will contain substantive non-empty content.
+Create a new research object after verifying identifier, path, convention, and substantive content.
 
 ### Modify
 
@@ -223,44 +216,64 @@ Read a file as context without modifying it.
 
 ### Derive Minimum Set
 
-Codex determines the smallest sufficient change set from the approved conclusions and reports it before editing.
+Codex determines the smallest sufficient change set inside the approved semantic and repository boundary.
+
+In Manual Closure, Codex reports the proposed set before editing.
+
+In Autonomous Closure, Codex may proceed without another approval when the derived set remains inside the approved boundary. It must stop if the derived set requires an unexpected protected file, version change, or material scope expansion.
 
 ---
 
 ## 6. Stop Conditions
 
-Codex must stop before editing when:
+Codex must stop before editing or Commit, as applicable, when:
 
 - Approval Status is not Approved,
 - Closure Mode is missing,
+- Git permission is missing or inconsistent,
 - approved conclusions are ambiguous or internally inconsistent,
 - the target identifier conflicts with an existing object,
-- the requested path conflicts with repository convention,
-- a protected file is requested without sufficient justification,
-- the Handoff attempts to strengthen conclusions beyond the evidence,
+- a requested path conflicts with repository convention,
+- an unexpected protected-file or version change is required,
+- the Handoff would strengthen conclusions beyond evidence,
 - required evidence or source objects cannot be found,
-- the requested action would create an empty or placeholder research object,
-- Git permission is unclear.
+- an empty or placeholder research object would result,
+- unexplained pre-existing working-tree changes exist,
+- branch, expected base Commit, or remote state differs,
+- Merge or Rebase is in progress,
+- required validation fails after one in-scope correction attempt.
 
-Codex must report the problem rather than silently resolving a material ambiguity.
+Codex reports the problem rather than silently resolving a material ambiguity or broadening scope.
 
 ---
 
 ## 7. Application Procedure
 
-Codex must perform the following sequence.
+### Manual Procedure
 
-1. Read AGENTS.md.
-2. Read the Handoff.
-3. Inspect Git status.
-4. Inspect relevant existing research objects.
-5. Verify identifiers and paths.
-6. Determine the minimum change set.
-7. Report any material ambiguity.
-8. Apply only approved changes.
-9. Run required validation.
-10. Present a concise change report and diff summary.
-11. Wait for human approval before Stage, Commit, or Push.
+1. Read AGENTS.md and the Handoff.
+2. Inspect Git status and relevant objects.
+3. Verify identifiers, paths, scope, and limitations.
+4. Report the minimum change set.
+5. Wait for the required approval.
+6. Apply approved changes.
+7. Run validation.
+8. Present a concise change report.
+9. Follow the stated Stage, Commit, and Push permission.
+
+### Autonomous Procedure
+
+1. Read AGENTS.md, governance, and the Handoff.
+2. Run Preflight against branch, expected base Commit, remote, and clean working tree.
+3. Inspect relevant existing objects.
+4. Derive and apply the minimum sufficient change set inside the approved boundary.
+5. Run required validation and self-review.
+6. Correct one in-scope validation failure and rerun validation.
+7. Stage only validated approved paths.
+8. Create one Commit.
+9. Recheck remote base and Push without force when authorized.
+10. Verify local and remote HEAD.
+11. Report the final result.
 
 ---
 
@@ -268,43 +281,38 @@ Codex must perform the following sequence.
 
 Minimum validation:
 
-- `git status --short`
-- changed-file list
-- `git diff --check`
-- non-zero size for every new or materially restored file
-- filename and internal-ID consistency
-- referenced repository-path existence
-- no unintended protected-file changes
-- no unauthorized version change
-- preservation of approved scope and limitations
+- `git status --short`,
+- actual changed-file list,
+- approved-scope comparison,
+- `git diff --check`,
+- non-zero size for every new or materially restored file,
+- filename and internal-ID consistency,
+- referenced repository-path existence,
+- no unintended protected-file change,
+- no unauthorized version change,
+- preservation of approved scope and limitations.
 
 A validation failure must be disclosed.
 
-Codex must not claim completion when a required check has not passed.
+Codex must not claim completion when a required check, Commit, Push, or remote verification has not been confirmed.
 
 ---
 
 ## 9. Handoff Lifecycle
 
-A Handoff may move through the following states:
+A Handoff may move through:
 
-Draft
+```text
+Draft → Approved → Applied → Committed → Pushed
+```
 
-→ Approved
+`Applied` means files were modified and validated.
 
-→ Applied
+`Committed` means a local Commit was created.
 
-→ Committed
+`Pushed` means the approved remote branch was verified at that Commit.
 
-→ Pushed
-
-`Applied` means repository files have been modified and validated.
-
-It does not mean the changes have been Committed.
-
-`Committed` does not mean the changes have been Pushed.
-
-The stages must not be conflated.
+A No-op approved Handoff may close without entering Committed or Pushed state.
 
 ---
 
@@ -312,29 +320,29 @@ The stages must not be conflated.
 
 The Handoff is a transfer contract, not automatically an official research object.
 
-The Handoff itself is not added to the official repository unless the human explicitly requests archival.
+The Handoff itself is not added to the official repository unless archival is explicitly requested.
 
-Official research knowledge resides in the research objects created or modified from the approved Handoff.
-
-Git history records the application Commit.
+Official research knowledge resides in the research objects created or modified from the approved Handoff. Git history records the application Commit.
 
 ---
 
 ## 11. Required Codex Report
 
-After application, Codex must report:
+After Autonomous application, report:
 
 1. Handoff ID
 2. Closure Mode
-3. files created
-4. files modified
-5. files intentionally not modified
-6. validations performed
-7. warnings or unresolved issues
-8. proposed Commit title
-9. current Git permission boundary
+3. approved conclusions reflected
+4. files created
+5. files modified
+6. files intentionally not modified
+7. validations performed
+8. warnings or unresolved issues
+9. Commit hash and title or No-op result
+10. Push and remote-verification result
+11. next baseline Commit
 
-The report must remain concise.
+Manual reports also state the current Git permission boundary and next required approval.
 
 ---
 
@@ -342,10 +350,11 @@ The report must remain concise.
 
 A Research Handoff must be sufficient to prevent unsupported interpretation but small enough that repository management does not exceed the value of the research itself.
 
-The default objective is:
+The default Autonomous objective is:
 
 - minimum sufficient documentation,
 - minimum necessary file changes,
-- one human diff review,
+- one human semantic approval,
 - one research Commit,
+- one authorized non-force Push,
 - no duplicate status Commit.

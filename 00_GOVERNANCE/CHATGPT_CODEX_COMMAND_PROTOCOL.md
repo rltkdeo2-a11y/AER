@@ -8,7 +8,7 @@ Status: Approved
 
 Purpose:
 
-Define the minimum user commands required to transfer an approved AER research conclusion from ChatGPT to Codex and complete repository application without repeated manual copying.
+Define the minimum commands required to transfer an approved AER research conclusion from ChatGPT to Codex and complete repository application without repeated manual copying or Git approval.
 
 ---
 
@@ -21,98 +21,85 @@ The workflow separates three responsibilities.
 - conducts research discussion,
 - challenges reasoning,
 - separates evidence from inference,
-- prepares an approval candidate,
-- generates the final Research Handoff.
+- reviews relevant repository context,
+- prepares the semantic approval summary,
+- generates the approved Research Handoff.
 
 ### Codex
 
-- reads the approved Handoff,
+- reads the approved Handoff and governance,
 - inspects the repository,
-- proposes the minimum change set,
+- derives the minimum sufficient change set inside the approved boundary,
 - applies approved changes,
 - validates repository integrity,
-- performs Git actions only after separate approval.
+- completes authorized Git actions,
+- reports the result.
 
 ### Human Researcher
 
-- approves conclusions,
-- approves the minimum change set,
-- reviews the Diff,
-- separately approves Stage, Commit, and Push.
+- conducts and directs the research discussion,
+- approves, corrects, or rejects the semantic summary,
+- reviews the final result or any stopped condition.
+
+In normal Autonomous Closure, the human does not separately approve the minimum file set, Diff, Stage, Commit, or Push.
 
 ---
 
-## 2. ChatGPT Commands
+## 2. Default Autonomous Commands
 
-The following commands are used in the ChatGPT research conversation.
-
-### `[연구종료 검토]`
+### `[AER 논의 종료]`
 
 Meaning:
 
-The research discussion may be ready to close.
+Start research closure for the current AER discussion.
 
-ChatGPT must provide only:
+ChatGPT must review the relevant approved repository state and present only:
 
-- candidate approved conclusions,
-- evidence basis,
-- scope,
-- limitations,
-- unresolved questions,
-- recommended Closure Mode,
-- expected repository-object types.
+- conclusions to record,
+- items to defer or omit,
+- impact on existing conclusions,
+- expected Closure Mode,
+- expected repository scope,
+- version and protected-file impact,
+- statement that approval authorizes execution through Push within that scope,
+- stop conditions.
 
-ChatGPT must not yet produce a final Approved Handoff.
+ChatGPT must not yet modify the repository.
 
----
-
-### `[결론 승인]`
-
-Meaning:
-
-The human approves the research conclusions presented in the preceding closure review.
-
-ChatGPT must:
-
-- treat only the explicitly presented conclusions as approved,
-- preserve limitations and unresolved questions,
-- not infer approval for omitted or disputed conclusions.
-
-This command does not authorize repository editing.
-
----
-
-### `[Handoff 생성]`
+### `[승인]`
 
 Meaning:
 
-Generate one structured Research Handoff for Codex.
+The human approves the immediately preceding semantic summary.
 
-Requirements:
+When the Handoff uses `Git Permission: Autonomous Closure`, this one approval authorizes:
 
-- Approval Status must reflect the actual human decision.
-- Default Git Permission is `Apply Only`.
-- Closure Mode must be explicit.
-- The Handoff must contain the minimum sufficient repository actions.
-- Protected files must remain protected unless explicitly required.
-- The response should contain one complete Handoff block and a short transfer instruction.
-- Do not output full target-file contents.
+- internal Handoff generation,
+- repository Preflight,
+- approved file creation or modification,
+- validation,
+- explicit-path Stage,
+- one Commit,
+- non-force Push to the approved branch,
+- final result reporting.
 
-The Handoff is the only research-content block that normally needs to be transferred from ChatGPT to Codex.
+Approval does not authorize any stronger conclusion, unexpected protected-file change, version change, or repository scope expansion.
 
----
-
-### `[Handoff 수정]`
+### `[수정: ...]`
 
 Meaning:
 
-Revise the most recently generated Handoff before Codex application.
+Correct the semantic approval summary before execution.
 
-The human must state the requested correction.
+ChatGPT must issue one complete replacement summary. Prior approval candidates are not cumulative.
 
-ChatGPT must issue a complete replacement Handoff rather than partial patch instructions.
+### `[미반영]`
 
----
+Meaning:
+
+Close the discussion without repository application.
+
+No Handoff, file, or Git action is authorized.
 
 ### `[연구계속]`
 
@@ -120,223 +107,112 @@ Meaning:
 
 Cancel the current closure attempt and continue research discussion.
 
-Any unapproved Handoff candidate remains Draft or is discarded.
+---
+
+## 3. Autonomous Execution Contract
+
+After `[승인]`, ChatGPT or the connected execution path supplies one complete Approved Handoff to Codex.
+
+Codex must then perform the Autonomous path without further human prompts unless a stop condition occurs.
+
+Codex must not request:
+
+- pre-application approval,
+- minimum-set approval,
+- Diff approval,
+- Stage approval,
+- Commit approval,
+- Push approval.
+
+The Handoff remains the normal transfer unit. It may be transferred internally and need not be shown unless requested.
 
 ---
 
-## 3. Codex Commands
-
-The following commands are used in the Codex session after the approved Handoff has been supplied.
-
-### `[사전검토]`
-
-Meaning:
-
-Run Phase 1 only.
-
-Codex must:
-
-- read AGENTS.md and applicable governance,
-- validate the Handoff,
-- inspect Git status,
-- propose the minimum sufficient change set,
-- report protected-file impact and duplicate-documentation risk,
-- stop without editing.
-
-No file modification or Git action is permitted.
-
----
-
-### `[적용 승인]`
-
-Meaning:
-
-The human approves the minimum change set proposed during Phase 1.
-
-Codex may:
-
-- perform Phase 2 application,
-- run Phase 3 validation,
-- provide the Phase 4 change report.
-
-Codex may not:
-
-- Stage,
-- Commit,
-- Push.
-
-This command is valid only when Git Permission permits repository application.
-
----
-
-### `[Diff 승인]`
-
-Meaning:
-
-The human has reviewed the VS Code Diff and accepts the current content changes.
-
-This command alone does not authorize Stage unless the Handoff permits `Stage After Review`.
-
-When Git Permission remains `Apply Only`, Codex must report that a permission change or explicit Stage authorization is still required.
-
----
-
-### `[Stage 승인]`
-
-Meaning:
-
-Stage only the explicitly reviewed files.
-
-Codex must:
-
-- list the exact files before staging,
-- use explicit file paths,
-- never use `git add .`,
-- verify the cached file list afterward,
-- not Commit.
-
----
-
-### `[Commit 승인]`
-
-Meaning:
-
-Create one Commit from the approved staged files.
-
-Codex must:
-
-- run cached validation,
-- verify the staged file list,
-- use the approved or proposed Commit title,
-- create one Commit,
-- report its hash,
-- not Push.
-
-A separate status Commit must not be created merely to record the first Commit hash.
-
----
-
-### `[Push 승인]`
-
-Meaning:
-
-Push the current approved branch after Commit.
-
-Codex must:
-
-- confirm the current branch,
-- confirm the working tree state,
-- push without force,
-- verify that local HEAD and remote branch match.
-
----
-
-### `[중단]`
-
-Meaning:
-
-Stop the current Codex workflow immediately.
-
-Codex must not perform any further file or Git action.
-
-Existing uncommitted changes must remain intact unless the human separately directs their removal.
-
----
-
-## 4. Command Sequence
-
-### Ordinary Standard Closure
-
-ChatGPT:
+## 4. Autonomous Sequence
 
 ```text
-[연구종료 검토]
+ChatGPT research discussion
+→ [AER 논의 종료]
+→ semantic approval summary
+→ [승인]
+→ approved Handoff
+→ Codex Preflight
+→ minimum in-scope application
+→ validation and self-review
+→ explicit-path Stage
+→ one Commit
+→ non-force Push
+→ remote verification
+→ final report
 ```
 
-Human:
-
-```text
-[결론 승인]
-```
-
-Human:
-
-```text
-[Handoff 생성]
-```
-
-Transfer the complete Handoff once to Codex.
-
-Codex:
-
-```text
-[사전검토]
-```
-
-Human:
-
-```text
-[적용 승인]
-```
-
-Human reviews the VS Code Diff.
-
-Human:
-
-```text
-[Stage 승인]
-```
-
-Human:
-
-```text
-[Commit 승인]
-```
-
-Human:
-
-```text
-[Push 승인]
-```
+A No-op closure creates no Commit and performs no Push.
 
 ---
 
-## 5. Default Permission Boundary
+## 5. Manual Fallback Commands
 
-The default Handoff permission is:
+Use the following only when:
 
-`Apply Only`
+- the human explicitly requests stepwise review,
+- Autonomous execution is unavailable,
+- an Autonomous stop condition requires manual recovery.
 
-Therefore the default workflow stops after:
+### ChatGPT fallback
 
-- file application,
-- automated validation,
-- concise change report,
-- human Diff review.
+- `[연구종료 검토]`
+- `[결론 승인]`
+- `[Handoff 생성]`
+- `[Handoff 수정]`
 
-Stage, Commit, and Push always require separate human instructions.
+### Codex fallback
+
+- `[사전검토]`
+- `[적용 승인]`
+- `[Diff 승인]`
+- `[Stage 승인]`
+- `[Commit 승인]`
+- `[Push 승인]`
+- `[중단]`
+
+In Manual Closure, approval at one point does not imply approval at a later point.
 
 ---
 
-## 6. Use of `[다음]`
+## 6. Default Permission Boundary
 
-`[다음]` is not a Git authorization command.
+For an approved autonomous semantic summary, the generated Handoff should use:
 
-It may be used in a guided setup conversation to request the next explanatory step.
+```text
+Git Permission: Autonomous Closure
+```
 
-It must never be interpreted as:
+For Manual Closure, the default remains:
 
+```text
+Git Permission: Apply Only
+```
+
+`Autonomous Closure` is valid only when Approval Status, Closure Mode, repository scope, target branch, expected base Commit, validation requirements, and proposed Commit title are sufficiently defined.
+
+---
+
+## 7. Use of `[다음]`
+
+`[다음]` advances a guided research or implementation discussion.
+
+It is not a repository authorization command and must never be interpreted as:
+
+- semantic approval,
 - Apply approval,
 - Stage approval,
 - Commit approval,
 - Push approval,
 - file deletion approval.
 
-Repository actions require the explicit commands defined in this protocol.
-
 ---
 
-## 7. Handoff Transfer Rule
+## 8. Handoff Transfer Rule
 
 The normal transfer unit between ChatGPT and Codex is one complete Research Handoff.
 
@@ -344,76 +220,69 @@ Do not manually transfer:
 
 - every research conversation message,
 - full target-file contents,
-- separate copies of Principle, Evidence, Decision, and Session documents,
+- separate duplicate summaries,
 - repeated Git command instructions.
 
-Codex derives the actual repository edits by inspecting:
+Codex derives the actual edits from:
 
 - the approved Handoff,
-- existing repository conventions,
-- existing related research objects.
+- relevant repository conventions,
+- relevant existing research objects.
 
 ---
 
-## 8. Error and Conflict Handling
+## 9. Stop and Failure Handling
 
-### Handoff Error
+Codex stops before Commit when:
 
-Use:
+- Approval Status is not Approved,
+- Closure Mode or Git Permission is missing,
+- the approved conclusions are materially ambiguous or inconsistent,
+- the actual change would exceed the approved semantic or repository scope,
+- an unexpected protected-file or version change is required,
+- unexplained pre-existing working-tree changes exist,
+- branch, base Commit, or remote state differs,
+- Merge or Rebase is in progress,
+- required validation fails after one in-scope correction attempt.
 
-```text
-[Handoff 수정]
-```
+Codex must not silently Stash, reset, clean, merge, rebase, or broaden scope.
 
-and provide the correction.
+If Commit succeeds but Push fails, preserve the local Commit and report:
 
-Do not manually edit fragments of the Handoff in several places.
-
-### Unexpected Codex Change
-
-Use:
-
-```text
-[중단]
-```
-
-Review the Diff before any Git action.
-
-### Validation Failure
-
-Codex must report the failure and wait.
-
-Do not proceed to Stage or Commit.
-
-### Existing Unrelated Working-Tree Changes
-
-Codex must stop during Pre-Application Review unless those changes are explicitly identified as an accepted baseline.
+- Commit hash,
+- current branch,
+- Push failure,
+- remote state when available.
 
 ---
 
-## 9. Human Review Points
+## 10. Final Report
 
-Human approval is required at five decision points.
+Normal Autonomous Closure returns only:
 
-1. Research conclusion approval
-2. Minimum repository change-set approval
-3. Diff and Stage approval
-4. Commit approval
-5. Push approval
+- Handoff ID,
+- Closure Mode,
+- conclusions reflected,
+- files created and modified,
+- files intentionally not modified,
+- validation result,
+- warnings or unresolved issues,
+- Commit hash and title or No-op result,
+- Push and remote-verification result,
+- next baseline Commit.
 
-Approval at one point does not imply approval at later points.
+Do not output the full Handoff, full file bodies, or procedural narration unless requested or needed to explain a failure.
 
 ---
 
-## 10. Success Criterion
+## 11. Success Criterion
 
-The protocol succeeds when an ordinary research conclusion can be stored through:
+The protocol succeeds when an ordinary approved AER conclusion is stored through:
 
-- one ChatGPT Handoff,
-- one Codex minimum-change review,
-- one automated validation,
-- one human Diff review,
+- one semantic approval,
+- one internal Handoff,
+- one automated validation sequence,
 - one research Commit,
-- optional Push,
+- one non-force Push when authorized,
 
-without manually copying full research documents into VS Code.
+without manual file copying or repeated Git approval.
