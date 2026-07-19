@@ -14,48 +14,45 @@ AETF v0.1.2
 
 Current Phase
 
-Post-RC-004 Operationalization
+Global Reasoning Closure Applied
 
 Current Status
 
-Approved proposal-stage Core integrated; research-closure automation prioritized
+Autonomous Closure completed; AER execution-integrity validation prioritized
 
 ---
 
 # 1. Current Objective
 
-현재 최우선 과제는 새로운 사고규칙을 추가하는 것이 아니라,
-연구 논의 종료 후 발생하는 반복적인 Handoff·Codex·검증·Commit 수작업을 줄이는 것이다.
+Autonomous Closure 운영경로는 완료되었다.
 
-목표 운영흐름은 다음과 같다.
+현재 최우선 과제는 `aer-reasoning` 실행환경이 후속 대화에서도
+현재 AER 추론상태를 유지하면서 필요한 경우 기존 프레임을 다시 열 수 있는지 검증하는 것이다.
 
-```text
-기존 연구기록 검토
-→ 오늘 저장할 논의내용 요약
-→ 인간의 단일 승인·수정·미반영 결정
-→ 내부 Handoff 생성
-→ Repository 반영
-→ 정합성·Diff 검증
-→ Commit
-→ 결과 보고
-```
+검증범위는 다음과 같다.
 
-인간은 무엇을 연구자산으로 저장할지만 승인한다.
-파일 위치, 문단 수정, 검증, Commit과 같은 실행과정은 LLM 기반 연구도구가 수행하는 것을 목표로 한다.
+- AER Session Binding
+- State Departure 방지
+- State Fixation 방지
+- 의사결정 경계의 Global Closure
+- Problem Definition 재개방
+- Stop Rule 작동
 
-이 목표상태는 아직 구현 완료된 현행 정책이 아니다.
-현재 Repository 운영은 기존 승인·Handoff·Git 안전규칙을 따른다.
+이 검증은 외부 스킬 구현을 완료된 것으로 간주하지 않으며,
+새로운 독립 Core 모듈이나 개별 오류별 Operator를 전제하지 않는다.
 
 ---
 
 # 2. Authoritative Research Core
 
-현행 AER 제안단계 Core는 다음 두 승인모델의 결합이다.
+현행 AER 연구 Core는 다음 세 승인모델의 결합이다.
 
 ```text
 DEC-001 Proposal-Stage Strategy Reasoning Model
 +
 DEC-002 RFP Bottleneck Reasoning Kernel
++
+DEC-003 Global Impact and Consistency Closure
 ```
 
 ## Base Model
@@ -78,6 +75,17 @@ DEC-002는 기존 모델 위에 다음을 추가한다.
 - Deep Design, Minimal Runtime
 - Validation Stop Rule
 
+## Global Closure
+
+DEC-003은 직접 검증을 통과한 해법을 Candidate Conclusion으로 유지하고,
+Whole-Process Impact와 Global Consistency를 통과한 뒤에만 Final Conclusion으로 확정한다.
+
+중대한 충돌이 발견되면 해법을 수정하거나 Problem Definition을 다시 열고 재검증한다.
+기존 확정결론은 보존하되 불변 제약으로 취급하지 않으며, 변경 시 이전 결론·변경근거·대체결론·하위영향을 기록한다.
+
+AER의 목표는 모든 도메인 지식을 보유하는 것이 아니라,
+도메인이 달라져도 동일한 사고규율을 유지하는 것이다.
+
 ---
 
 # 3. Current Approved Runtime
@@ -97,6 +105,12 @@ RFP 및 공식자료 구조화
 → Decision Strategy 선택
 → 요구사항·평가·기술·일정·비용·보안·법규 통합검사
 → 추가정보 발생 시 영향영역 국소 재분석
+→ Candidate Conclusion
+→ Whole-Process Impact 및 Global Consistency Closure
+→ 필요 시 해법 수정 또는 Problem Definition 재개방
+→ PASS
+→ Final Conclusion 및 실행
+→ 적용 후 검증
 ```
 
 Required Bottleneck Record:
@@ -122,6 +136,7 @@ Required Bottleneck Record:
 
 - `05_EVIDENCE/EV001_PROPOSAL_RFP_VALIDATION_CASES.md`
 - `05_EVIDENCE/EV002_RFP_BOTTLENECK_VALIDATION_CASES.md`
+- `05_EVIDENCE/EV003_AUTONOMOUS_CLOSURE_SELF_APPLICATION_CASE.md`
 
 ## Reasoning
 
@@ -132,6 +147,7 @@ Required Bottleneck Record:
 
 - `07_DECISIONS/DEC001_ADOPT_PROPOSAL_STAGE_REASONING_MODEL.md`
 - `07_DECISIONS/DEC002_ADOPT_RFP_BOTTLENECK_REASONING_KERNEL.md`
+- `07_DECISIONS/DEC003_ADOPT_GLOBAL_REASONING_CLOSURE.md`
 
 ## Open Problem
 
@@ -142,6 +158,7 @@ Required Bottleneck Record:
 
 - `09_RESEARCH_LOG/SESSION_003_PROPOSAL_STAGE_REASONING.md`
 - `09_RESEARCH_LOG/SESSION_004_RFP_BOTTLENECK_REASONING.md`
+- `09_RESEARCH_LOG/SESSION_005_GLOBAL_REASONING_CLOSURE.md`
 
 ---
 
@@ -268,39 +285,50 @@ These questions remain deferred unless repeated failure, a structurally differen
 
 진행순서는 다음으로 승인되었다.
 
-1. Research Closure Automation MVP
-2. `aer-reasoning` execution-integrity validation and minimum session binding if needed
-3. Proposal Production Layer minimum structure
-4. Dialectical Reasoning Pair manual prototype
+1. Autonomous Closure — Completed
+2. Global impact and consistency closure principle — Applied by this change
+3. `aer-reasoning` execution-integrity validation — Next active priority
+4. Structurally different domains에서의 일관된 추론 검증
+5. Minimal AER reasoning skeleton의 1차 안정성 판정
+6. Proposal Production Layer 개발
 
-## Priority 1: Research Closure Automation MVP
+## Completed: Autonomous Closure
 
-현재 최대 운영 Bottleneck을 해결한다.
-기존의 `RESEARCH_CLOSURE_POLICY`, `CHATGPT_CODEX_COMMAND_PROTOCOL`,
-`RESEARCH_HANDOFF_SPEC`, Codex Apply Prompt와 검증 스크립트를 재사용한다.
+Research Closure workload를 다음 운영모델로 전환하고 Windows PowerShell 5.1 종단 검증을 완료하였다.
 
-목표는 규약을 새로 증식시키는 것이 아니라 다음 수작업 연결을 제거하는 것이다.
+```text
+Chat Research and Semantic Approval
+→ One Approved Handoff Transfer
+→ Codex Autonomous Modify, Validate, Commit, and Push
+```
 
-- Handoff 수기 복사
-- 반복적인 적용 확인
-- 반복적인 Diff·Stage·Commit 확인
-- 저장과정 때문에 발생하는 연구종료의 심리적 저항
+이는 AER 자기적용 Evidence이며 모든 도메인에 대한 일반 검증은 아니다.
 
-## Priority 2: AER Execution Integrity
+## Applied: Global Impact and Consistency Closure
+
+Direct Validation을 통과한 해법은 Candidate Conclusion으로 유지한다.
+Whole-Process Impact와 기존 추론상태·상위목적에 대한 Global Consistency를 통과한 뒤 Final Conclusion으로 확정한다.
+
+## Next Active Priority: AER Execution Integrity
 
 `aer-reasoning` 호출 이후 후속 대화가 실제로 AER의 현재 추론상태를 유지하는지 검증한다.
-실패가 반복될 때에만 최소한의 세션 수준 바인딩을 검토한다.
-사례별 전략규칙은 추가하지 않는다.
 
-## Priority 3: Proposal Production Layer
+검증대상:
 
-Repository가 지정한 다음 공식 사고모델 연구계층이다.
-Decision Strategy를 연결된 Proposal Strategy, 실행과제, 요구사항·평가항목과 Proposal Blueprint로 전환하는 최소구조를 연구한다.
+- AER Session Binding
+- State Departure 방지
+- State Fixation 방지
+- 의사결정 경계의 Global Closure
+- Problem Definition 재개방
+- Stop Rule 작동
 
-## Priority 4: Dialectical Reasoning Pair
+## Subsequent Research
 
-Guilliman–Inquisitor 구조는 Repository Core가 아닌 실험 후보이다.
-독립 Agent 구축 전에 수동 프로토타입으로 실제 정확도·손실탐지·속도 개선을 검증한다.
+1. 구조적으로 다른 문제 도메인에서도 동일한 사고규율이 유지되는지 검증한다.
+2. Minimal AER reasoning skeleton의 1차 안정성을 판정한다.
+3. Decision Strategy를 Proposal Blueprint로 전환하는 Proposal Production Layer를 개발한다.
+
+Production Layer는 계속 downstream 범위로 유지한다.
 
 ---
 
@@ -331,5 +359,5 @@ AER v1.0은 저장소 구조와 운영규칙의 버전이다.
 
 AETF v0.1.2는 현재 연구내용의 진행상태를 나타낸다.
 
-현재 단계는 Core의 재설계가 아니라 운영 Bottleneck 해소와 실행 무결성 검증을 우선한다.
+현재 단계는 Global Closure 원칙 적용 이후 실행 무결성 검증을 우선한다.
 새로운 규칙, 상태값, 진단모듈은 반복적이고 구조적인 실패가 확인될 때에만 최소한으로 검토한다.

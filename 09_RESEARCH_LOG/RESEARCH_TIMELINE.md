@@ -1146,3 +1146,58 @@ Proposal Production Layer
 Repository Integration Status:
 
 Applied
+
+---
+
+# SESSION-005 Global Reasoning Closure
+
+Date:
+
+2026-07-20
+
+Closure Mode:
+
+Release
+
+## Research Topic
+
+AER를 보편 도메인 지식체계가 아니라 도메인 불변 사고규율로 정의하고,
+Direct Validation을 통과한 해법이 Whole-Process Impact와 Global Consistency를 통과한 뒤에만
+Final Conclusion이 되도록 하는 Global Closure 경계를 연구하였다.
+
+## Approved Core Conclusions
+
+- Direct Validation과 Global Closure의 분리
+- Candidate Conclusion과 Final Conclusion의 분리
+- 중대한 충돌 시 해법 수정 또는 Problem Definition 재개방
+- 기존 확정상태의 보존과 명시적 변경통제
+- 분석가치가 낮아질 때 종료하는 비례적 Stop Rule
+- 모든 도메인 지식이 아니라 모든 도메인에서 유지할 사고규율
+
+## Evidence
+
+Autonomous Closure 작업을 하나의 연결된 AER 자기적용 사례로 기록하였다.
+기술적 결함은 Evidence와 재현사실로 유지하고 Core 모델로 승격하지 않았다.
+
+## Research-Environment Requirements
+
+- AER Session Binding
+- State Departure와 State Fixation의 동시 통제
+- Active Reasoning State 유지
+- 의사결정 경계의 Global Closure
+- Candidate Conclusion이 확정상태를 덮어쓰기 전 PASS 요구
+
+## Limitations
+
+- 모든 도메인에 대한 검증을 주장하지 않는다.
+- AER Core의 최종 완성을 선언하지 않는다.
+- 외부 `aer-reasoning` 스킬이나 Production Layer를 구현하지 않는다.
+- AER 및 AETF 버전을 변경하지 않는다.
+
+## Next Research Priority
+
+`aer-reasoning` execution-integrity validation
+
+Repository Integration Status:
+
+Applied
