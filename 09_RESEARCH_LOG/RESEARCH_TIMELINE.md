@@ -1251,3 +1251,53 @@ Proposal Production Layer
 Repository Integration Status:
 
 Applied
+
+---
+
+# SESSION-007 Tiered Runtime and Production Layer Closure
+
+Date:
+
+2026-07-21
+
+Closure Mode:
+
+Release
+
+## Research Topic
+
+AER Core, B-type independent counterargument reinforcement, and the full C structure were comparatively classified by runtime role, and validation outputs were connected to Production Layer specificity.
+
+## Validation Records
+
+- BT-ERP-01: Closure Test
+- BT-SAF-02: Guided Discovery Test
+- BT-STM-03: Unprompted Discovery Test
+
+## Approved Conclusions
+
+- AER Core is the default runtime for general complex judgment.
+- B is a selective reinforcement runtime for high importance, uncertainty, or self-fixation risk.
+- C is a restricted high-precision validation mode for audit, dispute, and high-loss judgments.
+- Universal superiority of B over A and general conclusion improvement by C over B were not supported.
+- B's independent opposing-model and strategy-revision value was confirmed.
+- C's severity, disposition, and audit-traceability strengths were confirmed.
+- A general-runtime Adjudicator requirement was not supported.
+
+## Production Layer Principle
+
+Strategy specificity is the logical closure of selection rationale, operating mechanism, execution and accountability, evidence of success, and failure conditions with an alternative path.
+
+## Stop Rule
+
+Similar RFP repeat testing is closed and reopens only for an actual-application failure, a structurally different case, formal-only counterargument or automatic absorption by B, a FATAL or MATERIAL issue found only by C, or a disposition error in an audit or dispute environment.
+
+## Limitations
+
+- AER Core is unchanged.
+- B and C are not universal replacements for AER Core.
+- AER v1.0 and AETF v0.1.2 remain unchanged.
+
+Repository Integration Status:
+
+Applied

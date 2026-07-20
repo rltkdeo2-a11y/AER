@@ -4,3 +4,4 @@
 - `DEC-002` — Adopt the RFP Bottleneck Reasoning Kernel
 - `DEC-003` — Adopt Global Impact and Consistency Closure
 - `DEC-004` — Accept First-Stage Stability of the Minimal AER Reasoning Skeleton
+- `DEC-005` — Adopt Tiered Runtime Selection and Production-Layer Transformation
