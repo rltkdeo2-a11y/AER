@@ -6,7 +6,9 @@ Title: Accept First-Stage Stability of the Minimal AER Reasoning Skeleton
 
 Status: Approved
 
-Version: 1.0
+Version: 1.1
+
+Updated: 2026-07-23
 
 Decision Date: 2026-07-20
 
@@ -102,3 +104,27 @@ This Decision:
 Decision Status:
 
 Approved
+
+---
+
+# 6. Actual-Work Reopening Addendum
+
+The actual-work recurrence recorded in EV-004 satisfies this Decision's reopening condition for an unexplained failure in actual work.
+
+Execution-integrity research is therefore reopened with the following priority:
+
+```text
+Session Binding
+→ preservation of official confirmed state
+→ detection of State Departure
+→ prevention of duplicate rediscovery as new research
+→ explicit separation of Core sufficiency and execution compliance
+```
+
+This reopening:
+
+- does not withdraw first-stage synthetic stability within its tested boundary,
+- does not modify the AER Core reasoning sequence,
+- does not create a new Core operator,
+- does not change tiered runtime boundaries or existing stop rules, and
+- does not change AER v1.0 or AETF v0.1.2.

@@ -10,7 +10,9 @@ Date Closed: 2026-07-20
 
 Status: Closed
 
-Version: 1.0
+Version: 1.1
+
+Updated: 2026-07-23
 
 Research Domain: AER Synthetic Execution Integrity and Structural Diversity
 
@@ -107,3 +109,19 @@ The following remain deferred:
 Session Status:
 
 Closed
+
+---
+
+# 8. Actual-Work Recurrence Addendum
+
+During SESSION-008, an already approved page-allocation conclusion was re-derived and temporarily treated as new despite the session having started from an official restart packet.
+
+Approved classification:
+
+- Session Binding failure,
+- State Departure,
+- duplicate rediscovery and false-novelty risk,
+- actual-work Execution Integrity failure, and
+- not an AER Core defect.
+
+This incident reopens execution-integrity research under DEC-004. The next research priority is to specify and validate a minimal mechanism or operating protocol that binds the active session to official repository state, detects material state departure, and preserves the distinction between Core sufficiency and execution compliance.

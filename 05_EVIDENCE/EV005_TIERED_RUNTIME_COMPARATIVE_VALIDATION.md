@@ -6,11 +6,11 @@ Title: Tiered Runtime Comparative Validation
 
 Status: Approved
 
-Version: 1.0
+Version: 1.1
 
 Created: 2026-07-21
 
-Updated: 2026-07-21
+Updated: 2026-07-23
 
 Research Domain:
 
@@ -108,3 +108,38 @@ The findings do not modify the AER Core specification, implement an external run
 Evidence Status:
 
 Approved
+
+---
+
+# 7. Human Proposal Production Workflow Addendum
+
+Date:
+
+2026-07-23
+
+An actual RFP-based proposal-production study examined the relationship among the official proposal structure, physical page allocation, reusable working decks, proposal-manager convergence, design, traceability, and final submission readiness.
+
+The approved practical principles are:
+
+1. lock the official table of contents and submission constraints,
+2. give technical requirements the greatest feasible one-to-one physical-page visibility,
+3. protect business-understanding and strategy pages,
+4. compress integrable quality, management, and support content only when requirement visibility remains, and
+5. prepare the final cross-reference table near the end and use it as a complete requirement-coverage audit.
+
+Additional approved constraints:
+
+- reusable text, prior codes, guide text, examples, and placeholders may legitimately remain in a working deck as scaffolding,
+- working-deck residue is not a final-output error unless it survives into the submission artifact without an approved purpose,
+- the design team is an expression tool without independent authority to change approved content,
+- AER should provide review findings and improvement direction rather than fixed detailed rewrite instructions, and
+- a precise numerical formula for accepting residual defects is unnecessary; qualitative human disposition is sufficient.
+
+The following are deferred or non-core:
+
+- exact page-author action order,
+- exact proposal-manager review order,
+- A3 production or merge ownership and software, and
+- causal contribution of specific pages to proposal awards.
+
+This addendum supports downstream Production Layer design. It does not define a universal human authoring sequence, implement the Production Layer, modify AER Core, change tiered runtime boundaries or stop rules, or change AER v1.0 or AETF v0.1.2.

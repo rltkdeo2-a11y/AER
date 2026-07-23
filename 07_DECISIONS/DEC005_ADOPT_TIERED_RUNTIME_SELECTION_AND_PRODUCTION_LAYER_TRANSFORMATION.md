@@ -6,7 +6,9 @@ Title: Adopt Tiered Runtime Selection and Production-Layer Transformation
 
 Status: Approved
 
-Version: 1.0
+Version: 1.1
+
+Updated: 2026-07-23
 
 Decision Date: 2026-07-21
 
@@ -119,3 +121,25 @@ This Decision:
 Decision Status:
 
 Approved
+
+---
+
+# 7. Human Proposal Workflow Closure Addendum
+
+The human proposal-workflow understanding phase is closed as sufficient for downstream AER authoring and Production Layer design.
+
+The following Production Layer constraints are adopted:
+
+1. lock the official table of contents and submission constraints,
+2. maximize feasible one-to-one visibility for technical requirements,
+3. protect business-understanding and strategy pages,
+4. compress quality, management, and support content only when traceability remains,
+5. use the final cross-reference table as the last complete requirement-coverage audit,
+6. distinguish working-deck residue from final-submission errors,
+7. prohibit design from independently changing approved content,
+8. have AER provide review opinions rather than fixed detailed rewrite instructions, and
+9. use qualitative residual-defect disposition rather than a pseudo-precise formula.
+
+Further reconstruction of a universal human production sequence is stopped. Exact author and proposal-manager sequences, A3 ownership or software, and causal award contribution remain deferred or non-core.
+
+Future AER authoring work may define its own repeatable sequence. This addendum does not implement that sequence and does not alter the original Decision's runtime or Core boundaries.

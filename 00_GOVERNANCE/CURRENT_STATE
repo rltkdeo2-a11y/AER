@@ -2,7 +2,7 @@
 
 Last Updated
 
-2026-07-21
+2026-07-23
 
 Repository Version
 
@@ -14,11 +14,11 @@ AETF v0.1.2
 
 Current Phase
 
-Tiered Runtime Selection and Production-Layer Transformation Established
+Human Proposal Workflow Understanding Closed; Execution Integrity Reopened
 
 Current Status
 
-Comparative runtime validation closed; selective reinforcement and restricted high-precision mode established
+Production constraints established; Session Binding and State Departure remediation is the next priority
 
 ---
 
@@ -159,7 +159,8 @@ Required Bottleneck Record:
 ## Open Problem
 
 - `08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md`
-- Status: `Partially Resolved`
+- OP-001 Status: `Partially Resolved`
+- Next research priority: Session Binding and State Departure Execution Integrity
 
 ## Closed Research Sessions
 
@@ -168,6 +169,7 @@ Required Bottleneck Record:
 - `09_RESEARCH_LOG/SESSION_005_GLOBAL_REASONING_CLOSURE.md`
 - `09_RESEARCH_LOG/SESSION_006_AER_REASONING_STABILITY_VALIDATION.md`
 - `09_RESEARCH_LOG/SESSION_007_TIERED_RUNTIME_AND_PRODUCTION_LAYER_CLOSURE.md`
+- SESSION-008 Human Proposal Workflow and Execution Integrity Closure is recorded in `09_RESEARCH_LOG/RESEARCH_TIMELINE.md`; its findings are integrated into SESSION-006 and SESSION-007.
 
 ---
 
@@ -310,6 +312,29 @@ These questions remain deferred unless repeated failure, a structurally differen
 
 ---
 
+## Approved Proposal Production Constraints
+
+- Lock the official table of contents and submission constraints first.
+- Give technical requirements the greatest feasible one-to-one physical-page visibility.
+- Protect business-understanding and strategy pages.
+- Compress integrable quality, management, and support content only when requirement visibility remains.
+- Prepare the final cross-reference table near the end and use it as the final requirement-coverage audit.
+- Distinguish legitimate working-deck residue from final-submission errors.
+- Treat design as an expression tool without independent content-change authority.
+- Have AER provide review findings and improvement direction rather than fixed detailed rewrite instructions.
+- Use qualitative residual-defect disposition; no precise numerical acceptance formula is required.
+
+These constraints guide downstream Production Layer implementation. They do not modify AER Core or constitute a complete authoring implementation.
+
+Deferred or non-core:
+
+- exact page-author action sequence,
+- exact proposal-manager review sequence,
+- A3 production or merge ownership and software, and
+- causal contribution of specific pages to proposal awards.
+
+---
+
 # 9. Active Work Order
 
 진행순서는 다음으로 승인되었다.
@@ -321,7 +346,9 @@ These questions remain deferred unless repeated failure, a structurally differen
 5. Minimal AER reasoning skeleton의 1차 안정성 판정 — Completed
 6. Tiered Runtime comparative validation — Completed
 7. Proposal Production Layer transformation principle — Established
-8. Proposal Production Layer implementation — Downstream
+8. Human proposal-workflow understanding — Completed
+9. Session Binding and State Departure execution-integrity remediation — Next priority
+10. Proposal Production Layer implementation — Downstream after execution-integrity remediation
 
 ## Completed: Autonomous Closure
 
@@ -371,6 +398,18 @@ AER Core를 일반 복잡판단의 기본 Runtime으로 유지하고 B를 선택
 
 Production Layer 구현은 계속 downstream 범위로 유지한다.
 
+## Completed: Human Proposal Workflow Understanding
+
+The approved practical constraints for physical-page production, working-deck interpretation, design authority, final traceability, AER review scope, and residual-defect disposition are recorded in the 2026-07-23 addenda to EV-005, DEC-005, and SESSION-007.
+
+Further reconstruction of a universal human authoring or proposal-manager sequence is stopped. AER may define its own authoring procedure during downstream Production Layer implementation.
+
+## Reopened: Session Binding and State Departure Execution Integrity
+
+The 2026-07-23 addenda to EV-004, DEC-004, and SESSION-006 record an actual-work recurrence in which an approved conclusion was re-derived and temporarily treated as new despite an official restart packet.
+
+This is an Execution Integrity failure under the DEC-004 reopening condition. It is not an AER Core defect. Session Binding and State Departure remediation is the next research priority.
+
 ---
 
 # 10. Repository and External Runtime Boundary
@@ -400,5 +439,5 @@ AER v1.0은 저장소 구조와 운영규칙의 버전이다.
 
 AETF v0.1.2는 현재 연구내용의 진행상태를 나타낸다.
 
-현재 단계는 AER Core의 1차 안정화를 보존하면서 선택적 B 강화와 제한적 C 검증모드의 적용경계를 확정하고 Production Layer 변환원리를 수립한 상태다.
+현재 단계는 AER Core의 1차 안정화, 선택적 B 강화와 제한적 C 검증모드의 적용경계, Production Layer 변환원리와 인간 제안업무의 실무 제약을 보존하면서 Session Binding과 State Departure 실행 무결성 문제를 다음 우선 연구과제로 재개한 상태다.
 새로운 규칙, 상태값, 진단모듈은 승인된 재개방 조건에 해당하는 반복적이고 구조적인 실패가 확인될 때에만 최소한으로 검토한다.

@@ -6,11 +6,11 @@ Title: Synthetic Execution Integrity and Structural Diversity Validation
 
 Status: Approved
 
-Version: 1.0
+Version: 1.1
 
 Created: 2026-07-20
 
-Updated: 2026-07-20
+Updated: 2026-07-23
 
 Research Domain:
 
@@ -107,3 +107,37 @@ Domain substitution alone is not treated as structural diversity. First-stage st
 Evidence Status:
 
 Approved
+
+---
+
+# 7. Actual-Work Execution Failure Addendum
+
+Date:
+
+2026-07-23
+
+An actual RFP-based proposal-production research session began from a repository-derived restart packet that preserved the approved baseline and prior research state.
+
+During later analysis, an already established page-allocation conclusion was re-derived and temporarily treated as a new Production Layer finding. Human correction was required to restore the official classification.
+
+The incident is classified as follows:
+
+| Dimension | Classification |
+|---|---|
+| Failure type | Execution Integrity |
+| Primary mechanism | Session Binding failure |
+| State effect | State Departure and duplicate rediscovery |
+| Research impact | Excess analysis, false-novelty risk, delayed closure |
+| Core impact | None established |
+| Repository corruption | None |
+| Reopening basis | Actual-work failure under DEC-004 |
+
+The existing skeleton already requires session binding, preservation of confirmed state, prevention of state departure, and explicit reopening discipline. The failure occurred because those requirements were not reliably executed throughout a long-running research conversation.
+
+This addendum:
+
+- preserves the recurrence as official evidence,
+- does not invalidate the original synthetic validation,
+- does not classify the incident as a missing Core rule,
+- reopens execution-integrity research under the existing actual-work-failure condition, and
+- makes Session Binding and State Departure remediation the next research priority.

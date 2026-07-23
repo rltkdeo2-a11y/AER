@@ -10,7 +10,9 @@ Date Closed: 2026-07-21
 
 Status: Closed
 
-Version: 1.0
+Version: 1.1
+
+Updated: 2026-07-23
 
 Research Domain: AER Runtime Selection and Production-Layer Transformation
 
@@ -90,3 +92,25 @@ Similar RFP repeat testing is closed. It may reopen only for:
 Session Status:
 
 Closed
+
+---
+
+# 8. Human Proposal Workflow Closure Addendum
+
+SESSION-008 continued the downstream Production Layer study through an actual RFP-based proposal-production case.
+
+Approved conclusions:
+
+- official table of contents and submission constraints are locked first,
+- technical requirements receive the greatest feasible one-to-one page visibility,
+- business-understanding and strategy pages are protected,
+- integrable quality, management, and support content may be compressed while retaining traceability,
+- the final cross-reference table is the last complete requirement-coverage audit,
+- working-deck residue is distinguished from final-output error,
+- design has no independent content-change authority,
+- AER provides review findings rather than detailed fixed rewrite instructions, and
+- residual-defect acceptance uses qualitative human judgment rather than a precise formula.
+
+The human-workflow understanding phase is sufficient and closed. Exact author or proposal-manager sequences, A3 ownership or software, and causal award contribution are deferred or non-core.
+
+Production Layer implementation remains downstream. AER Core, tiered runtime boundaries, existing stop rules, AER v1.0, and AETF v0.1.2 remain unchanged.

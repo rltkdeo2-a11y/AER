@@ -1147,8 +1147,6 @@ Repository Integration Status:
 
 Applied
 
----
-
 # SESSION-005 Global Reasoning Closure
 
 Date:
@@ -1201,8 +1199,6 @@ Autonomous Closure 작업을 하나의 연결된 AER 자기적용 사례로 기�
 Repository Integration Status:
 
 Applied
-
----
 
 # SESSION-006 AER Reasoning Stability Validation
 
@@ -1296,6 +1292,56 @@ Similar RFP repeat testing is closed and reopens only for an actual-application 
 
 - AER Core is unchanged.
 - B and C are not universal replacements for AER Core.
+- AER v1.0 and AETF v0.1.2 remain unchanged.
+
+Repository Integration Status:
+
+Applied
+
+---
+
+# SESSION-008 Human Proposal Workflow and Execution Integrity Closure
+
+Date:
+
+2026-07-23
+
+Closure Mode:
+
+Release
+
+## Research Topic
+
+An actual RFP-based proposal-production study established the minimum human-workflow constraints needed for downstream AER authoring and preserved a recurring Session Binding and State Departure failure.
+
+## Approved Production Conclusions
+
+- Lock the official table of contents and submission constraints first.
+- Give technical requirements the greatest feasible one-to-one page visibility.
+- Protect business-understanding and strategy pages.
+- Compress integrable quality, management, and support content only when requirement visibility remains.
+- Prepare the final cross-reference table near the end and use it as a complete requirement-coverage audit.
+- Distinguish working-deck residue from final-submission errors.
+- Treat design as an expression tool without content-change authority.
+- Have AER provide review findings rather than fixed detailed rewrite instructions.
+- Use qualitative residual-defect disposition rather than a precise calculation formula.
+
+## Research Closure
+
+Human proposal-workflow understanding is sufficient and closed. Exact author and proposal-manager sequences, A3 ownership or software, and causal award contribution are deferred or non-core.
+
+## Execution Integrity Incident
+
+An already approved conclusion was re-derived and temporarily treated as new despite an official restart packet. The incident is preserved as actual-work Execution Integrity failure involving Session Binding and State Departure, not as an AER Core defect.
+
+## Next Research Priority
+
+`OP-002 Session Binding and State Departure Execution Integrity`
+
+## Preserved Boundaries
+
+- AER Core is unchanged.
+- Tiered runtime boundaries and existing stop rules are unchanged.
 - AER v1.0 and AETF v0.1.2 remain unchanged.
 
 Repository Integration Status:

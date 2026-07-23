@@ -3,5 +3,5 @@
 - `EV-001` — Proposal-Stage Reasoning Model RFP Validation Cases
 - `EV-002` — RFP Bottleneck Validation Cases
 - `EV-003` — Autonomous Closure Self-Application Case
-- `EV-004` — Synthetic Execution Integrity and Structural Diversity Validation
-- `EV-005` — Tiered Runtime Comparative Validation
+- `EV-004` — Synthetic Execution Integrity and Structural Diversity Validation; actual-work execution-failure addendum
+- `EV-005` — Tiered Runtime Comparative Validation; human proposal-production workflow addendum
