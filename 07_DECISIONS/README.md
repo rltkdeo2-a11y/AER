@@ -5,3 +5,4 @@
 - `DEC-003` — Adopt Global Impact and Consistency Closure
 - `DEC-004` — Accept First-Stage Stability of the Minimal AER Reasoning Skeleton; actual-work execution validation reopened
 - `DEC-005` — Adopt Tiered Runtime Selection and Production-Layer Transformation; human workflow understanding closed
+- `DEC-006` — Adopt a Cognitive-Load-Reduction Interaction Layer outside AER Core

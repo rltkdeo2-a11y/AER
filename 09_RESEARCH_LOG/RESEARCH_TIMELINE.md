@@ -1147,6 +1147,8 @@ Repository Integration Status:
 
 Applied
 
+---
+
 # SESSION-005 Global Reasoning Closure
 
 Date:
@@ -1347,3 +1349,147 @@ An already approved conclusion was re-derived and temporarily treated as new des
 Repository Integration Status:
 
 Applied
+
+---
+
+# SESSION-009 Codex Runtime Migration Pilot
+
+Date:
+
+2026-07-28
+
+Closure Mode:
+
+Release
+
+## Research Topic
+
+A guarded repository-bound Runtime pilot tested authority references, protected-state preservation, State Departure classification, and three representative AER cases without changing AER Core.
+
+## Validation Result
+
+- PILOT-01: 10/10 PASS after one in-scope Runtime vocabulary correction
+- PILOT-02: 10/10 PASS
+- PILOT-03: 10/10 PASS
+- Protected Core Guard: PASS
+
+## Approved Conclusion and Boundary
+
+The Runtime pilot supports repository-bound execution checks while leaving semantic departure and assumption-to-fact promotion as model-review responsibilities. It does not add a Core operator or change AER v1.0 or AETF v0.1.2.
+
+## Repository State Reconciliation
+
+The unsupported local Commit `40c3e638e59a5269c45fa2e4eac420b10d8b6edc` was removed by a mixed reset to `42890100895edc03f9bd10ce1a3ee13515360e20`. SHA-256 comparison confirmed that existing files were preserved.
+
+Repository Integration Status:
+
+Applied locally under Git Permission Apply Only; Stage, Commit, and Push not authorized
+
+---
+
+# SESSION-010 Repository-Bound Codex Runtime Binding Implementation
+
+Date:
+
+2026-07-28 to 2026-07-30 reconciliation
+
+Closure Mode:
+
+Release
+
+## Research Topic
+
+Repository-root instructions, project-local lifecycle hooks, and one Runtime script were applied to bind Codex tasks to the current AER authority state across supported lifecycle events.
+
+## Observed Lifecycle Result
+
+- `SessionStart`: actual activation observed
+- `UserPromptSubmit`: actual activation observed
+- `PreToolUse`: actual activation observed before approved edits
+- `SubagentStart`: diagnostic output validated; actual client-triggered activation remains pending
+
+## Approved Conclusion and Boundary
+
+Runtime binding is an execution-integrity control outside AER Core. Hooks are guardrails, not complete semantic validation or repository authority. The manual verification fallback remains required when activation is unavailable or uncertain.
+
+Repository Integration Status:
+
+Applied locally under Git Permission Apply Only; formal Execution Integrity closure pending
+
+---
+
+# SESSION-011 Production Layer Candidate Design and Hold Decision
+
+Date:
+
+2026-07-28 to 2026-07-30 reconciliation
+
+Closure Mode:
+
+Lightweight
+
+## Research Topic
+
+Human production of business-management and business-support proposal pages was recorded as a candidate workflow while preserving the limit that tacit expert judgment has not been transferred into a confirmed reusable rule.
+
+## Approved Hold Decision
+
+Production Layer research is on hold because tacit judgment is not sufficiently characterized, expert-only superiority remains plausible, large-scale RAG collection risks scope drift, and net practical value has not been demonstrated.
+
+## Preserved Boundaries
+
+- No AER Core change
+- No Production Policy confirmation
+- No RAG, retrieval, ranking, external-agent, or Production Layer implementation
+- No expert-productivity or proposal-success claim
+
+Repository Integration Status:
+
+Candidate design and Hold decision applied locally under Git Permission Apply Only
+
+---
+
+# SESSION-012 Cognitive-Load-Reduction Interaction Design
+
+Date:
+
+2026-07-30
+
+Closure Mode:
+
+Standard
+
+## Research Topic
+
+A safe non-Core interaction architecture was designed to reduce the amount of reasoning state presented to the human at one time while preserving the complete canonical AER state.
+
+## Approved Architecture
+
+```text
+AER Core canonical reasoning state
+→ Safety Mediation Layer
+→ Cognitive Projection Layer
+→ Human Interaction Layer
+→ explicit state classification and transition
+→ updated canonical state and audit trace
+```
+
+The architecture separates canonical, projection, and interaction state; provides Level 1–3 progressive disclosure and Delta, Conflict, and Hold views; and presents one blocking question at a time while preserving queued dependencies.
+
+## Safety Boundaries
+
+- Display limits are not reasoning limits.
+- Hidden information is not deleted.
+- Human acknowledgment is not evidence validation.
+- Selection is not automatic Final Conclusion.
+- Existing Link Governance, validation states, Bottleneck logic, tiered Runtime selection, and Global Consistency Closure remain unchanged.
+- No user interface, external agent, RAG system, or Proposal Production Layer is implemented.
+- Time saving and decision-quality improvement are not current acceptance metrics.
+
+## Deferred Validation
+
+Implementation code and repeated actual-work usability validation remain deferred. The separate `SubagentStart` lifecycle observation also remains pending.
+
+Repository Integration Status:
+
+DEC-006 and SESSION-012 applied locally under Git Permission Apply Only; Stage, Commit, and Push not authorized

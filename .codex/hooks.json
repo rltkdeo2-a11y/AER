@@ -1,0 +1,59 @@
+{
+  "description": "Bind every Codex session and turn to the current AER authority state.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File \"$(git rev-parse --show-toplevel)/scripts/invoke-aer-runtime.ps1\" -HookEvent SessionStart",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/invoke-aer-runtime.ps1') -HookEvent SessionStart\"",
+            "timeout": 30,
+            "statusMessage": "Binding Codex to AER authority"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File \"$(git rev-parse --show-toplevel)/scripts/invoke-aer-runtime.ps1\" -HookEvent SubagentStart",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/invoke-aer-runtime.ps1') -HookEvent SubagentStart\"",
+            "timeout": 30,
+            "statusMessage": "Binding subagent to AER authority"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File \"$(git rev-parse --show-toplevel)/scripts/invoke-aer-runtime.ps1\" -HookEvent UserPromptSubmit",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/invoke-aer-runtime.ps1') -HookEvent UserPromptSubmit\"",
+            "timeout": 30,
+            "statusMessage": "Checking AER reasoning state"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "^(apply_patch|Edit|Write)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -File \"$(git rev-parse --show-toplevel)/scripts/invoke-aer-runtime.ps1\" -HookEvent PreToolUse",
+            "commandWindows": "powershell.exe -NoProfile -ExecutionPolicy Bypass -Command \"& (Join-Path (git rev-parse --show-toplevel) 'scripts/invoke-aer-runtime.ps1') -HookEvent PreToolUse\"",
+            "timeout": 30,
+            "statusMessage": "Checking AER edit scope"
+          }
+        ]
+      }
+    ]
+  }
+}

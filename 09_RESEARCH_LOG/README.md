@@ -6,5 +6,9 @@
 - `SESSION-006` — AER Reasoning Stability Validation
 - `SESSION-007` — Tiered Runtime and Production Layer Closure
 - `SESSION-008` — Human Proposal Workflow and Execution Integrity Closure (`RESEARCH_TIMELINE.md`; findings integrated into SESSION-006 and SESSION-007)
+- `SESSION-009` — Codex Runtime Migration Pilot
+- `SESSION-010` — Repository-Bound Codex Runtime Binding Implementation
+- `SESSION-011` — Production Layer Candidate Design and Hold Decision
+- `SESSION-012` — Cognitive-Load-Reduction Interaction Design
 
 The authoritative chronology is maintained in `09_RESEARCH_LOG/RESEARCH_TIMELINE.md`.

@@ -55,6 +55,20 @@ Do not request separate Diff, Stage, Commit, or Push approval during a normal Au
 
 Autonomous Closure does not authorize work outside the approved scope.
 
+## 3A. Codex Runtime Binding
+
+Every new, resumed, cleared, or compacted Codex task in this repository must remain bound to the current AER authority state.
+
+- Treat the `SessionStart` AER binding packet as the task baseline. If project hooks are unavailable or untrusted, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-runtime.ps1 -HookEvent Verify` before substantive reasoning or editing.
+- Establish an Active Reasoning State containing the current objective, official baseline, confirmed conclusions, assumptions and unknowns, open question, mutable scope, stop or reopening conditions, and progress pointer.
+- Classify each material new prompt or evidence item as `CONTINUE`, `REVISE`, `REOPEN`, or `NEW_SCOPE` relative to that state.
+- Treat silent divergence from an approved conclusion, unmarked assumption-to-fact promotion, or duplicate rediscovery of approved knowledge as State Departure. Stop the affected conclusion, reload its authority source, state the conflict, and continue only from the corrected state.
+- Use AER Core for materially complex judgment. Add B-type reinforcement or C-type high-precision validation only under the triggers approved in DEC-005.
+- Runtime binding does not authorize repository application. Editing, validation, Stage, Commit, and Push remain governed by the approved Research Handoff, Closure Mode, Git Permission, protected-file rules, and explicit scope.
+- Project hooks are guardrails, not the sole enforcement boundary. If they are skipped, disabled, unsupported, or fail, follow the manual verification fallback and report the degraded binding mode.
+
+For the operational command sequence, see `00_GOVERNANCE/AER_CODEX_RUNTIME_MANUAL.md`.
+
 ## 4. Scope Control
 
 Before editing:

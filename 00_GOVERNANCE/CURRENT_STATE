@@ -2,7 +2,7 @@
 
 Last Updated
 
-2026-07-23
+2026-07-30
 
 Repository Version
 
@@ -14,11 +14,11 @@ AETF v0.1.2
 
 Current Phase
 
-Human Proposal Workflow Understanding Closed; Execution Integrity Reopened
+Execution Integrity Remediation Applied; Cognitive Interaction Architecture Adopted; Lifecycle Closure Pending; Production Layer Held
 
 Current Status
 
-Production constraints established; Session Binding and State Departure remediation is the next priority
+Repository-bound Session Binding is active for observed SessionStart, UserPromptSubmit, and PreToolUse paths; DEC-006 cognitive-load-reduction interaction architecture is adopted outside AER Core; SubagentStart validation and formal Execution Integrity closure remain the current priority; Production Layer candidate design is on hold
 
 ---
 
@@ -155,12 +155,13 @@ Required Bottleneck Record:
 - `07_DECISIONS/DEC003_ADOPT_GLOBAL_REASONING_CLOSURE.md`
 - `07_DECISIONS/DEC004_ACCEPT_FIRST_STAGE_STABILITY_OF_MINIMAL_AER_REASONING_SKELETON.md`
 - `07_DECISIONS/DEC005_ADOPT_TIERED_RUNTIME_SELECTION_AND_PRODUCTION_LAYER_TRANSFORMATION.md`
+- `07_DECISIONS/DEC006_ADOPT_COGNITIVE_LOAD_REDUCTION_INTERACTION_LAYER.md`
 
 ## Open Problem
 
 - `08_OPEN_PROBLEMS/OP001_PM_Linkage_Criteria.md`
 - OP-001 Status: `Partially Resolved`
-- Next research priority: Session Binding and State Departure Execution Integrity
+- Next research priority: SubagentStart lifecycle validation and formal Execution Integrity closure; Production Layer remains on hold
 
 ## Closed Research Sessions
 
@@ -170,6 +171,13 @@ Required Bottleneck Record:
 - `09_RESEARCH_LOG/SESSION_006_AER_REASONING_STABILITY_VALIDATION.md`
 - `09_RESEARCH_LOG/SESSION_007_TIERED_RUNTIME_AND_PRODUCTION_LAYER_CLOSURE.md`
 - SESSION-008 Human Proposal Workflow and Execution Integrity Closure is recorded in `09_RESEARCH_LOG/RESEARCH_TIMELINE.md`; its findings are integrated into SESSION-006 and SESSION-007.
+
+## Applied Runtime, Interaction, and Held Research Sessions
+
+- `09_RESEARCH_LOG/SESSION_009_CODEX_RUNTIME_MIGRATION_PILOT.md` — Runtime pilot retained under Apply Only; prior unauthorized local Commit removed without file deletion.
+- `09_RESEARCH_LOG/SESSION_010_REPOSITORY_BOUND_CODEX_RUNTIME_BINDING.md` — Runtime binding applied locally; SessionStart, UserPromptSubmit, and PreToolUse activation observed; SubagentStart pending.
+- `09_RESEARCH_LOG/SESSION_011_PRODUCTION_LAYER_CANDIDATE_DESIGN_HOLD.md` — candidate Production Layer design and explicit Hold decision retained; no Production Layer implementation is authorized.
+- `09_RESEARCH_LOG/SESSION_012_COGNITIVE_LOAD_REDUCTION_INTERACTION_DESIGN.md` — DEC-006 interaction architecture recorded; implementation code and actual-work usability validation deferred.
 
 ---
 
@@ -186,6 +194,13 @@ RC-004 Integration:
 - Commit: `4fbcb7f`
 - Title: `research: add AER RFP bottleneck reasoning kernel`
 - Status: Applied and pushed to `origin/main`
+
+2026-07-30 Local Apply Only State Reconciliation:
+
+- The unsupported local Commit `40c3e638e59a5269c45fa2e4eac420b10d8b6edc` was removed by a mixed reset to `42890100895edc03f9bd10ce1a3ee13515360e20`, which matched `origin/main` at the time of reconciliation.
+- SHA-256 comparison confirmed that all nine pre-existing Runtime, governance, and Session working files were preserved unchanged across the reset.
+- The approval's duplicated `Apply Only` label is normalized under the Research Closure Policy to `Closure Mode: Release` and `Git Permission: Apply Only`; this changes neither the approved file scope nor the prohibition on Commit and Push.
+- Runtime and Session reconciliation remains in the working tree under Apply Only authority. Stage, Commit, and Push are not authorized.
 
 Repository Structural Version:
 
@@ -347,8 +362,9 @@ Deferred or non-core:
 6. Tiered Runtime comparative validation — Completed
 7. Proposal Production Layer transformation principle — Established
 8. Human proposal-workflow understanding — Completed
-9. Session Binding and State Departure execution-integrity remediation — Next priority
-10. Proposal Production Layer implementation — Downstream after execution-integrity remediation
+9. Session Binding and State Departure execution-integrity remediation — Runtime applied; SessionStart, UserPromptSubmit, and PreToolUse observed; SubagentStart and formal closure pending
+10. Cognitive-load-reduction interaction architecture — Adopted outside AER Core; implementation code and actual-work usability validation deferred
+11. Proposal Production Layer implementation — On hold under SESSION-011 reopening conditions
 
 ## Completed: Autonomous Closure
 
@@ -396,19 +412,44 @@ AER Core를 일반 복잡판단의 기본 Runtime으로 유지하고 B를 선택
 - 재개방 조건 → 의사결정 게이트
 - 잔여위험 → 위험등록부·검증지표
 
-Production Layer 구현은 계속 downstream 범위로 유지한다.
+Production Layer 구현은 downstream 범위로 유지하되, SESSION-011의 재개방 조건이 충족될 때까지 Hold한다.
 
 ## Completed: Human Proposal Workflow Understanding
 
 The approved practical constraints for physical-page production, working-deck interpretation, design authority, final traceability, AER review scope, and residual-defect disposition are recorded in the 2026-07-23 addenda to EV-005, DEC-005, and SESSION-007.
 
-Further reconstruction of a universal human authoring or proposal-manager sequence is stopped. AER may define its own authoring procedure during downstream Production Layer implementation.
+Further reconstruction of a universal human authoring or proposal-manager sequence is stopped. AER may define its own authoring procedure only after the SESSION-011 reopening conditions are satisfied and a separately approved downstream Production Layer implementation begins.
 
-## Reopened: Session Binding and State Departure Execution Integrity
+## Remediation Applied; Closure Pending: Session Binding and State Departure Execution Integrity
 
 The 2026-07-23 addenda to EV-004, DEC-004, and SESSION-006 record an actual-work recurrence in which an approved conclusion was re-derived and temporarily treated as new despite an official restart packet.
 
-This is an Execution Integrity failure under the DEC-004 reopening condition. It is not an AER Core defect. Session Binding and State Departure remediation is the next research priority.
+This is an Execution Integrity failure under the DEC-004 reopening condition. It is not an AER Core defect.
+
+SESSION-009 records the guarded Runtime pilot. SESSION-010 applies repository-bound Runtime binding without changing AER Core. Actual `SessionStart`, `UserPromptSubmit`, and `PreToolUse` activation has been observed. Actual client-triggered `SubagentStart` activation remains pending independent observation, so implementation existence and diagnostic success do not establish complete lifecycle closure.
+
+The current priority is the smallest remaining lifecycle validation and a separately approved formal Execution Integrity closure. Production Layer work remains on hold while this state is open.
+
+## Adopted: Cognitive-Load-Reduction Interaction Architecture
+
+DEC-006 and SESSION-012 adopt a non-Core interaction architecture that preserves the complete canonical reasoning state while reducing the amount presented to the human at one time.
+
+The approved structure is:
+
+```text
+AER Core canonical reasoning state
+→ Safety Mediation Layer
+→ Cognitive Projection Layer
+→ Human Interaction Layer
+→ explicit CONTINUE / REVISE / REOPEN / NEW_SCOPE transition
+→ updated canonical state and audit trace
+```
+
+The interaction architecture separates canonical, projection, and interaction state; uses Level 1–3 progressive disclosure; provides Delta, Conflict, and Hold views; and presents one blocking question at a time while preserving queued dependencies.
+
+Display limits are not reasoning limits. Hidden information is not deleted. Human acknowledgment is not evidence validation, and selection is not automatic Final Conclusion. Existing Link Governance, use authority, validation states, Bottleneck logic, tiered Runtime selection, and Global Impact and Consistency Closure remain unchanged.
+
+This adoption does not implement a user interface, external agent, RAG system, or Proposal Production Layer. Time saving and decision-quality improvement are not current acceptance metrics. Implementation code and repeated actual-work usability validation remain deferred.
 
 ---
 
@@ -439,5 +480,5 @@ AER v1.0은 저장소 구조와 운영규칙의 버전이다.
 
 AETF v0.1.2는 현재 연구내용의 진행상태를 나타낸다.
 
-현재 단계는 AER Core의 1차 안정화, 선택적 B 강화와 제한적 C 검증모드의 적용경계, Production Layer 변환원리와 인간 제안업무의 실무 제약을 보존하면서 Session Binding과 State Departure 실행 무결성 문제를 다음 우선 연구과제로 재개한 상태다.
+현재 단계는 AER Core의 1차 안정화, 선택적 B 강화와 제한적 C 검증모드의 적용경계, Production Layer 변환원리와 인간 제안업무의 실무 제약을 보존하면서 Session Binding Runtime과 비-Core 인지부담 저감 상호작용 구조를 적용한 상태다. SessionStart, UserPromptSubmit, PreToolUse는 실제 활성화가 관찰되었으나 SubagentStart의 실제 클라이언트 활성화 및 형식적 종결은 남아 있다. 인지부담 저감 구조의 실행 코드와 실제 업무 사용성 검증은 보류하며, Production Layer 후보 설계는 SESSION-011의 재개방 조건이 충족될 때까지 Hold한다.
 새로운 규칙, 상태값, 진단모듈은 승인된 재개방 조건에 해당하는 반복적이고 구조적인 실패가 확인될 때에만 최소한으로 검토한다.
