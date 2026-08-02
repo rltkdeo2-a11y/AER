@@ -1,0 +1,57 @@
+{
+  "contract_id": "AER-PROPOSAL-TOC-CONTRACT-002",
+  "contract_version": "0.2.0",
+  "status": "VALIDATED_CASE2",
+  "supersedes_for_new_cases": "0.1.0",
+  "preserves": "Version 0.1.0 remains frozen as the Case 1 exact-page contract.",
+  "canonical_state": "normalized_json",
+  "human_surface": "xlsx",
+  "extension_summary": [
+    "separates an official RFP page constraint from a later planning target",
+    "represents an RFP with no total-page limit without inventing one",
+    "makes the A3 counting multiplier nullable when the RFP does not define it",
+    "records conflicts among the official TOC, detailed writing guide, requirements, and evaluation table",
+    "keeps generation available while page allocation and RPA release remain HOLD"
+  ],
+  "generation_contract": {
+    "required_inputs": ["source_registry", "analyzed_requirements", "official_toc", "human_inputs_or_explicit_omission"],
+    "page_modes": {
+      "RFP_EXACT": "rfp_target_pages is required and exact allocation is enforced",
+      "RFP_UNSPECIFIED": "rfp_target_pages is null and generation may proceed without page allocation"
+    },
+    "operations": [
+      "assign stable identifiers",
+      "preserve the official RFP hierarchy",
+      "place detailed obligations below the applicable official parent",
+      "assign exactly one MAIN mapping per proposal-body obligation",
+      "record source conflicts without silently changing the official hierarchy",
+      "emit workbook and RPA specification in HOLD when a required planning target is absent"
+    ]
+  },
+  "reimport_contract": {
+    "identity_key": "node_id",
+    "editable_fields": ["title", "requirement_ids", "a3_checked", "physical_sheets", "owner_no_llm", "pm_note", "human_check"],
+    "ignored_for_llm_impact": ["owner_no_llm"],
+    "new_row_rule": "Unknown or blank node_id is NEW and receives a provisional stable identifier.",
+    "automatic_action": "REPORT_ONLY",
+    "regeneration_rule": "No TOC or RPA specification is regenerated without an explicit human command."
+  },
+  "invariants": {
+    "official_structure": "An RFP-fixed parent and level cannot change; title may change.",
+    "level_limit": "Levels 1 through 3 are routine; level 4 requires review.",
+    "main_rule": "Each non-control atomic obligation has exactly one MAIN mapping.",
+    "consortium_rule": "An RFP prohibition overrides a consortium declaration and produces HOLD.",
+    "unspecified_page_rule": "RFP_UNSPECIFIED never creates an inferred official target.",
+    "planning_completion_rule": "For RFP_UNSPECIFIED, allocation can complete only after an explicit planning target exists, assigned pages equal it, both checks pass, and conflicts are cleared.",
+    "a3_rule": "A3 changes are always detected; counted-page multiplication occurs only when a case-specific multiplier is authoritative.",
+    "release_rule": "RPA release always requires an explicit human release command."
+  },
+  "change_precedence": ["OFFICIAL_STRUCTURE_BLOCK", "LEVEL_CHANGED", "REPARENTED", "NEW", "DELETED", "FORMAT_CHANGED", "PAGE_CHANGED", "REQUIREMENT_CHANGED", "RENAMED", "UNCHANGED"],
+  "impact_classes": {
+    "LOCAL": ["owner-only change", "note-only change"],
+    "REVIEW": ["title change", "page-format change", "physical-page change", "requirement-placement change", "source conflict"],
+    "STRUCTURAL": ["new node", "deleted node", "parent change", "level change", "proposal-mode change"]
+  },
+  "non_goals": ["PPT generation", "automatic RPA release", "automatic regeneration after every external input", "universal generalization beyond observed cases"],
+  "reopening_conditions": ["Case 3 cannot be represented without semantic loss", "a planning target is mistaken for an RFP constraint", "an undefined A3 multiplier is silently treated as two", "a source conflict is lost during generation or re-import"]
+}

@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aer.local/schemas/proposal-toc-state-v0.2.schema.json",
+  "title": "AER Proposal TOC State v0.2",
+  "type": "object",
+  "required": ["contract_version", "case_id", "fixture_scope", "source_registry", "human_inputs", "rfp_constraints", "source_conflicts", "toc_nodes", "requirements", "mappings", "baseline_snapshot", "approval_state", "rpa_release"],
+  "properties": {
+    "contract_version": {"const": "0.2.0"},
+    "case_id": {"type": "string", "minLength": 1},
+    "fixture_scope": {"enum": ["full_state", "representative_slice"]},
+    "evidence_metrics": {"type": "object"},
+    "source_registry": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "human_inputs": {
+      "type": "object",
+      "required": ["proposal_mode", "proposal_mode_basis", "participant_count", "related_performance_provided", "planning_target_pages"],
+      "properties": {
+        "proposal_mode": {"enum": ["SOLO", "CONSORTIUM", "UNSPECIFIED"]},
+        "proposal_mode_basis": {"enum": ["HUMAN_INPUT", "RFP_REQUIRED", "UNSPECIFIED"]},
+        "participant_count": {"type": ["integer", "null"], "minimum": 1},
+        "related_performance_provided": {"type": "boolean"},
+        "planning_target_pages": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "rfp_constraints": {"$ref": "#/$defs/rfpConstraints"},
+    "source_conflicts": {"type": "array", "items": {"$ref": "#/$defs/sourceConflict"}},
+    "toc_nodes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/tocNode"}},
+    "requirements": {"type": "array", "items": {"$ref": "#/$defs/requirement"}},
+    "mappings": {"type": "array", "items": {"$ref": "#/$defs/mapping"}},
+    "baseline_snapshot": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "approval_state": {"type": "object", "required": ["llm_check", "human_check", "allocation_status", "blocking_conflicts"]},
+    "rpa_release": {"type": "object", "required": ["state", "explicit_release_required", "released_by", "released_at", "page_specs"]}
+  },
+  "$defs": {
+    "rfpConstraints": {
+      "type": "object",
+      "required": ["page_constraint_mode", "rfp_target_pages", "planning_target_pages", "allocation_basis", "excluded_front_matter", "a3_count_multiplier", "allowed_page_formats", "consortium_policy", "official_toc_node_ids"],
+      "properties": {
+        "page_constraint_mode": {"enum": ["RFP_EXACT", "RFP_UNSPECIFIED"]},
+        "rfp_target_pages": {"type": ["integer", "null"], "minimum": 1},
+        "planning_target_pages": {"type": ["integer", "null"], "minimum": 1},
+        "allocation_basis": {"enum": ["RFP", "HUMAN", "LLM_DRAFT", "UNSET"]},
+        "excluded_front_matter": {"type": "array", "items": {"type": "string"}},
+        "a3_count_multiplier": {"type": ["integer", "null"], "minimum": 1},
+        "allowed_page_formats": {"type": "array", "items": {"enum": ["A4_PORTRAIT", "A4_LANDSCAPE", "A3", "OTHER_REVIEW"]}},
+        "consortium_policy": {"enum": ["ALLOWED", "PROHIBITED", "CONDITIONAL", "REVIEW_REQUIRED"]},
+        "official_toc_node_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "sourceConflict": {"type": "object", "required": ["conflict_id", "type", "summary", "resolution", "status"]},
+    "tocNode": {"type": "object", "required": ["node_id", "parent_id", "level", "title", "origin", "official_fixed", "leaf", "requirement_ids", "a3_checked", "physical_sheets", "counted_pages", "owner_no_llm", "pm_note", "human_check"]},
+    "requirement": {"type": "object", "required": ["requirement_id", "obligation_id", "name", "summary", "destination", "evidence"]},
+    "mapping": {"type": "object", "required": ["map_id", "obligation_id", "target_node_id", "relation", "evidence", "validation_status"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"rfp_constraints": {"properties": {"page_constraint_mode": {"const": "RFP_EXACT"}}}}},
+      "then": {"properties": {"rfp_constraints": {"properties": {"rfp_target_pages": {"type": "integer"}}}}}
+    },
+    {
+      "if": {"properties": {"rfp_constraints": {"properties": {"page_constraint_mode": {"const": "RFP_UNSPECIFIED"}}}}},
+      "then": {"properties": {"rfp_constraints": {"properties": {"rfp_target_pages": {"type": "null"}}}}}
+    }
+  ]
+}

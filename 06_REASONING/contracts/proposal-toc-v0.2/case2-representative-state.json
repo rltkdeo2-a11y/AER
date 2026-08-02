@@ -1,0 +1,34 @@
+{
+  "contract_version": "0.2.0",
+  "case_id": "CASE-002-FSS-AX-STRATEGY",
+  "fixture_scope": "representative_slice",
+  "evidence_metrics": {"toc_rows": 65, "leaf_rows": 43, "mapping_rows": 43, "requirement_rows": 43},
+  "source_registry": [{"source_id": "SRC-C2-RFP-001", "source_type": "RFP", "name": "FSS AX Strategy Consulting RFP", "authority": "OFFICIAL", "status": "ACTIVE"}],
+  "human_inputs": {"proposal_mode": "SOLO", "proposal_mode_basis": "RFP_REQUIRED", "participant_count": 1, "related_performance_provided": false, "planning_target_pages": null},
+  "rfp_constraints": {"page_constraint_mode": "RFP_UNSPECIFIED", "rfp_target_pages": null, "planning_target_pages": null, "allocation_basis": "UNSET", "excluded_front_matter": [], "a3_count_multiplier": null, "allowed_page_formats": ["A4_PORTRAIT", "A4_LANDSCAPE", "OTHER_REVIEW"], "consortium_policy": "PROHIBITED", "official_toc_node_ids": ["TOC-III", "TOC-III-3"]},
+  "source_conflicts": [
+    {"conflict_id": "C2-CONFLICT-001", "type": "TOC_DETAIL_OMISSION", "summary": "CSR-004 is absent from the official TOC but present in requirements, detailed guidance, and evaluation.", "resolution": "Place it below official node TOC-III-3.", "status": "REVIEW"}
+  ],
+  "toc_nodes": [
+    {"node_id": "TOC-III", "parent_id": null, "level": 1, "title": "Consulting Delivery", "origin": "RFP_FIXED", "official_fixed": true, "leaf": false, "requirement_ids": [], "a3_checked": null, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-III-3", "parent_id": "TOC-III", "level": 2, "title": "AX Roadmap", "origin": "RFP_FIXED", "official_fixed": true, "leaf": false, "requirement_ids": ["CSR-003", "CSR-004"], "a3_checked": null, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-III-3-01", "parent_id": "TOC-III-3", "level": 3, "title": "Roadmap prioritization", "origin": "LLM_PROPOSED", "official_fixed": false, "leaf": true, "requirement_ids": ["CSR-003"], "a3_checked": false, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-III-3-02", "parent_id": "TOC-III-3", "level": 3, "title": "Detailed execution plan", "origin": "LLM_PROPOSED", "official_fixed": false, "leaf": true, "requirement_ids": ["CSR-004"], "a3_checked": false, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"}
+  ],
+  "requirements": [
+    {"requirement_id": "CSR-003", "obligation_id": "OBL-C2-001", "name": "AX Roadmap", "summary": "Prioritize tasks and establish a phased roadmap.", "destination": "PROPOSAL_BODY", "evidence": "RFP p.10"},
+    {"requirement_id": "CSR-004", "obligation_id": "OBL-C2-002", "name": "AX Execution Plan", "summary": "Provide task-level schedule, budget, technology, risk, roles, and effects.", "destination": "PROPOSAL_BODY", "evidence": "RFP p.10"}
+  ],
+  "mappings": [
+    {"map_id": "MAP-C2-001", "obligation_id": "OBL-C2-001", "target_node_id": "TOC-III-3-01", "relation": "MAIN", "evidence": "Official roadmap parent", "validation_status": "DRAFT"},
+    {"map_id": "MAP-C2-002", "obligation_id": "OBL-C2-002", "target_node_id": "TOC-III-3-02", "relation": "MAIN", "evidence": "Execution-plan detail under official roadmap parent", "validation_status": "DRAFT"}
+  ],
+  "baseline_snapshot": [
+    {"node_id": "TOC-III", "parent_id": null, "level": 1, "title": "Consulting Delivery", "official_fixed": true, "a3_checked": null, "physical_sheets": null, "requirement_ids": []},
+    {"node_id": "TOC-III-3", "parent_id": "TOC-III", "level": 2, "title": "AX Roadmap", "official_fixed": true, "a3_checked": null, "physical_sheets": null, "requirement_ids": ["CSR-003", "CSR-004"]},
+    {"node_id": "TOC-III-3-01", "parent_id": "TOC-III-3", "level": 3, "title": "Roadmap prioritization", "official_fixed": false, "a3_checked": false, "physical_sheets": null, "requirement_ids": ["CSR-003"]},
+    {"node_id": "TOC-III-3-02", "parent_id": "TOC-III-3", "level": 3, "title": "Detailed execution plan", "official_fixed": false, "a3_checked": false, "physical_sheets": null, "requirement_ids": ["CSR-004"]}
+  ],
+  "approval_state": {"llm_check": "REVIEW", "human_check": "REVIEW", "allocation_status": "HOLD", "blocking_conflicts": ["PLANNING_TARGET_UNSET", "TOC_DETAIL_OMISSION_REQUIRES_PM_REVIEW"]},
+  "rpa_release": {"state": "HOLD", "explicit_release_required": true, "released_by": null, "released_at": null, "page_specs": []}
+}
