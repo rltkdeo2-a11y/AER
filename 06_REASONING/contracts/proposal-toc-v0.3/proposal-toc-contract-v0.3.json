@@ -1,0 +1,61 @@
+{
+  "contract_id": "AER-PROPOSAL-TOC-CONTRACT-003",
+  "contract_version": "0.3.0",
+  "status": "VALIDATED_CASE3",
+  "supersedes_for_new_cases": "0.2.0",
+  "preserves": "Versions 0.1.0 and 0.2.0 remain frozen for their observed cases.",
+  "canonical_state": "normalized_json",
+  "human_surface": "xlsx",
+  "extension_summary": [
+    "represents multiple independently counted page-budget scopes",
+    "records cross-document delegation and domain-specific source authority",
+    "represents missing delegated sources without silently inferring their rules",
+    "applies volume-specific content and page-format policies",
+    "keeps draft TOC generation available while consortium and RPA gates remain HOLD"
+  ],
+  "generation_contract": {
+    "required_inputs": ["source_registry", "source_relationships", "source_authority_matrix", "analyzed_requirements", "official_toc", "page_budgets", "human_inputs_or_explicit_omission"],
+    "page_budget_modes": {
+      "RFP_EXACT": "target_pages is required and the counted leaves in this budget must equal it",
+      "RFP_UNLIMITED": "target_pages is null and the scope is not part of exact-page completion",
+      "RFP_UNSPECIFIED": "target_pages is null and allocation remains HOLD until an explicit planning target is supplied"
+    },
+    "operations": [
+      "assign stable identifiers",
+      "preserve every official RFP parent and level",
+      "apply source authority by domain",
+      "place delegated technical obligations below the applicable official parent",
+      "assign exactly one MAIN mapping per proposal-body obligation",
+      "calculate each page budget from leaf rows only",
+      "emit workbook and RPA specification in HOLD when a delegated source or human gate is unresolved"
+    ]
+  },
+  "reimport_contract": {
+    "identity_key": "node_id",
+    "editable_fields": ["title", "requirement_ids", "a3_checked", "physical_sheets", "owner_no_llm", "pm_note", "human_check"],
+    "ignored_for_llm_impact": ["owner_no_llm"],
+    "new_row_rule": "Unknown or blank node_id is NEW and receives a provisional stable identifier.",
+    "automatic_action": "REPORT_ONLY",
+    "regeneration_rule": "No TOC, page budget, or RPA specification is regenerated without an explicit human command."
+  },
+  "invariants": {
+    "official_structure": "An RFP-fixed parent and level cannot change; title may change.",
+    "level_limit": "Levels 1 through 3 are routine; level 4 requires review.",
+    "main_rule": "Each non-control atomic obligation has exactly one MAIN mapping.",
+    "authority_rule": "Source authority is domain-specific and delegated sources are not replaced by inference.",
+    "page_budget_rule": "Each counted leaf belongs to one page budget; completion is evaluated independently per budget.",
+    "unlimited_rule": "RFP_UNLIMITED has no target and cannot make an exact budget pass or fail.",
+    "format_rule": "A3 changes are always detected; a prohibited format produces BLOCK rather than a count multiplier.",
+    "content_policy_rule": "A scoped forbidden-content policy must be reviewed before release.",
+    "release_rule": "RPA release always requires an explicit human release command."
+  },
+  "change_precedence": ["OFFICIAL_STRUCTURE_BLOCK", "LEVEL_CHANGED", "REPARENTED", "NEW", "DELETED", "FORMAT_CHANGED", "PAGE_CHANGED", "REQUIREMENT_CHANGED", "RENAMED", "UNCHANGED"],
+  "impact_classes": {
+    "LOCAL": ["owner-only change", "note-only change"],
+    "REVIEW": ["title change", "physical-page change", "requirement-placement change", "source conflict", "content-policy review"],
+    "BLOCK": ["prohibited page format", "official structure change", "missing authoritative source required for release"],
+    "STRUCTURAL": ["new node", "deleted node", "parent change", "level change", "proposal-mode change"]
+  },
+  "non_goals": ["PPT generation", "automatic RPA release", "automatic regeneration after every external input", "general exception engine", "universal generalization beyond observed cases"],
+  "reopening_conditions": ["a later case cannot be represented without semantic loss", "one leaf must belong to multiple counted budgets", "source authority cannot be expressed by domain and delegation", "a content policy cannot be scoped to the affected volume or document"]
+}

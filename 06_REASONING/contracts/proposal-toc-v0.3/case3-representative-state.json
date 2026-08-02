@@ -1,0 +1,59 @@
+{
+  "contract_version": "0.3.0",
+  "case_id": "CASE-003-INCHEON-DATA-PLATFORM",
+  "fixture_scope": "representative_slice",
+  "evidence_metrics": {"source_documents_supplied": 2, "requirement_groups_observed": 110, "official_fixed_nodes": 45, "full_toc_rows": 179, "full_leaf_rows": 134, "full_atomic_obligations": 297, "full_mapping_rows": 297},
+  "source_registry": [
+    {"source_id": "SRC-C3-RFP-001", "source_type": "RFP", "name": "Incheon Airport Data Platform RFP", "authority": "OFFICIAL", "status": "ACTIVE"},
+    {"source_id": "SRC-C3-TASK-001", "source_type": "TASK_SPEC", "name": "Incheon Airport Data Platform Task Specification", "authority": "OFFICIAL_DELEGATED", "status": "ACTIVE"},
+    {"source_id": "SRC-C3-NOTICE-001", "source_type": "BID_NOTICE", "name": "Bid notice referenced by RFP", "authority": "OFFICIAL_EXTERNAL", "status": "MISSING"}
+  ],
+  "source_relationships": [
+    {"from_source_id": "SRC-C3-RFP-001", "to_source_id": "SRC-C3-TASK-001", "relation": "DELEGATES_REQUIREMENT_DETAIL"},
+    {"from_source_id": "SRC-C3-RFP-001", "to_source_id": "SRC-C3-NOTICE-001", "relation": "DELEGATES_CONSORTIUM_POLICY"}
+  ],
+  "source_authority_matrix": [
+    {"domain": "TOC_PAGE_FORMAT_EVALUATION", "source_id": "SRC-C3-RFP-001", "priority": 1},
+    {"domain": "TECHNICAL_REQUIREMENT_DETAIL", "source_id": "SRC-C3-TASK-001", "priority": 1},
+    {"domain": "CONSORTIUM_POLICY", "source_id": "SRC-C3-NOTICE-001", "priority": 1}
+  ],
+  "human_inputs": {"proposal_mode": "UNSPECIFIED", "proposal_mode_basis": "UNSPECIFIED", "participant_count": null, "related_performance_provided": false},
+  "rfp_constraints": {
+    "page_budgets": [
+      {"page_budget_id": "PB-V1-MAIN", "volume_id": "VOL-1", "mode": "RFP_EXACT", "target_pages": 100, "counted_scope_node_ids": ["TOC-V1-I"], "excluded_node_ids": ["TOC-V1-V"], "status": "PASS"},
+      {"page_budget_id": "PB-V1-APPENDIX", "volume_id": "VOL-1", "mode": "RFP_UNLIMITED", "target_pages": null, "counted_scope_node_ids": ["TOC-V1-V"], "excluded_node_ids": [], "status": "NOT_APPLICABLE"},
+      {"page_budget_id": "PB-V2-MAIN", "volume_id": "VOL-2", "mode": "RFP_EXACT", "target_pages": 300, "counted_scope_node_ids": ["TOC-V2-II"], "excluded_node_ids": [], "status": "PASS"}
+    ],
+    "allowed_page_formats": ["A4_PORTRAIT", "A4_LANDSCAPE"],
+    "a3_count_multiplier": null,
+    "printed_side_multiplier": 1,
+    "consortium_policy": "EXTERNAL_SOURCE_REQUIRED",
+    "official_toc_node_ids": ["TOC-V1-I", "TOC-V1-V", "TOC-V2-II"]
+  },
+  "content_policies": [
+    {"policy_id": "CP-V2-ANON", "scope_volume_id": "VOL-2", "type": "FORBIDDEN_IDENTITY", "rule": "Company identity must not appear in Volume 2.", "penalty": "7 points"},
+    {"policy_id": "CP-A3", "scope_volume_id": "ALL", "type": "FORMAT_PROHIBITED", "rule": "A3 is not an allowed proposal format.", "penalty": "NONCONFORMITY_REVIEW"}
+  ],
+  "source_conflicts": [],
+  "toc_nodes": [
+    {"node_id": "TOC-V1-I", "volume_id": "VOL-1", "page_budget_id": "PB-V1-MAIN", "parent_id": null, "level": 1, "title": "Proposal purpose and background", "origin": "RFP_FIXED", "official_fixed": true, "leaf": false, "requirement_ids": [], "a3_checked": null, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-V1-I-1-D01", "volume_id": "VOL-1", "page_budget_id": "PB-V1-MAIN", "parent_id": "TOC-V1-I", "level": 3, "title": "Project background", "origin": "LLM_PROPOSED", "official_fixed": false, "leaf": true, "requirement_ids": ["RFP-V1"], "a3_checked": false, "physical_sheets": 100, "counted_pages": 100, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-V1-V", "volume_id": "VOL-1", "page_budget_id": "PB-V1-APPENDIX", "parent_id": null, "level": 1, "title": "Appendices and evidence", "origin": "RFP_FIXED", "official_fixed": true, "leaf": false, "requirement_ids": [], "a3_checked": null, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-V2-II", "volume_id": "VOL-2", "page_budget_id": "PB-V2-MAIN", "parent_id": null, "level": 1, "title": "Technology and functions", "origin": "RFP_FIXED", "official_fixed": true, "leaf": false, "requirement_ids": [], "a3_checked": null, "physical_sheets": null, "counted_pages": null, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"},
+    {"node_id": "TOC-V2-II-3-SFR-001", "volume_id": "VOL-2", "page_budget_id": "PB-V2-MAIN", "parent_id": "TOC-V2-II", "level": 3, "title": "SFR-001 Common requirements", "origin": "TASK_SPEC", "official_fixed": false, "leaf": true, "requirement_ids": ["SFR-001"], "a3_checked": false, "physical_sheets": 300, "counted_pages": 300, "owner_no_llm": null, "pm_note": null, "human_check": "UNCONFIRMED"}
+  ],
+  "requirements": [
+    {"requirement_id": "RFP-V1", "obligation_id": "OBL-C3-0001", "name": "Project background", "summary": "RFP writing obligation", "destination": "PROPOSAL_BODY", "source_id": "SRC-C3-RFP-001", "evidence": "RFP official writing table"},
+    {"requirement_id": "SFR-001", "obligation_id": "OBL-C3-0002", "name": "Common requirements", "summary": "Delegated technical requirement", "destination": "PROPOSAL_BODY", "source_id": "SRC-C3-TASK-001", "evidence": "Task specification SFR-001"}
+  ],
+  "mappings": [
+    {"map_id": "MAP-C3-0001", "obligation_id": "OBL-C3-0001", "target_node_id": "TOC-V1-I-1-D01", "relation": "MAIN", "evidence": "official RFP writing node", "validation_status": "DRAFT"},
+    {"map_id": "MAP-C3-0002", "obligation_id": "OBL-C3-0002", "target_node_id": "TOC-V2-II-3-SFR-001", "relation": "MAIN", "evidence": "delegated technical requirement", "validation_status": "DRAFT"}
+  ],
+  "baseline_snapshot": [
+    {"node_id": "TOC-V1-I-1-D01", "parent_id": "TOC-V1-I", "level": 3, "title": "Project background", "a3_checked": false, "physical_sheets": 100},
+    {"node_id": "TOC-V2-II-3-SFR-001", "parent_id": "TOC-V2-II", "level": 3, "title": "SFR-001 Common requirements", "a3_checked": false, "physical_sheets": 300}
+  ],
+  "approval_state": {"llm_check": "REVIEW", "human_check": "REVIEW", "allocation_status": "REVIEW", "blocking_conflicts": ["CONSORTIUM_POLICY_SOURCE_MISSING", "HUMAN_CONFIRMATION_REQUIRED", "VOLUME2_ANONYMITY_REVIEW_REQUIRED"]},
+  "rpa_release": {"state": "HOLD", "explicit_release_required": true, "released_by": null, "released_at": null, "page_specs": []}
+}
