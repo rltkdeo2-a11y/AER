@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aer.local/schemas/proposal-toc-state-v0.1.schema.json",
+  "title": "AER Proposal TOC State v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "case_id",
+    "fixture_scope",
+    "source_registry",
+    "human_inputs",
+    "rfp_constraints",
+    "toc_nodes",
+    "requirements",
+    "mappings",
+    "baseline_snapshot",
+    "approval_state",
+    "rpa_release"
+  ],
+  "properties": {
+    "contract_version": { "const": "0.1.0" },
+    "case_id": { "type": "string", "minLength": 1 },
+    "fixture_scope": { "enum": ["full_state", "representative_slice"] },
+    "evidence_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "toc_rows": { "type": "integer", "minimum": 0 },
+        "leaf_rows": { "type": "integer", "minimum": 0 },
+        "mapping_rows": { "type": "integer", "minimum": 0 },
+        "requirement_rows": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "source_registry": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "human_inputs": { "$ref": "#/$defs/humanInputs" },
+    "rfp_constraints": { "$ref": "#/$defs/rfpConstraints" },
+    "toc_nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/tocNode" }
+    },
+    "requirements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/requirement" }
+    },
+    "mappings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mapping" }
+    },
+    "baseline_snapshot": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/snapshotNode" }
+    },
+    "approval_state": { "$ref": "#/$defs/approvalState" },
+    "rpa_release": { "$ref": "#/$defs/rpaRelease" }
+  },
+  "$defs": {
+    "nullableString": { "type": ["string", "null"] },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_type", "name", "authority", "status"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "source_type": { "enum": ["RFP", "TASK_SPEC", "HUMAN_INPUT", "PM_SAMPLE", "OTHER"] },
+        "name": { "type": "string", "minLength": 1 },
+        "authority": { "enum": ["OFFICIAL", "HUMAN", "REFERENCE"] },
+        "status": { "enum": ["ACTIVE", "SUPERSEDED", "DEFERRED"] },
+        "evidence": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "humanInputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["proposal_mode", "participant_count", "related_performance_provided"],
+      "properties": {
+        "proposal_mode": { "enum": ["SOLO", "CONSORTIUM", "UNSPECIFIED"] },
+        "participant_count": { "type": ["integer", "null"], "minimum": 1 },
+        "related_performance_provided": { "type": "boolean" }
+      }
+    },
+    "rfpConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_pages", "page_rule", "excluded_front_matter", "a3_multiplier", "consortium_policy", "official_toc_node_ids"],
+      "properties": {
+        "target_pages": { "type": "integer", "minimum": 1 },
+        "page_rule": { "const": "EXACT" },
+        "excluded_front_matter": { "type": "array", "items": { "type": "string" } },
+        "a3_multiplier": { "const": 2 },
+        "consortium_policy": { "enum": ["ALLOWED", "PROHIBITED", "CONDITIONAL", "REVIEW_REQUIRED"] },
+        "official_toc_node_ids": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "tocNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "parent_id", "level", "title", "origin", "official_fixed", "leaf", "requirement_ids", "a3_checked", "physical_sheets", "counted_pages", "owner_no_llm", "pm_note", "human_check"],
+      "properties": {
+        "node_id": { "type": "string", "minLength": 1 },
+        "parent_id": { "$ref": "#/$defs/nullableString" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "title": { "type": "string", "minLength": 1 },
+        "origin": { "enum": ["RFP_FIXED", "LLM_PROPOSED", "HUMAN_ADDED"] },
+        "official_fixed": { "type": "boolean" },
+        "leaf": { "type": "boolean" },
+        "requirement_ids": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "a3_checked": { "type": ["boolean", "null"] },
+        "physical_sheets": { "type": ["integer", "null"], "minimum": 0 },
+        "counted_pages": { "type": ["integer", "null"], "minimum": 0 },
+        "owner_no_llm": { "$ref": "#/$defs/nullableString" },
+        "pm_note": { "$ref": "#/$defs/nullableString" },
+        "human_check": { "enum": ["UNCONFIRMED", "CONFIRMED", "DEFERRED"] }
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "obligation_id", "name", "summary", "destination", "evidence"],
+      "properties": {
+        "requirement_id": { "type": "string", "minLength": 1 },
+        "obligation_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 },
+        "destination": { "enum": ["PROPOSAL_BODY", "CONTROL"] },
+        "evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["map_id", "obligation_id", "target_node_id", "relation", "evidence", "validation_status"],
+      "properties": {
+        "map_id": { "type": "string", "minLength": 1 },
+        "obligation_id": { "type": "string", "minLength": 1 },
+        "target_node_id": { "type": "string", "minLength": 1 },
+        "relation": { "enum": ["MAIN", "SUB"] },
+        "evidence": { "type": "string", "minLength": 1 },
+        "validation_status": { "enum": ["DRAFT", "PM_CONFIRMED", "DEFERRED"] }
+      }
+    },
+    "snapshotNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["node_id", "parent_id", "level", "title", "official_fixed", "a3_checked", "physical_sheets", "requirement_ids"],
+      "properties": {
+        "node_id": { "type": "string", "minLength": 1 },
+        "parent_id": { "$ref": "#/$defs/nullableString" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "title": { "type": "string", "minLength": 1 },
+        "official_fixed": { "type": "boolean" },
+        "a3_checked": { "type": ["boolean", "null"] },
+        "physical_sheets": { "type": ["integer", "null"], "minimum": 0 },
+        "requirement_ids": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "approvalState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["llm_check", "human_check", "allocation_status", "blocking_conflicts"],
+      "properties": {
+        "llm_check": { "enum": ["PASS", "REVIEW", "HOLD"] },
+        "human_check": { "enum": ["PASS", "REVIEW", "HOLD"] },
+        "allocation_status": { "enum": ["COMPLETE", "REVIEW", "HOLD"] },
+        "blocking_conflicts": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "pageSpec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page_id", "node_id", "page_order", "page_format", "physical_sheets", "counted_start", "counted_end", "layout_key"],
+      "properties": {
+        "page_id": { "type": "string", "minLength": 1 },
+        "node_id": { "type": "string", "minLength": 1 },
+        "page_order": { "type": "integer", "minimum": 1 },
+        "page_format": { "enum": ["A4", "A3"] },
+        "physical_sheets": { "type": "integer", "minimum": 1 },
+        "counted_start": { "type": "integer", "minimum": 1 },
+        "counted_end": { "type": "integer", "minimum": 1 },
+        "layout_key": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "rpaRelease": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "explicit_release_required", "released_by", "released_at", "page_specs"],
+      "properties": {
+        "state": { "enum": ["HOLD", "RELEASED"] },
+        "explicit_release_required": { "const": true },
+        "released_by": { "$ref": "#/$defs/nullableString" },
+        "released_at": { "$ref": "#/$defs/nullableString" },
+        "page_specs": { "type": "array", "items": { "$ref": "#/$defs/pageSpec" } }
+      }
+    }
+  }
+}

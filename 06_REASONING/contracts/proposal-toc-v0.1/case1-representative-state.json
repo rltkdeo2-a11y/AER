@@ -1,0 +1,212 @@
+{
+  "contract_version": "0.1.0",
+  "case_id": "CASE-001-RFP-TOC",
+  "fixture_scope": "representative_slice",
+  "evidence_metrics": {
+    "toc_rows": 59,
+    "leaf_rows": 32,
+    "mapping_rows": 484,
+    "requirement_rows": 292
+  },
+  "source_registry": [
+    {
+      "source_id": "SRC-RFP-001",
+      "source_type": "RFP",
+      "name": "case1-rfp.pdf",
+      "authority": "OFFICIAL",
+      "status": "ACTIVE",
+      "evidence": "External Case 1 source RFP"
+    },
+    {
+      "source_id": "SRC-PM-001",
+      "source_type": "PM_SAMPLE",
+      "name": "case1-human-pm-sample.xlsx",
+      "authority": "HUMAN",
+      "status": "ACTIVE",
+      "evidence": "External human PM comparison sample"
+    }
+  ],
+  "human_inputs": {
+    "proposal_mode": "CONSORTIUM",
+    "participant_count": 3,
+    "related_performance_provided": true
+  },
+  "rfp_constraints": {
+    "target_pages": 80,
+    "page_rule": "EXACT",
+    "excluded_front_matter": ["cover", "table_of_contents"],
+    "a3_multiplier": 2,
+    "consortium_policy": "REVIEW_REQUIRED",
+    "official_toc_node_ids": ["TOC-III", "TOC-III-1"]
+  },
+  "toc_nodes": [
+    {
+      "node_id": "TOC-III",
+      "parent_id": null,
+      "level": 1,
+      "title": "III. Smart Service Implementation",
+      "origin": "RFP_FIXED",
+      "official_fixed": true,
+      "leaf": false,
+      "requirement_ids": [],
+      "a3_checked": null,
+      "physical_sheets": null,
+      "counted_pages": null,
+      "owner_no_llm": null,
+      "pm_note": null,
+      "human_check": "UNCONFIRMED"
+    },
+    {
+      "node_id": "TOC-III-1",
+      "parent_id": "TOC-III",
+      "level": 2,
+      "title": "1. Delivery Procedure",
+      "origin": "RFP_FIXED",
+      "official_fixed": true,
+      "leaf": false,
+      "requirement_ids": [],
+      "a3_checked": null,
+      "physical_sheets": null,
+      "counted_pages": null,
+      "owner_no_llm": null,
+      "pm_note": null,
+      "human_check": "UNCONFIRMED"
+    },
+    {
+      "node_id": "TOC-III-1-A",
+      "parent_id": "TOC-III-1",
+      "level": 3,
+      "title": "Analysis Design Build Test and Transition",
+      "origin": "LLM_PROPOSED",
+      "official_fixed": false,
+      "leaf": true,
+      "requirement_ids": ["CUR-001"],
+      "a3_checked": true,
+      "physical_sheets": 1,
+      "counted_pages": 2,
+      "owner_no_llm": "PM-A",
+      "pm_note": "Human sample A3 decision",
+      "human_check": "UNCONFIRMED"
+    },
+    {
+      "node_id": "TOC-III-1-B",
+      "parent_id": "TOC-III-1",
+      "level": 3,
+      "title": "Deliverables and Acceptance Gates",
+      "origin": "LLM_PROPOSED",
+      "official_fixed": false,
+      "leaf": true,
+      "requirement_ids": ["CUR-001"],
+      "a3_checked": false,
+      "physical_sheets": 78,
+      "counted_pages": 78,
+      "owner_no_llm": "PM-B",
+      "pm_note": null,
+      "human_check": "UNCONFIRMED"
+    }
+  ],
+  "requirements": [
+    {
+      "requirement_id": "CUR-001",
+      "obligation_id": "CUR-001-001",
+      "name": "General Consulting Requirement",
+      "summary": "Present the analysis design build test and transition procedure.",
+      "destination": "PROPOSAL_BODY",
+      "evidence": "SRC-RFP-001"
+    }
+  ],
+  "mappings": [
+    {
+      "map_id": "MAP-001",
+      "obligation_id": "CUR-001-001",
+      "target_node_id": "TOC-III-1-A",
+      "relation": "MAIN",
+      "evidence": "SRC-RFP-001",
+      "validation_status": "DRAFT"
+    },
+    {
+      "map_id": "MAP-002",
+      "obligation_id": "CUR-001-001",
+      "target_node_id": "TOC-III-1-B",
+      "relation": "SUB",
+      "evidence": "SRC-RFP-001",
+      "validation_status": "DRAFT"
+    }
+  ],
+  "baseline_snapshot": [
+    {
+      "node_id": "TOC-III",
+      "parent_id": null,
+      "level": 1,
+      "title": "III. Smart Service Implementation",
+      "official_fixed": true,
+      "a3_checked": null,
+      "physical_sheets": null,
+      "requirement_ids": []
+    },
+    {
+      "node_id": "TOC-III-1",
+      "parent_id": "TOC-III",
+      "level": 2,
+      "title": "1. Delivery Procedure",
+      "official_fixed": true,
+      "a3_checked": null,
+      "physical_sheets": null,
+      "requirement_ids": []
+    },
+    {
+      "node_id": "TOC-III-1-A",
+      "parent_id": "TOC-III-1",
+      "level": 3,
+      "title": "Analysis Design Build Test and Transition",
+      "official_fixed": false,
+      "a3_checked": false,
+      "physical_sheets": 2,
+      "requirement_ids": ["CUR-001"]
+    },
+    {
+      "node_id": "TOC-III-1-B",
+      "parent_id": "TOC-III-1",
+      "level": 3,
+      "title": "Deliverables and Acceptance Gates",
+      "official_fixed": false,
+      "a3_checked": false,
+      "physical_sheets": 78,
+      "requirement_ids": ["CUR-001"]
+    }
+  ],
+  "approval_state": {
+    "llm_check": "REVIEW",
+    "human_check": "REVIEW",
+    "allocation_status": "REVIEW",
+    "blocking_conflicts": []
+  },
+  "rpa_release": {
+    "state": "HOLD",
+    "explicit_release_required": true,
+    "released_by": null,
+    "released_at": null,
+    "page_specs": [
+      {
+        "page_id": "PAGE-001",
+        "node_id": "TOC-III-1-A",
+        "page_order": 1,
+        "page_format": "A3",
+        "physical_sheets": 1,
+        "counted_start": 1,
+        "counted_end": 2,
+        "layout_key": null
+      },
+      {
+        "page_id": "PAGE-002",
+        "node_id": "TOC-III-1-B",
+        "page_order": 2,
+        "page_format": "A4",
+        "physical_sheets": 78,
+        "counted_start": 3,
+        "counted_end": 80,
+        "layout_key": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "contract_id": "AER-PROPOSAL-TOC-CONTRACT-001",
+  "contract_version": "0.1.0",
+  "status": "FROZEN_CASE1",
+  "purpose": "Generate and re-import a PM-editable proposal table-of-contents workbook without treating the workbook as canonical machine state.",
+  "canonical_state": "normalized_json",
+  "human_surface": "xlsx",
+  "supported_scope": [
+    "public-sector proposal RFP",
+    "RFP-fixed table-of-contents levels 1 through 3",
+    "LLM-proposed child nodes",
+    "exact target-page allocation",
+    "A3 counted as two RFP pages",
+    "requirement MAIN and SUB placement",
+    "PM workbook re-import and change classification",
+    "future RPA structural specification held until explicit release"
+  ],
+  "generation_contract": {
+    "required_inputs": [
+      "source_registry",
+      "rfp_constraints",
+      "analyzed_requirements",
+      "human_inputs_or_explicit_omission"
+    ],
+    "blocking_gates": [
+      "RFP analysis exists",
+      "RFP page rule is resolved",
+      "RFP-fixed TOC hierarchy is identified",
+      "human proposal-mode declaration is checked against the RFP consortium policy"
+    ],
+    "operations": [
+      "assign stable source, node, requirement, obligation, and mapping identifiers",
+      "preserve RFP-fixed node level and parent",
+      "place detailed requirements below the applicable RFP-fixed parent",
+      "assign exactly one MAIN mapping per atomic obligation unless destination is CONTROL",
+      "allocate exactly the RFP target page count",
+      "emit PM-visible fields separately from machine fields",
+      "capture a baseline snapshot before human editing",
+      "emit the RPA specification in HOLD state"
+    ],
+    "outputs": [
+      "normalized_state",
+      "pm_workbook",
+      "requirement_review",
+      "change_baseline",
+      "rpa_specification_hold"
+    ]
+  },
+  "reimport_contract": {
+    "identity_key": "node_id",
+    "editable_fields": [
+      "title",
+      "requirement_ids",
+      "a3_checked",
+      "physical_sheets",
+      "owner_no_llm",
+      "pm_note",
+      "human_check"
+    ],
+    "tracked_fields": [
+      "title",
+      "parent_id",
+      "level",
+      "a3_checked",
+      "physical_sheets",
+      "requirement_ids"
+    ],
+    "ignored_for_llm_impact": [
+      "owner_no_llm"
+    ],
+    "new_row_rule": "A row without a known node_id is NEW and receives a provisional stable identifier before comparison.",
+    "deleted_row_rule": "A baseline node missing from the re-import is DELETED and requires structural review.",
+    "change_precedence": [
+      "OFFICIAL_STRUCTURE_BLOCK",
+      "LEVEL_CHANGED",
+      "REPARENTED",
+      "NEW",
+      "DELETED",
+      "FORMAT_CHANGED",
+      "PAGE_CHANGED",
+      "REQUIREMENT_CHANGED",
+      "RENAMED",
+      "UNCHANGED"
+    ],
+    "impact_classes": {
+      "LOCAL": [
+        "owner-only change",
+        "note-only change"
+      ],
+      "REVIEW": [
+        "title change",
+        "A3 change",
+        "physical page change",
+        "requirement placement change"
+      ],
+      "STRUCTURAL": [
+        "new node",
+        "deleted node",
+        "parent change",
+        "level change",
+        "proposal mode change",
+        "strategy-wide hierarchy change"
+      ]
+    },
+    "automatic_action": "REPORT_ONLY",
+    "regeneration_rule": "No TOC or RPA specification is regenerated after re-import without an explicit human command."
+  },
+  "invariants": {
+    "official_structure": "RFP-fixed parent and level cannot change; title may change.",
+    "level_limit": "Levels 1 through 3 are routine; level 4 is schema-valid but non-routine and requires review.",
+    "page_rule": "The sum of leaf counted_pages must equal target_pages exactly.",
+    "a3_rule": "For a leaf, counted_pages equals physical_sheets multiplied by two when a3_checked is true, otherwise by one.",
+    "main_rule": "Each non-CONTROL atomic obligation has exactly one MAIN mapping; SUB may be zero or more.",
+    "consortium_rule": "Human declaration is compared with RFP policy; a prohibited consortium condition produces HOLD.",
+    "owner_rule": "Owner changes are preserved for humans and excluded from LLM impact classification.",
+    "release_rule": "RPA release requires exact pages, passed LLM review, passed human review, no unresolved blocking conflict, and an explicit human release command."
+  },
+  "status_enums": {
+    "review": ["PASS", "REVIEW", "HOLD"],
+    "allocation": ["COMPLETE", "REVIEW", "HOLD"],
+    "release": ["HOLD", "RELEASED"],
+    "mapping_relation": ["MAIN", "SUB"],
+    "node_origin": ["RFP_FIXED", "LLM_PROPOSED", "HUMAN_ADDED"]
+  },
+  "non_goals": [
+    "PPT generation or rendering",
+    "automatic layout selection",
+    "RAG or proposal-sample retrieval",
+    "automatic regeneration after every external input",
+    "generalization beyond the three planned RFP cases",
+    "replacement of proposal-manager judgment",
+    "causal claims about proposal success"
+  ],
+  "reopening_conditions": [
+    "case 2 or case 3 cannot be represented without semantic loss",
+    "native Excel row insertion cannot be normalized safely",
+    "A3 or page allocation produces an undetected mismatch",
+    "MAIN ownership cannot be resolved by the RFP hierarchy",
+    "a structural change is misclassified as local or review-only",
+    "the contract causes material PM rework instead of reducing it"
+  ]
+}
