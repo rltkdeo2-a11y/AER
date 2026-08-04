@@ -12,6 +12,7 @@ const file = (name, content = name) => {
   return target;
 };
 const hash = (target) => crypto.createHash("sha256").update(fs.readFileSync(target)).digest("hex").toUpperCase();
+const writeJson = (name, value) => file(name, `${JSON.stringify(value, null, 2)}\n`);
 const writeProof = (name, artifactType, sources, outputs, overrides = {}) => {
   const proof = {
     proof_contract_version: "0.1.0",
@@ -119,18 +120,58 @@ assert.throws(() => applyAction("RECORD_TOC_ACCEPTANCE", reimport, {
   verification: { summary: { material_changes: 1, blocking_changes: 0, structural_changes: 0 }, formula_integrity: { status: "PASS" } },
 }), /zero material/);
 
-const accepted = applyAction("RECORD_TOC_ACCEPTANCE", reimport, {
-  accepted_workbook_path: file("accepted.xlsx", "accepted workbook"),
-  accepted_state_path: file("accepted.json", "accepted state"),
-  verification_report_path: "verification.json",
-  verification: {
-    summary: { material_changes: 0, blocking_changes: 0, structural_changes: 0 },
-    formula_integrity: { status: "PASS" },
-    release_recommendation: "HUMAN_CONFIRMATION_REQUIRED",
+const acceptedWorkbook = file("accepted.xlsx", "accepted workbook");
+const acceptedStateFile = file("accepted.json", "accepted state");
+const decisionsFile = file("decisions.json", "accepted decisions");
+const verification = {
+  summary: { material_changes: 0, blocking_changes: 0, structural_changes: 0 },
+  formula_integrity: { status: "PASS" },
+  release_recommendation: "HUMAN_CONFIRMATION_REQUIRED",
+};
+const verificationFile = writeJson("verification.json", verification);
+const returnedWorkbook = file("toc-edited.xlsx", "returned workbook");
+const baselineFile = file("toc-state.json", "baseline state");
+reimport.artifacts.returned_workbook_path = returnedWorkbook;
+reimport.artifacts.toc_baseline_state_path = baselineFile;
+const receipt = {
+  receipt_version: "0.1.0",
+  acceptance_engine_version: "0.1.1",
+  case_id: "CASE-TEST",
+  inputs: {
+    workbook: { path: returnedWorkbook, sha256: hash(returnedWorkbook) },
+    baseline: { path: baselineFile, sha256: hash(baselineFile) },
+    decisions: { path: decisionsFile, sha256: hash(decisionsFile) },
   },
-});
+  outputs: {
+    accepted_workbook: { path: acceptedWorkbook, sha256: hash(acceptedWorkbook) },
+    accepted_state: { path: acceptedStateFile, sha256: hash(acceptedStateFile) },
+    verification_report: { path: verificationFile, sha256: hash(verificationFile) },
+  },
+  system_sheets: { status: "PASS", required: ["SYS_SNAPSHOT", "SYS_MAPPING", "SYS_RPA_SPEC", "CHANGE_REVIEW"], recovered: [] },
+  verification: { summary: verification.summary, formula_integrity: "PASS", release_recommendation: "HUMAN_CONFIRMATION_REQUIRED" },
+  rpa_release: "HOLD",
+};
+const receiptFile = writeJson("acceptance-receipt.json", receipt);
+const acceptancePayload = {
+  accepted_workbook_path: acceptedWorkbook,
+  accepted_state_path: acceptedStateFile,
+  verification_report_path: verificationFile,
+  decisions_path: decisionsFile,
+  acceptance_receipt_path: receiptFile,
+  verification,
+  receipt,
+};
+assert.throws(() => applyAction("RECORD_TOC_ACCEPTANCE", reimport, { ...acceptancePayload, acceptance_receipt_path: undefined }), /acceptance_receipt_path/);
+const tamperedReceipt = structuredClone(receipt);
+tamperedReceipt.outputs.accepted_state.sha256 = "0".repeat(64);
+assert.throws(() => applyAction("RECORD_TOC_ACCEPTANCE", reimport, { ...acceptancePayload, receipt: tamperedReceipt }), /does not match acceptance_receipt_path/);
+const tamperedReceiptFile = writeJson("tampered-acceptance-receipt.json", tamperedReceipt);
+assert.throws(() => applyAction("RECORD_TOC_ACCEPTANCE", reimport, { ...acceptancePayload, acceptance_receipt_path: tamperedReceiptFile, receipt: tamperedReceipt }), /SHA-256 mismatch/);
+const accepted = applyAction("RECORD_TOC_ACCEPTANCE", reimport, acceptancePayload);
 assert.equal(accepted.stage, "STRATEGY_CANDIDATES");
 assert.equal(accepted.rpa_release, "HOLD");
+assert.equal(accepted.artifacts.acceptance_engine_version, "0.1.1");
+assert.equal(accepted.artifacts.acceptance_receipt_sha256, hash(receiptFile));
 
 const strategyFile = file("strategy.md", "strategy");
 const strategyProof = writeProof("strategy-proof.json", "STRATEGY", [rfp, task], [strategyFile], {

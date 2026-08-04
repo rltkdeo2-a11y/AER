@@ -6,6 +6,7 @@ param(
     [Parameter(Mandatory = $true)][string]$AcceptedWorkbookPath,
     [Parameter(Mandatory = $true)][string]$AcceptedStatePath,
     [Parameter(Mandatory = $true)][string]$VerificationReportPath,
+    [Parameter(Mandatory = $true)][string]$AcceptanceReceiptPath,
     [string]$NodeExecutable = (Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe'),
     [string]$NodeModulesPath = (Join-Path $env:USERPROFILE '.cache\codex-runtimes\codex-primary-runtime\dependencies\node\node_modules')
 )
@@ -21,16 +22,17 @@ $modules = (Resolve-Path -LiteralPath $NodeModulesPath).Path
 $acceptedWorkbook = [IO.Path]::GetFullPath($AcceptedWorkbookPath)
 $acceptedState = [IO.Path]::GetFullPath($AcceptedStatePath)
 $verificationReport = [IO.Path]::GetFullPath($VerificationReportPath)
-$allPaths = @($workbook, $baseline, $decisions, $acceptedWorkbook, $acceptedState, $verificationReport)
+$acceptanceReceipt = [IO.Path]::GetFullPath($AcceptanceReceiptPath)
+$allPaths = @($workbook, $baseline, $decisions, $acceptedWorkbook, $acceptedState, $verificationReport, $acceptanceReceipt)
 $uniquePaths = [Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
 foreach ($item in $allPaths) {
     if (-not $uniquePaths.Add($item)) { throw 'All input and output paths must be distinct.' }
 }
 if ([IO.Path]::GetExtension($acceptedWorkbook) -ine '.xlsx') { throw 'AcceptedWorkbookPath must use the .xlsx extension.' }
-foreach ($jsonPath in @($decisions, $acceptedState, $verificationReport)) {
+foreach ($jsonPath in @($decisions, $acceptedState, $verificationReport, $acceptanceReceipt)) {
     if ([IO.Path]::GetExtension($jsonPath) -ine '.json') { throw 'Decision, state, and report paths must use the .json extension.' }
 }
-foreach ($directory in @((Split-Path -Parent $acceptedWorkbook), (Split-Path -Parent $acceptedState), (Split-Path -Parent $verificationReport))) {
+foreach ($directory in @((Split-Path -Parent $acceptedWorkbook), (Split-Path -Parent $acceptedState), (Split-Path -Parent $verificationReport), (Split-Path -Parent $acceptanceReceipt))) {
     if (-not (Test-Path -LiteralPath $directory)) { New-Item -ItemType Directory -Path $directory -Force | Out-Null }
 }
 
@@ -43,7 +45,7 @@ try {
     foreach ($name in @('aer-toc-roundtrip-engine.mjs', 'aer-toc-roundtrip-accept.mjs')) {
         Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination (Join-Path $tempDirectory $name)
     }
-    & $node (Join-Path $tempDirectory 'aer-toc-roundtrip-accept.mjs') $workbook $baseline $decisions $acceptedWorkbook $acceptedState $verificationReport
+    & $node (Join-Path $tempDirectory 'aer-toc-roundtrip-accept.mjs') $workbook $baseline $decisions $acceptedWorkbook $acceptedState $verificationReport $acceptanceReceipt
     if ($LASTEXITCODE -ne 0) { throw "Proposal TOC acceptance engine failed with exit code $LASTEXITCODE." }
 }
 finally {
@@ -57,3 +59,4 @@ finally {
 Write-Output "PASS: accepted workbook written to $acceptedWorkbook"
 Write-Output "PASS: accepted state written to $acceptedState"
 Write-Output "PASS: verification report written to $verificationReport"
+Write-Output "PASS: acceptance receipt written to $acceptanceReceipt"

@@ -77,7 +77,7 @@ function addSystemTable(workbook, name, headersRow, dataRows, tableName) {
   return sheet;
 }
 
-async function createAcceptanceWorkbook(rawState, fileName) {
+async function createAcceptanceWorkbook(rawState, fileName, includeSystemSheets = true) {
   const state = normalizeState(rawState);
   const workbook = Workbook.create();
   const sheet = workbook.worksheets.add("PM_WORKSPACE");
@@ -117,28 +117,34 @@ async function createAcceptanceWorkbook(rawState, fileName) {
   sheet.getRangeByIndexes(6, 0, rows.length, acceptanceHeaders.length).values = rows;
   sheet.tables.add(`A6:AI${rows.length + 6}`, true, "AcceptancePMTable");
 
+  if (!includeSystemSheets) {
+    for (const name of ["PAGE_BUDGETS", "REQUIREMENT_REVIEW", "EVALUATION_REFERENCE", "GUIDE"]) {
+      const humanSheet = workbook.worksheets.add(name);
+      humanSheet.getRange("A1").values = [[name]];
+    }
+  }
   const snapshotRows = state.toc_nodes.map((node) => {
     const levels = [1, 2, 3].map((level) => level === node.level ? node.title : null);
     return [node.node_id, node.volume_id, node.page_budget_id, ...levels, node.parent_id, node.level,
       node.leaf ? Boolean(node.a3_checked) : null, node.physical_sheets, node.official_fixed ? "Y" : "N", "BASELINE"];
   });
-  addSystemTable(workbook, "SYS_SNAPSHOT",
+  if (includeSystemSheets) addSystemTable(workbook, "SYS_SNAPSHOT",
     ["node_id", "volume_id", "page_budget_id", "baseline_L1", "baseline_L2", "baseline_L3", "baseline_parent", "baseline_level", "baseline_A3", "baseline_physical", "official_fixed", "status"],
     snapshotRows, "AcceptanceSnapshotTable");
   const mappingRows = state.mappings.map((mapping) => [mapping.map_id, mapping.obligation_id, mapping.target_node_id,
     mapping.relation, null, null, mapping.evidence, mapping.validation_status, mapping.target_node_id]);
-  addSystemTable(workbook, "SYS_MAPPING",
+  if (includeSystemSheets) addSystemTable(workbook, "SYS_MAPPING",
     ["map_id", "obligation_id", "target_node_id", "relation", "requirement_id", "source_id", "evidence", "validation_status", "toc_path"],
     mappingRows, "AcceptanceMappingTable");
   const rpaRows = state.toc_nodes.filter((node) => node.leaf).map((node, index) => ["TEST-DRAFT", node.volume_id,
     node.page_budget_id, `PAGE-C3-${String(index + 1).padStart(3, "0")}`, node.node_id, index + 1, "A4",
     node.physical_sheets, null, null, null, "HOLD"]);
-  addSystemTable(workbook, "SYS_RPA_SPEC",
+  if (includeSystemSheets) addSystemTable(workbook, "SYS_RPA_SPEC",
     ["release_id", "volume_id", "page_budget_id", "page_id", "node_id", "page_order", "page_format", "physical_sheets", "counted_start", "counted_end", "layout_key", "release_status"],
     rpaRows, "AcceptanceRpaTable");
   const changeRows = state.toc_nodes.map((node) => [node.node_id, node.volume_id, node.page_budget_id, null, null, null,
     "UNCHANGED", null, null, node.physical_sheets, "IGNORE"]);
-  addSystemTable(workbook, "CHANGE_REVIEW",
+  if (includeSystemSheets) addSystemTable(workbook, "CHANGE_REVIEW",
     ["node_id", "VOLUME", "BUDGET", "LEVEL_1", "LEVEL_2", "LEVEL_3", "CHANGE_TYPE", "BASELINE_A3", "CURRENT_A3", "CURRENT_PAGES", "ACTION"],
     changeRows, "AcceptanceChangeTable");
   const workbookPath = path.join(tempDirectory, fileName);
@@ -221,6 +227,7 @@ const acceptanceDecisionsPath = path.join(tempDirectory, "synthetic-acceptance-d
 const acceptedWorkbookPath = path.join(tempDirectory, "synthetic-accepted.xlsx");
 const acceptedStatePath = path.join(tempDirectory, "synthetic-accepted-state.json");
 const acceptedReportPath = path.join(tempDirectory, "synthetic-accepted-report.json");
+const acceptanceReceiptPath = path.join(tempDirectory, "synthetic-acceptance-receipt.json");
 await writeJson(acceptanceBaselinePath, acceptanceState);
 await writeJson(acceptanceDecisionsPath, {
   decision_version: "0.1.0",
@@ -243,16 +250,42 @@ const acceptanceResult = await acceptRoundtrip({
   acceptedWorkbookPath,
   acceptedStatePath,
   verificationReportPath: acceptedReportPath,
+  acceptanceReceiptPath,
 });
 const acceptedState = await readJson(acceptedStatePath);
 const acceptedReport = await readJson(acceptedReportPath);
+const acceptanceReceipt = await readJson(acceptanceReceiptPath);
 assert(acceptanceResult.accepted_events.length === 2, "acceptance records confirmed rename and approved split");
 assert(acceptedState.toc_nodes.some((node) => node.node_id === "TOC-V1-I-1-D02" && node.physical_sheets === 40), "approved new row becomes canonical");
 assert(acceptedState.mappings.some((mapping) => mapping.target_node_id === "TOC-V1-I-1-D02" && mapping.relation === "SUB"), "approved split receives a requirement mapping");
 assert(acceptedReport.summary.material_changes === 0, "accepted workbook and accepted state roundtrip with no material changes");
 assert(acceptedReport.page_budgets.find((budget) => budget.page_budget_id === "PB-V1-MAIN").status === "PASS", "accepted split preserves exact page budget");
 assert(acceptedReport.release_recommendation === "HUMAN_CONFIRMATION_REQUIRED", "acceptance does not release RPA");
+assert(acceptanceReceipt.acceptance_engine_version === "0.1.1", "acceptance receipt identifies the enforcing engine");
+assert(acceptanceReceipt.system_sheets.status === "PASS" && acceptanceReceipt.system_sheets.recovered.length === 0, "existing system sheets are verified without recovery");
 assert(await fs.readFile(acceptanceWorkbookPath).then((bytes) => Buffer.from(bytes).toString("base64")) === acceptanceOriginalHash, "acceptance preserves the original workbook");
+
+const fiveSheetWorkbookPath = await createAcceptanceWorkbook(acceptanceState, "synthetic-five-sheet-edited.xlsx", false);
+const fiveSheetAcceptedWorkbookPath = path.join(tempDirectory, "synthetic-five-sheet-accepted.xlsx");
+const fiveSheetAcceptedStatePath = path.join(tempDirectory, "synthetic-five-sheet-accepted-state.json");
+const fiveSheetAcceptedReportPath = path.join(tempDirectory, "synthetic-five-sheet-accepted-report.json");
+const fiveSheetReceiptPath = path.join(tempDirectory, "synthetic-five-sheet-acceptance-receipt.json");
+await acceptRoundtrip({
+  workbookPath: fiveSheetWorkbookPath,
+  baselinePath: acceptanceBaselinePath,
+  decisionsPath: acceptanceDecisionsPath,
+  acceptedWorkbookPath: fiveSheetAcceptedWorkbookPath,
+  acceptedStatePath: fiveSheetAcceptedStatePath,
+  verificationReportPath: fiveSheetAcceptedReportPath,
+  acceptanceReceiptPath: fiveSheetReceiptPath,
+});
+const fiveSheetReceipt = await readJson(fiveSheetReceiptPath);
+const recoveredSheets = [...fiveSheetReceipt.system_sheets.recovered].sort();
+assert(JSON.stringify(recoveredSheets) === JSON.stringify(["CHANGE_REVIEW", "SYS_MAPPING", "SYS_RPA_SPEC", "SYS_SNAPSHOT"]), "five-sheet production boundary recovers every required system sheet");
+const recoveredWorkbook = await SpreadsheetFile.importXlsx(await fs.readFile(fiveSheetAcceptedWorkbookPath));
+for (const requiredSheet of fiveSheetReceipt.system_sheets.required) {
+  assert(recoveredWorkbook.worksheets.getItem(requiredSheet).tables.items.length === 1, `${requiredSheet} is restored with its system table`);
+}
 
 const v01 = await readJson(v01FixturePath);
 const v01Path = await createWorkbook({ rawState: v01, fileName: "synthetic-v01-a3.xlsx" });
@@ -360,4 +393,4 @@ try {
 }
 assert(unsupportedRejected, "unsupported contract version is rejected");
 
-console.log("PASS: Proposal TOC human roundtrip runtime v0.3.2 with acceptance v0.1.0");
+console.log("PASS: Proposal TOC human roundtrip runtime v0.3.2 with acceptance v0.1.1");

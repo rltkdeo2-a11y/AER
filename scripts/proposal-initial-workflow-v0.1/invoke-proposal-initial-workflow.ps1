@@ -118,7 +118,7 @@ try {
         if ($current.stage -ne 'TOC_REIMPORT') { throw 'AcceptTocReturn requires TOC_REIMPORT stage.' }
         $workbook = (Resolve-Path -LiteralPath $current.artifacts.returned_workbook_path).Path
         $baseline = (Resolve-Path -LiteralPath $current.artifacts.toc_baseline_state_path).Path
-        Assert-OutputDoesNotCollide -Paths @($workbook, $baseline, $payloadObject.decisions_path, $payloadObject.accepted_workbook_path, $payloadObject.accepted_state_path, $payloadObject.verification_report_path)
+        Assert-OutputDoesNotCollide -Paths @($workbook, $baseline, $payloadObject.decisions_path, $payloadObject.accepted_workbook_path, $payloadObject.accepted_state_path, $payloadObject.verification_report_path, $payloadObject.acceptance_receipt_path)
         & (Join-Path $roundtripRoot 'invoke-proposal-toc-roundtrip-accept.ps1') `
             -WorkbookPath $workbook `
             -BaselinePath $baseline `
@@ -126,15 +126,20 @@ try {
             -AcceptedWorkbookPath $payloadObject.accepted_workbook_path `
             -AcceptedStatePath $payloadObject.accepted_state_path `
             -VerificationReportPath $payloadObject.verification_report_path `
+            -AcceptanceReceiptPath $payloadObject.acceptance_receipt_path `
             -NodeExecutable $node
         if ($LASTEXITCODE -ne 0) { throw 'TOC acceptance failed.' }
         $verification = Get-Content -LiteralPath $payloadObject.verification_report_path -Encoding UTF8 -Raw | ConvertFrom-Json
+        $receipt = Get-Content -LiteralPath $payloadObject.acceptance_receipt_path -Encoding UTF8 -Raw | ConvertFrom-Json
         $temporaryPayload = Join-Path ([IO.Path]::GetTempPath()) ("aer-piw-accept-" + [Guid]::NewGuid().ToString('N') + '.json')
         [pscustomobject]@{
             accepted_workbook_path = [IO.Path]::GetFullPath($payloadObject.accepted_workbook_path)
             accepted_state_path = [IO.Path]::GetFullPath($payloadObject.accepted_state_path)
             verification_report_path = [IO.Path]::GetFullPath($payloadObject.verification_report_path)
+            decisions_path = [IO.Path]::GetFullPath($payloadObject.decisions_path)
+            acceptance_receipt_path = [IO.Path]::GetFullPath($payloadObject.acceptance_receipt_path)
             verification = $verification
+            receipt = $receipt
         } | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $temporaryPayload -Encoding UTF8
         $payload = $temporaryPayload
     }

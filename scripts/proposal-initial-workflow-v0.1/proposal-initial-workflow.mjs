@@ -5,6 +5,8 @@ import { fileURLToPath } from "node:url";
 
 export const WORKFLOW_VERSION = "0.1.0";
 export const SEMANTIC_EVIDENCE_VERSION = "0.1.0";
+export const TOC_ACCEPTANCE_RECEIPT_VERSION = "0.1.0";
+export const TOC_ACCEPTANCE_ENGINE_VERSION = "0.1.1";
 export const STAGES = [
   "SOURCE_INTAKE",
   "SUMMARY_CONFIRMATION",
@@ -264,10 +266,52 @@ function recordTocAcceptance(state, payload) {
   if (verification.release_recommendation !== "HUMAN_CONFIRMATION_REQUIRED") {
     throw new Error("Accepted TOC verification must still require human confirmation and keep RPA unreleased.");
   }
+  const acceptedWorkbookPath = requireExistingFile(payload.accepted_workbook_path, "accepted_workbook_path");
+  const acceptedStatePath = requireExistingFile(payload.accepted_state_path, "accepted_state_path");
+  const verificationReportPath = requireExistingFile(payload.verification_report_path, "verification_report_path");
+  const decisionsPath = requireExistingFile(payload.decisions_path, "decisions_path");
+  const receiptPath = requireExistingFile(payload.acceptance_receipt_path, "acceptance_receipt_path");
+  const reportVerification = readJson(verificationReportPath);
+  if (JSON.stringify(reportVerification) !== JSON.stringify(verification)) {
+    throw new Error("Registered TOC verification does not match verification_report_path.");
+  }
+  const receipt = readJson(receiptPath);
+  if (payload.receipt && JSON.stringify(payload.receipt) !== JSON.stringify(receipt)) {
+    throw new Error("Registered TOC acceptance receipt does not match acceptance_receipt_path.");
+  }
+  if (receipt.receipt_version !== TOC_ACCEPTANCE_RECEIPT_VERSION) throw new Error("Unsupported TOC acceptance receipt version.");
+  if (receipt.acceptance_engine_version !== TOC_ACCEPTANCE_ENGINE_VERSION) throw new Error("Unsupported TOC acceptance engine version.");
+  if (receipt.case_id !== state.case_id) throw new Error("TOC acceptance receipt case_id does not match workflow state.");
+  const requiredSheets = ["SYS_SNAPSHOT", "SYS_MAPPING", "SYS_RPA_SPEC", "CHANGE_REVIEW"];
+  if (receipt.system_sheets?.status !== "PASS" || !requiredSheets.every((name) => receipt.system_sheets.required?.includes(name))) {
+    throw new Error("TOC acceptance receipt must prove all required system sheets.");
+  }
+  if (receipt.rpa_release !== "HOLD") throw new Error("TOC acceptance receipt must keep RPA on HOLD.");
+  const bindings = [
+    [receipt.inputs?.workbook, state.artifacts.returned_workbook_path, "receipt.inputs.workbook"],
+    [receipt.inputs?.baseline, state.artifacts.toc_baseline_state_path, "receipt.inputs.baseline"],
+    [receipt.inputs?.decisions, decisionsPath, "receipt.inputs.decisions"],
+    [receipt.outputs?.accepted_workbook, acceptedWorkbookPath, "receipt.outputs.accepted_workbook"],
+    [receipt.outputs?.accepted_state, acceptedStatePath, "receipt.outputs.accepted_state"],
+    [receipt.outputs?.verification_report, verificationReportPath, "receipt.outputs.verification_report"],
+  ];
+  for (const [binding, expectedPath, name] of bindings) {
+    if (!binding?.path || !samePath(binding.path, expectedPath)) throw new Error(`${name} path mismatch.`);
+    const boundPath = requireExistingFile(binding.path, `${name}.path`);
+    assertHash(boundPath, binding.sha256, name);
+  }
+  if (JSON.stringify(receipt.verification?.summary) !== JSON.stringify(verification.summary)
+      || receipt.verification?.formula_integrity !== "PASS"
+      || receipt.verification?.release_recommendation !== "HUMAN_CONFIRMATION_REQUIRED") {
+    throw new Error("TOC acceptance receipt verification does not match the registered verification report.");
+  }
   const next = transition(state, "RECORD_TOC_ACCEPTANCE", "STRATEGY_CANDIDATES", { human_command: true });
-  next.artifacts.accepted_workbook_path = requireText(payload.accepted_workbook_path, "accepted_workbook_path");
-  next.artifacts.accepted_state_path = requireText(payload.accepted_state_path, "accepted_state_path");
-  next.artifacts.acceptance_verification_path = requireText(payload.verification_report_path, "verification_report_path");
+  next.artifacts.accepted_workbook_path = acceptedWorkbookPath;
+  next.artifacts.accepted_state_path = acceptedStatePath;
+  next.artifacts.acceptance_verification_path = verificationReportPath;
+  next.artifacts.acceptance_receipt_path = receiptPath;
+  next.artifacts.acceptance_receipt_sha256 = sha256(receiptPath);
+  next.artifacts.acceptance_engine_version = receipt.acceptance_engine_version;
   next.human_gates.toc_changes_accepted = true;
   next.toc_acceptance_summary = clone(verification.summary);
   next.next_action = "GENERATE_STRATEGY_CANDIDATES";
@@ -358,7 +402,7 @@ function authorizeRegeneration(state, payload) {
     delete next.toc_acceptance_summary;
     delete next.strategy_selection;
     delete next.semantic_execution;
-    removeArtifacts(["analysis_report_path", "summary_report_path", "analysis_semantic_evidence_path", "analysis_semantic_evidence_sha256", "toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
+    removeArtifacts(["analysis_report_path", "summary_report_path", "analysis_semantic_evidence_path", "analysis_semantic_evidence_sha256", "toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "acceptance_receipt_path", "acceptance_receipt_sha256", "acceptance_engine_version", "strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
   } else if (target === "TOC_DRAFT") {
     next.human_gates.toc_changes_accepted = false;
     delete next.toc_change_summary;
@@ -366,7 +410,7 @@ function authorizeRegeneration(state, payload) {
     delete next.toc_acceptance_summary;
     delete next.strategy_selection;
     if (next.semantic_execution) delete next.semantic_execution.strategy;
-    removeArtifacts(["toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
+    removeArtifacts(["toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "acceptance_receipt_path", "acceptance_receipt_sha256", "acceptance_engine_version", "strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
   } else {
     delete next.strategy_selection;
     if (next.semantic_execution) delete next.semantic_execution.strategy;

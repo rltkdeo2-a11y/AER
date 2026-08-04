@@ -134,6 +134,23 @@ function ensureTableBodyRows(sheet, desiredRows, columnCount, headerRows = 4) {
   table.rows.add(null, blankRows);
 }
 
+function getOrCreateSystemSheet(workbook, name, headers, tableName) {
+  let sheet;
+  let created = false;
+  try {
+    sheet = workbook.worksheets.getItem(name);
+  } catch {
+    sheet = workbook.worksheets.add(name);
+    created = true;
+    sheet.getRange("A1").values = [[name]];
+    sheet.getRangeByIndexes(3, 0, 1, headers.length).values = [headers];
+    const lastColumn = String.fromCharCode(64 + headers.length);
+    sheet.tables.add(`A4:${lastColumn}4`, true, tableName);
+  }
+  if (!sheet.tables.items[0]) throw new Error(`System sheet ${name} is missing its required table.`);
+  return { sheet, created };
+}
+
 function tocPath(state, nodeId) {
   const nodeMap = new Map(state.toc_nodes.map((node) => [node.node_id, node]));
   const titles = [];
@@ -146,13 +163,22 @@ function tocPath(state, nodeId) {
 }
 
 function syncSystemSheets(workbook, state) {
-  const snapshotSheet = workbook.worksheets.getItem("SYS_SNAPSHOT");
-  const mappingSheet = workbook.worksheets.getItem("SYS_MAPPING");
-  const rpaSheet = workbook.worksheets.getItem("SYS_RPA_SPEC");
-  const changeSheet = workbook.worksheets.getItem("CHANGE_REVIEW");
-  if (!snapshotSheet || !mappingSheet || !rpaSheet || !changeSheet) {
-    throw new Error("The accepted workbook is missing a required system sheet.");
-  }
+  const snapshot = getOrCreateSystemSheet(workbook, "SYS_SNAPSHOT",
+    ["node_id", "volume_id", "page_budget_id", "baseline_L1", "baseline_L2", "baseline_L3", "baseline_parent", "baseline_level", "baseline_A3", "baseline_physical", "official_fixed", "status"],
+    "AcceptanceSnapshotTable");
+  const mapping = getOrCreateSystemSheet(workbook, "SYS_MAPPING",
+    ["map_id", "obligation_id", "target_node_id", "relation", "requirement_id", "source_id", "evidence", "validation_status", "toc_path"],
+    "AcceptanceMappingTable");
+  const rpa = getOrCreateSystemSheet(workbook, "SYS_RPA_SPEC",
+    ["release_id", "volume_id", "page_budget_id", "page_id", "node_id", "page_order", "page_format", "physical_sheets", "counted_start", "counted_end", "layout_key", "release_status"],
+    "AcceptanceRpaTable");
+  const change = getOrCreateSystemSheet(workbook, "CHANGE_REVIEW",
+    ["node_id", "VOLUME", "BUDGET", "LEVEL_1", "LEVEL_2", "LEVEL_3", "CHANGE_TYPE", "BASELINE_A3", "CURRENT_A3", "CURRENT_PAGES", "ACTION"],
+    "AcceptanceChangeTable");
+  const snapshotSheet = snapshot.sheet;
+  const mappingSheet = mapping.sheet;
+  const rpaSheet = rpa.sheet;
+  const changeSheet = change.sheet;
 
   const snapshotRows = state.toc_nodes.map((node) => {
     const levels = [1, 2, 3].map((level) => level === node.level ? node.title : null);
@@ -220,8 +246,18 @@ function syncSystemSheets(workbook, state) {
       target.copyFrom(source, "all");
     }
   }
-  for (let column = 0; column < 11; column += 1) {
-    changeSheet.getRangeByIndexes(4, column, desiredChangeRows, 1).fillDown();
+  if (change.created) {
+    const changeRows = state.toc_nodes.map((node) => {
+      const levels = [1, 2, 3].map((level) => level === node.level ? node.title : null);
+      return [node.node_id, node.volume_id, node.page_budget_id, ...levels, "UNCHANGED",
+        node.leaf ? Boolean(node.a3_checked) : null, node.leaf ? Boolean(node.a3_checked) : null,
+        node.physical_sheets ?? null, "IGNORE"];
+    });
+    changeSheet.getRangeByIndexes(4, 0, changeRows.length, 11).values = changeRows;
+  } else {
+    for (let column = 0; column < 11; column += 1) {
+      changeSheet.getRangeByIndexes(4, column, desiredChangeRows, 1).fillDown();
+    }
   }
 
   let guideSheet = null;
@@ -234,6 +270,10 @@ function syncSystemSheets(workbook, state) {
     guideSheet.getRange("A1").values = [["AER TOC WORKBOOK ROUNDTRIP ACCEPTED v0.3"]];
     guideSheet.getRange("A2").values = [["Approved PM edits were applied to a new baseline. The original test rows below remain as protocol provenance, not as pending instructions."]];
   }
+  return {
+    recovered: [snapshot, mapping, rpa, change].filter((item) => item.created).map((item) => item.sheet.name),
+    required: ["SYS_SNAPSHOT", "SYS_MAPPING", "SYS_RPA_SPEC", "CHANGE_REVIEW"],
+  };
 }
 
 function nextMappingId(state, sourceMapping, newNodeId) {
@@ -256,6 +296,10 @@ async function writeJsonSafely(filePath, value) {
   }
 }
 
+async function sha256File(filePath) {
+  return crypto.createHash("sha256").update(await fs.readFile(filePath)).digest("hex").toUpperCase();
+}
+
 function validateDistinctPaths(paths) {
   const resolved = paths.map(normalizedPath);
   if (new Set(resolved).size !== resolved.length) {
@@ -270,6 +314,7 @@ export async function acceptRoundtrip({
   acceptedWorkbookPath,
   acceptedStatePath,
   verificationReportPath,
+  acceptanceReceiptPath,
 }) {
   validateDistinctPaths([
     workbookPath,
@@ -278,11 +323,12 @@ export async function acceptRoundtrip({
     acceptedWorkbookPath,
     acceptedStatePath,
     verificationReportPath,
+    acceptanceReceiptPath,
   ]);
   if (path.extname(acceptedWorkbookPath).toLowerCase() !== ".xlsx") {
     throw new Error("AcceptedWorkbookPath must use the .xlsx extension.");
   }
-  for (const jsonPath of [decisionsPath, acceptedStatePath, verificationReportPath]) {
+  for (const jsonPath of [decisionsPath, acceptedStatePath, verificationReportPath, acceptanceReceiptPath]) {
     if (path.extname(jsonPath).toLowerCase() !== ".json") throw new Error("Decision, state, and report paths must use the .json extension.");
   }
 
@@ -423,7 +469,9 @@ export async function acceptRoundtrip({
     human_check: "REVIEW",
     allocation_status: "REVIEW",
   };
-  state.rpa_release = { ...state.rpa_release, state: "HOLD" };
+  state.rpa_release = typeof state.rpa_release === "object" && state.rpa_release !== null
+    ? { ...state.rpa_release, state: "HOLD" }
+    : "HOLD";
 
   const currentRowByNodeId = new Map();
   for (let excelRow = headerRow + 2; excelRow <= values.length; excelRow += 1) {
@@ -440,7 +488,7 @@ export async function acceptRoundtrip({
     const column = headerMap.get(formulaHeader);
     sheet.getRangeByIndexes(firstDataRow - 1, column, values.length - firstDataRow + 1, 1).fillDown();
   }
-  syncSystemSheets(workbook, state);
+  const systemSheetResult = syncSystemSheets(workbook, state);
   await fs.mkdir(path.dirname(path.resolve(acceptedWorkbookPath)), { recursive: true });
   const outputWorkbook = await SpreadsheetFile.exportXlsx(workbook);
   await outputWorkbook.save(path.resolve(acceptedWorkbookPath));
@@ -455,13 +503,34 @@ export async function acceptRoundtrip({
   if (verification.page_budgets.some((budget) => ["REVIEW", "INDETERMINATE"].includes(budget.status))) {
     throw new Error("Accepted state does not satisfy all determinable page budgets.");
   }
+  const receipt = {
+    receipt_version: "0.1.0",
+    acceptance_engine_version: "0.1.1",
+    case_id: state.case_id,
+    inputs: {
+      workbook: { path: path.resolve(workbookPath), sha256: await sha256File(workbookPath) },
+      baseline: { path: path.resolve(baselinePath), sha256: await sha256File(baselinePath) },
+      decisions: { path: path.resolve(decisionsPath), sha256: await sha256File(decisionsPath) },
+    },
+    outputs: {
+      accepted_workbook: { path: path.resolve(acceptedWorkbookPath), sha256: await sha256File(acceptedWorkbookPath) },
+      accepted_state: { path: path.resolve(acceptedStatePath), sha256: await sha256File(acceptedStatePath) },
+      verification_report: { path: path.resolve(verificationReportPath), sha256: await sha256File(verificationReportPath) },
+    },
+    system_sheets: { status: "PASS", ...systemSheetResult },
+    verification: { summary: verification.summary, formula_integrity: verification.formula_integrity.status,
+      release_recommendation: verification.release_recommendation },
+    rpa_release: "HOLD",
+  };
+  await writeJsonSafely(acceptanceReceiptPath, receipt);
   return {
-    acceptance_engine_version: "0.1.0",
+    acceptance_engine_version: "0.1.1",
     case_id: state.case_id,
     accepted_events: acceptedEvents,
     accepted_workbook_path: path.resolve(acceptedWorkbookPath),
     accepted_state_path: path.resolve(acceptedStatePath),
     verification_report_path: path.resolve(verificationReportPath),
+    acceptance_receipt_path: path.resolve(acceptanceReceiptPath),
     verification_summary: verification.summary,
     page_budgets: verification.page_budgets,
     release_recommendation: verification.release_recommendation,
@@ -471,9 +540,9 @@ export async function acceptRoundtrip({
 const directExecution = process.argv[1]
   && import.meta.url === `file:///${process.argv[1].replaceAll("\\", "/")}`;
 if (directExecution) {
-  const [workbookPath, baselinePath, decisionsPath, acceptedWorkbookPath, acceptedStatePath, verificationReportPath] = process.argv.slice(2);
-  if (!verificationReportPath) {
-    throw new Error("Usage: node aer-toc-roundtrip-accept.mjs <workbook.xlsx> <baseline.json> <decisions.json> <accepted.xlsx> <accepted-state.json> <verification.json>");
+  const [workbookPath, baselinePath, decisionsPath, acceptedWorkbookPath, acceptedStatePath, verificationReportPath, acceptanceReceiptPath] = process.argv.slice(2);
+  if (!acceptanceReceiptPath) {
+    throw new Error("Usage: node aer-toc-roundtrip-accept.mjs <workbook.xlsx> <baseline.json> <decisions.json> <accepted.xlsx> <accepted-state.json> <verification.json> <receipt.json>");
   }
   console.log(JSON.stringify(await acceptRoundtrip({
     workbookPath,
@@ -482,5 +551,6 @@ if (directExecution) {
     acceptedWorkbookPath,
     acceptedStatePath,
     verificationReportPath,
+    acceptanceReceiptPath,
   }), null, 2));
 }
