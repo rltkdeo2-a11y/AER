@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aer://proposal-initial-run-manifest/v0.1",
+  "title": "AER Proposal Initial Run Manifest",
+  "type": "object",
+  "required": ["manifest_version", "case_id", "repository_root", "output_root", "source_paths", "approved_artifacts", "foundation_input", "toc", "strategy"],
+  "properties": {
+    "manifest_version": { "const": "0.1.0" },
+    "case_id": { "type": "string", "minLength": 1 },
+    "repository_root": { "type": "string", "minLength": 1 },
+    "output_root": { "type": "string", "minLength": 1 },
+    "source_paths": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "approved_artifacts": {
+      "type": "object",
+      "required": ["analysis_report", "summary_report", "analysis_evidence", "toc_baseline_state", "toc_draft_workbook", "returned_workbook", "toc_decisions"]
+    },
+    "foundation_input": {
+      "type": "object",
+      "required": ["proposal_mode", "participant_count", "rfp_consistency_status"]
+    },
+    "toc": { "type": "object", "required": ["contract_version"] },
+    "strategy": {
+      "type": "object",
+      "required": ["candidates_path", "selected_candidate_ids"],
+      "properties": {
+        "selected_candidate_ids": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  }
+}
