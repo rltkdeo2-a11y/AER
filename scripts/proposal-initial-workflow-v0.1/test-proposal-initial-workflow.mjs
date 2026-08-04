@@ -1,13 +1,76 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import crypto from "node:crypto";
 import { applyAction, WORKFLOW_VERSION } from "./proposal-initial-workflow.mjs";
 
-const start = applyAction("START", null, { case_id: "CASE-TEST", source_paths: ["rfp.pdf", "task.pdf"] });
+const scratch = fs.mkdtempSync(path.join(os.tmpdir(), "aer-piw-core-proof-"));
+const file = (name, content = name) => {
+  const target = path.join(scratch, name);
+  fs.writeFileSync(target, content, "utf8");
+  return target;
+};
+const hash = (target) => crypto.createHash("sha256").update(fs.readFileSync(target)).digest("hex").toUpperCase();
+const writeProof = (name, artifactType, sources, outputs, overrides = {}) => {
+  const proof = {
+    proof_contract_version: "0.1.0",
+    artifact_type: artifactType,
+    case_id: "CASE-TEST",
+    source_inputs: sources.map((source) => ({ path: source, sha256: hash(source) })),
+    authority: { digest: "authority-digest", repository_head: "repository-head", runtime: "AER_CORE" },
+    runtime_selection: { core_required: true, reason: "material judgment" },
+    core_evidence: {
+      problem_definition_present: true,
+      facts_assumptions_unknowns_separated: true,
+      reasoning_links_present: true,
+      bottleneck_six_fields_present: true,
+      solution_hypothesis_present: true,
+      direct_validation: "PASS_CONDITIONAL",
+      opposing_review: "ACCEPT_AND_REVISE",
+      whole_process_impact: "REVIEWED",
+      global_consistency: "PASS_CONDITIONAL",
+      closure_outcome: "PASS_CONDITIONAL",
+    },
+    outputs: outputs.map((output) => ({ path: output, sha256: hash(output) })),
+    ...overrides,
+  };
+  return file(name, `${JSON.stringify(proof, null, 2)}\n`);
+};
+
+try {
+const rfp = file("rfp.pdf", "synthetic rfp");
+const task = file("task.pdf", "synthetic task");
+const analysisFile = file("analysis.json", "analysis");
+const summaryFile = file("summary.md", "summary");
+const analysisProof = writeProof("analysis-proof.json", "RFP_ANALYSIS", [rfp, task], [analysisFile, summaryFile]);
+
+const start = applyAction("START", null, { case_id: "CASE-TEST", source_paths: [rfp, task] });
 assert.equal(start.workflow_version, WORKFLOW_VERSION);
 assert.equal(start.stage, "SOURCE_INTAKE");
 assert.equal(start.rpa_release, "HOLD");
 
-const analysis = applyAction("REGISTER_ANALYSIS", start, { analysis_report_path: "analysis.json", summary_report_path: "summary.md" });
+assert.throws(() => applyAction("REGISTER_ANALYSIS", start, { analysis_report_path: analysisFile, summary_report_path: summaryFile }), /semantic_evidence_path/);
+const analysis = applyAction("REGISTER_ANALYSIS", start, { analysis_report_path: analysisFile, summary_report_path: summaryFile, semantic_evidence_path: analysisProof });
 assert.equal(analysis.stage, "SUMMARY_CONFIRMATION");
+assert.equal(analysis.semantic_execution.analysis.runtime, "AER_CORE");
+assert.equal(analysis.artifacts.analysis_semantic_evidence_sha256, hash(analysisProof));
+
+const noRuntimeProof = writeProof("analysis-proof-no-runtime.json", "RFP_ANALYSIS", [rfp, task], [analysisFile, summaryFile], {
+  authority: { digest: "authority-digest", repository_head: "repository-head" },
+});
+assert.throws(() => applyAction("REGISTER_ANALYSIS", start, { analysis_report_path: analysisFile, summary_report_path: summaryFile, semantic_evidence_path: noRuntimeProof }), /AER_CORE runtime/);
+
+const noClosureProof = writeProof("analysis-proof-no-closure.json", "RFP_ANALYSIS", [rfp, task], [analysisFile, summaryFile]);
+const noClosure = JSON.parse(fs.readFileSync(noClosureProof, "utf8"));
+delete noClosure.core_evidence.closure_outcome;
+fs.writeFileSync(noClosureProof, JSON.stringify(noClosure), "utf8");
+assert.throws(() => applyAction("REGISTER_ANALYSIS", start, { analysis_report_path: analysisFile, summary_report_path: summaryFile, semantic_evidence_path: noClosureProof }), /closure_outcome/);
+
+const tamperProof = writeProof("analysis-proof-tamper.json", "RFP_ANALYSIS", [rfp, task], [analysisFile, summaryFile]);
+fs.appendFileSync(analysisFile, "tampered", "utf8");
+assert.throws(() => applyAction("REGISTER_ANALYSIS", start, { analysis_report_path: analysisFile, summary_report_path: summaryFile, semantic_evidence_path: tamperProof }), /SHA-256 mismatch/);
+fs.writeFileSync(analysisFile, "analysis", "utf8");
 assert.throws(() => applyAction("REGISTER_TOC_DRAFT", analysis, {}), /not permitted/);
 assert.throws(() => applyAction("CONFIRM_SUMMARY", analysis, { approved: false }), /approved=true/);
 
@@ -57,8 +120,8 @@ assert.throws(() => applyAction("RECORD_TOC_ACCEPTANCE", reimport, {
 }), /zero material/);
 
 const accepted = applyAction("RECORD_TOC_ACCEPTANCE", reimport, {
-  accepted_workbook_path: "accepted.xlsx",
-  accepted_state_path: "accepted.json",
+  accepted_workbook_path: file("accepted.xlsx", "accepted workbook"),
+  accepted_state_path: file("accepted.json", "accepted state"),
   verification_report_path: "verification.json",
   verification: {
     summary: { material_changes: 0, blocking_changes: 0, structural_changes: 0 },
@@ -69,9 +132,23 @@ const accepted = applyAction("RECORD_TOC_ACCEPTANCE", reimport, {
 assert.equal(accepted.stage, "STRATEGY_CANDIDATES");
 assert.equal(accepted.rpa_release, "HOLD");
 
-const complete = applyAction("REGISTER_STRATEGY_CANDIDATES", accepted, { strategy_candidates_path: "strategy.md" });
+const strategyFile = file("strategy.md", "strategy");
+const strategyProof = writeProof("strategy-proof.json", "STRATEGY", [rfp, task], [strategyFile], {
+  strategy_bindings: {
+    approved_rfp_analysis_proof_sha256: accepted.artifacts.analysis_semantic_evidence_sha256,
+    accepted_toc_state_sha256: hash(accepted.artifacts.accepted_state_path),
+    foundation_input_status: "PROVIDED",
+  },
+});
+assert.throws(() => applyAction("REGISTER_STRATEGY_CANDIDATES", accepted, { strategy_candidates_path: strategyFile }), /semantic_evidence_path/);
+const wrongBindingProof = writeProof("strategy-proof-wrong-binding.json", "STRATEGY", [rfp, task], [strategyFile], {
+  strategy_bindings: { approved_rfp_analysis_proof_sha256: "0".repeat(64), accepted_toc_state_sha256: hash(accepted.artifacts.accepted_state_path), foundation_input_status: "PROVIDED" },
+});
+assert.throws(() => applyAction("REGISTER_STRATEGY_CANDIDATES", accepted, { strategy_candidates_path: strategyFile, semantic_evidence_path: wrongBindingProof }), /approved RFP analysis proof/);
+const complete = applyAction("REGISTER_STRATEGY_CANDIDATES", accepted, { strategy_candidates_path: strategyFile, semantic_evidence_path: strategyProof });
 assert.equal(complete.stage, "STRATEGY_CANDIDATES");
 assert.equal(complete.status, "ACTIVE");
+assert.equal(complete.semantic_execution.strategy.runtime, "AER_CORE");
 assert.throws(() => applyAction("CONFIRM_STRATEGY_SELECTION", complete, {}), /selected_candidate_ids/);
 const selected = applyAction("CONFIRM_STRATEGY_SELECTION", complete, { selected_candidate_ids: ["STRATEGY-01"] });
 assert.equal(selected.stage, "COMPLETE");
@@ -92,3 +169,6 @@ assert.throws(() => applyAction("AUTHORIZE_REGENERATION", revised, {
 }), /human_command=true/);
 
 console.log("PASS: Proposal initial workflow coordinator v0.1.0");
+} finally {
+  fs.rmSync(scratch, { recursive: true, force: true });
+}

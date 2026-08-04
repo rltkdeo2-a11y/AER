@@ -1,8 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 export const WORKFLOW_VERSION = "0.1.0";
+export const SEMANTIC_EVIDENCE_VERSION = "0.1.0";
 export const STAGES = [
   "SOURCE_INTAKE",
   "SUMMARY_CONFIRMATION",
@@ -38,6 +40,66 @@ function requireText(value, name) {
 function requireArray(value, name) {
   if (!Array.isArray(value) || value.length === 0) throw new Error(`${name} must be a non-empty array.`);
   return value;
+}
+
+function sha256(filePath) {
+  return crypto.createHash("sha256").update(fs.readFileSync(filePath)).digest("hex").toUpperCase();
+}
+
+function samePath(left, right) {
+  return path.resolve(left).toLowerCase() === path.resolve(right).toLowerCase();
+}
+
+function requireExistingFile(value, name) {
+  const resolved = path.resolve(requireText(value, name));
+  if (!fs.existsSync(resolved) || !fs.statSync(resolved).isFile()) throw new Error(`${name} must reference an existing file.`);
+  return resolved;
+}
+
+function assertHash(filePath, expected, name) {
+  const declared = requireText(expected, `${name}.sha256`).toUpperCase();
+  if (!/^[A-F0-9]{64}$/.test(declared)) throw new Error(`${name}.sha256 must be a SHA-256 digest.`);
+  if (sha256(filePath) !== declared) throw new Error(`${name} SHA-256 mismatch.`);
+}
+
+function requireSemanticEvidence(state, payload, artifactType, outputPaths) {
+  const evidencePath = requireExistingFile(payload.semantic_evidence_path, "semantic_evidence_path");
+  const proof = readJson(evidencePath);
+  if (proof.proof_contract_version !== SEMANTIC_EVIDENCE_VERSION) throw new Error("Unsupported semantic evidence contract version.");
+  if (proof.artifact_type !== artifactType) throw new Error(`Semantic evidence artifact_type must be ${artifactType}.`);
+  if (proof.case_id !== state.case_id) throw new Error("Semantic evidence case_id does not match workflow state.");
+  if (proof.authority?.runtime !== "AER_CORE") throw new Error("Semantic evidence must record AER_CORE runtime.");
+  requireText(proof.authority?.digest, "authority.digest");
+  requireText(proof.authority?.repository_head, "authority.repository_head");
+  if (proof.runtime_selection?.core_required !== true) throw new Error("Semantic evidence must affirm core_required=true.");
+
+  const core = proof.core_evidence || {};
+  for (const field of ["problem_definition_present", "facts_assumptions_unknowns_separated", "reasoning_links_present", "bottleneck_six_fields_present", "solution_hypothesis_present"]) {
+    if (core[field] !== true) throw new Error(`Semantic evidence requires ${field}=true.`);
+  }
+  if (!['PASS', 'PASS_CONDITIONAL'].includes(core.direct_validation)) throw new Error("Semantic evidence direct_validation must pass.");
+  requireText(core.opposing_review, "core_evidence.opposing_review");
+  requireText(core.whole_process_impact, "core_evidence.whole_process_impact");
+  requireText(core.global_consistency, "core_evidence.global_consistency");
+  if (!['PASS', 'PASS_CONDITIONAL'].includes(core.closure_outcome)) throw new Error("Semantic evidence closure_outcome must pass.");
+
+  const inputs = requireArray(proof.source_inputs, "source_inputs");
+  if (inputs.length !== state.canonical_inputs.source_paths.length) throw new Error("Semantic evidence source count does not match canonical inputs.");
+  for (const canonical of state.canonical_inputs.source_paths) {
+    const match = inputs.find((item) => item?.path && samePath(item.path, canonical));
+    if (!match) throw new Error(`Semantic evidence is not bound to canonical source: ${canonical}`);
+    const sourcePath = requireExistingFile(match.path, "source_inputs.path");
+    assertHash(sourcePath, match.sha256, "source_inputs item");
+  }
+
+  const outputs = requireArray(proof.outputs, "outputs");
+  for (const expectedPath of outputPaths) {
+    const match = outputs.find((item) => item?.path && samePath(item.path, expectedPath));
+    if (!match) throw new Error(`Semantic evidence is not bound to output: ${expectedPath}`);
+    const outputPath = requireExistingFile(match.path, "outputs.path");
+    assertHash(outputPath, match.sha256, "outputs item");
+  }
+  return { evidencePath, evidenceSha256: sha256(evidencePath), proof };
 }
 
 function clone(value) {
@@ -111,9 +173,22 @@ function start(payload) {
 
 function registerAnalysis(state, payload) {
   assertStage(state, "REGISTER_ANALYSIS");
+  const analysisPath = requireExistingFile(payload.analysis_report_path, "analysis_report_path");
+  const summaryPath = requireExistingFile(payload.summary_report_path, "summary_report_path");
+  const evidence = requireSemanticEvidence(state, payload, "RFP_ANALYSIS", [analysisPath, summaryPath]);
   const next = transition(state, "REGISTER_ANALYSIS", "SUMMARY_CONFIRMATION");
-  next.artifacts.analysis_report_path = requireText(payload.analysis_report_path, "analysis_report_path");
-  next.artifacts.summary_report_path = requireText(payload.summary_report_path, "summary_report_path");
+  next.artifacts.analysis_report_path = analysisPath;
+  next.artifacts.summary_report_path = summaryPath;
+  next.artifacts.analysis_semantic_evidence_path = evidence.evidencePath;
+  next.artifacts.analysis_semantic_evidence_sha256 = evidence.evidenceSha256;
+  next.semantic_execution = {
+    analysis: {
+      runtime: evidence.proof.authority.runtime,
+      authority_digest: evidence.proof.authority.digest,
+      repository_head: evidence.proof.authority.repository_head,
+      closure_outcome: evidence.proof.core_evidence.closure_outcome,
+    },
+  };
   next.next_action = "REQUEST_HUMAN_SUMMARY_CONFIRMATION";
   return next;
 }
@@ -201,8 +276,30 @@ function recordTocAcceptance(state, payload) {
 
 function registerStrategyCandidates(state, payload) {
   assertStage(state, "REGISTER_STRATEGY_CANDIDATES");
+  if (!state.artifacts.analysis_semantic_evidence_sha256) throw new Error("Strategy registration requires approved RFP analysis semantic evidence.");
+  if (!state.artifacts.accepted_state_path) throw new Error("Strategy registration requires an accepted TOC state.");
+  const strategyPath = requireExistingFile(payload.strategy_candidates_path, "strategy_candidates_path");
+  const evidence = requireSemanticEvidence(state, payload, "STRATEGY", [strategyPath]);
+  const bindings = evidence.proof.strategy_bindings || {};
+  if (text(bindings.approved_rfp_analysis_proof_sha256).toUpperCase() !== state.artifacts.analysis_semantic_evidence_sha256) {
+    throw new Error("Strategy evidence is not bound to the approved RFP analysis proof.");
+  }
+  const acceptedStatePath = requireExistingFile(state.artifacts.accepted_state_path, "accepted_state_path");
+  if (text(bindings.accepted_toc_state_sha256).toUpperCase() !== sha256(acceptedStatePath)) {
+    throw new Error("Strategy evidence is not bound to the accepted TOC state.");
+  }
+  requireText(bindings.foundation_input_status, "strategy_bindings.foundation_input_status");
   const next = transition(state, "REGISTER_STRATEGY_CANDIDATES", "STRATEGY_CANDIDATES");
-  next.artifacts.strategy_candidates_path = requireText(payload.strategy_candidates_path, "strategy_candidates_path");
+  next.artifacts.strategy_candidates_path = strategyPath;
+  next.artifacts.strategy_semantic_evidence_path = evidence.evidencePath;
+  next.artifacts.strategy_semantic_evidence_sha256 = evidence.evidenceSha256;
+  next.semantic_execution = next.semantic_execution || {};
+  next.semantic_execution.strategy = {
+    runtime: evidence.proof.authority.runtime,
+    authority_digest: evidence.proof.authority.digest,
+    repository_head: evidence.proof.authority.repository_head,
+    closure_outcome: evidence.proof.core_evidence.closure_outcome,
+  };
   next.next_action = "HUMAN_STRATEGY_REVIEW";
   return next;
 }
@@ -260,17 +357,20 @@ function authorizeRegeneration(state, payload) {
     delete next.toc_release_recommendation;
     delete next.toc_acceptance_summary;
     delete next.strategy_selection;
-    removeArtifacts(["analysis_report_path", "summary_report_path", "toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "strategy_candidates_path"]);
+    delete next.semantic_execution;
+    removeArtifacts(["analysis_report_path", "summary_report_path", "analysis_semantic_evidence_path", "analysis_semantic_evidence_sha256", "toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
   } else if (target === "TOC_DRAFT") {
     next.human_gates.toc_changes_accepted = false;
     delete next.toc_change_summary;
     delete next.toc_release_recommendation;
     delete next.toc_acceptance_summary;
     delete next.strategy_selection;
-    removeArtifacts(["toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "strategy_candidates_path"]);
+    if (next.semantic_execution) delete next.semantic_execution.strategy;
+    removeArtifacts(["toc_baseline_state_path", "toc_workbook_path", "toc_contract_version", "returned_workbook_path", "toc_change_report_path", "accepted_workbook_path", "accepted_state_path", "acceptance_verification_path", "strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
   } else {
     delete next.strategy_selection;
-    removeArtifacts(["strategy_candidates_path"]);
+    if (next.semantic_execution) delete next.semantic_execution.strategy;
+    removeArtifacts(["strategy_candidates_path", "strategy_semantic_evidence_path", "strategy_semantic_evidence_sha256"]);
   }
   next.status = "ACTIVE";
   next.next_action = target === "SOURCE_INTAKE" ? "RUN_RFP_ANALYSIS" : target === "TOC_DRAFT" ? "GENERATE_TOC_DRAFT" : "GENERATE_STRATEGY_CANDIDATES";

@@ -37,7 +37,19 @@ else {
 }
 
 $payloadObject = Get-Content -LiteralPath $payload -Encoding UTF8 -Raw | ConvertFrom-Json
-$engineAction = $Action
+$engineAction = @{
+    Start = 'START'
+    RegisterAnalysis = 'REGISTER_ANALYSIS'
+    ConfirmSummary = 'CONFIRM_SUMMARY'
+    RecordFoundationInput = 'RECORD_FOUNDATION_INPUT'
+    RegisterTocDraft = 'REGISTER_TOC_DRAFT'
+    AnalyzeTocReturn = 'RECORD_TOC_ANALYSIS'
+    AcceptTocReturn = 'RECORD_TOC_ACCEPTANCE'
+    RegisterStrategyCandidates = 'REGISTER_STRATEGY_CANDIDATES'
+    ConfirmStrategySelection = 'CONFIRM_STRATEGY_SELECTION'
+    AddExternalInformation = 'ADD_EXTERNAL_INFORMATION'
+    AuthorizeRegeneration = 'AUTHORIZE_REGENERATION'
+}[$Action]
 $temporaryPayload = $null
 
 function Resolve-RequiredArtifact {
@@ -65,7 +77,8 @@ try {
     elseif ($Action -eq 'RegisterAnalysis') {
         $analysisPath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.analysis_report_path -Name 'analysis_report_path'
         $summaryPath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.summary_report_path -Name 'summary_report_path'
-        Assert-OutputDoesNotCollide -Paths @($analysisPath, $summaryPath)
+        $evidencePath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.semantic_evidence_path -Name 'semantic_evidence_path'
+        Assert-OutputDoesNotCollide -Paths @($analysisPath, $summaryPath, $evidencePath)
     }
     elseif ($Action -eq 'RegisterTocDraft') {
         $baselinePath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.baseline_state_path -Name 'baseline_state_path'
@@ -74,7 +87,8 @@ try {
     }
     elseif ($Action -eq 'RegisterStrategyCandidates') {
         $strategyPath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.strategy_candidates_path -Name 'strategy_candidates_path'
-        Assert-OutputDoesNotCollide -Paths @($strategyPath)
+        $evidencePath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.semantic_evidence_path -Name 'semantic_evidence_path'
+        Assert-OutputDoesNotCollide -Paths @($strategyPath, $evidencePath)
     }
     elseif ($Action -eq 'AddExternalInformation') {
         $externalPath = Resolve-RequiredArtifact -ArtifactPath $payloadObject.source_path -Name 'source_path'
@@ -98,7 +112,6 @@ try {
             report = $reportObject
         } | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $temporaryPayload -Encoding UTF8
         $payload = $temporaryPayload
-        $engineAction = 'RecordTocAnalysis'
     }
     elseif ($Action -eq 'AcceptTocReturn') {
         $current = Get-Content -LiteralPath $state -Encoding UTF8 -Raw | ConvertFrom-Json
@@ -124,7 +137,6 @@ try {
             verification = $verification
         } | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $temporaryPayload -Encoding UTF8
         $payload = $temporaryPayload
-        $engineAction = 'RecordTocAcceptance'
     }
 
     & $node $engine $engineAction $state $payload $output
