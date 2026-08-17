@@ -76,11 +76,13 @@ try {
     $authorityRemote = Join-Path $testRoot 'authority.git'
     GitText $source @('init', '--bare', $authorityRemote) | Out-Null
     GitText $source @('push', $authorityRemote, "$candidate`:refs/heads/main") | Out-Null
+    GitText $authorityRemote @('symbolic-ref', 'HEAD', 'refs/heads/main') | Out-Null
 
     $normal = Join-Path $testRoot 'execution-normal'
     GitText $source @('clone', '--no-local', $authorityRemote, $normal) | Out-Null
     ConfigureExecution -Root $normal -Baseline $candidate -Branch 'candidate/normal-boundary'
     $normalRuntime = RunPowerShell -Root $normal -Script (Join-Path $normal $runtimeRelative) -Arguments @('-HookEvent', 'Verify', '-RefreshRemote') -InputText $null
+    if ($normalRuntime.ExitCode -ne 0) { Write-Output "NORMAL STDOUT:`n$($normalRuntime.Output)`nNORMAL STDERR:`n$($normalRuntime.Error)" }
     Require (($normalRuntime.ExitCode -eq 0) -and ($normalRuntime.Output -match 'Object database: FULL_INDEPENDENT') -and ($normalRuntime.Output -match 'AER_RUNTIME_VERIFY_PASS')) 'full independent execution clone passes'
 
     $shared = Join-Path $testRoot 'execution-shared'
@@ -98,11 +100,13 @@ try {
     GitText $advance @('commit', '-m', 'test: advance isolated authority') | Out-Null
     GitText $advance @('push', 'origin', 'main:main') | Out-Null
     $staleRuntime = RunPowerShell -Root $normal -Script (Join-Path $normal $runtimeRelative) -Arguments @('-HookEvent', 'Verify', '-RefreshRemote') -InputText $null
-    Require (($staleRuntime.ExitCode -eq 2) -and ($staleRuntime.Output -match 'STALE_EXECUTION_BASELINE')) 'stale execution baseline is held'
+    if ($staleRuntime.ExitCode -ne 2) { Write-Output "STALE STDOUT:`n$($staleRuntime.Output)`nSTALE STDERR:`n$($staleRuntime.Error)" }
+    Require (($staleRuntime.ExitCode -eq 2) -and ($staleRuntime.Output -match 'REMOTE_BASE_CHANGED_OBJECT_UNAVAILABLE')) 'stale execution baseline is held'
 
     $promotionRemote = Join-Path $testRoot 'promotion.git'
     GitText $source @('init', '--bare', $promotionRemote) | Out-Null
     GitText $source @('push', $promotionRemote, "$base`:refs/heads/main") | Out-Null
+    GitText $promotionRemote @('symbolic-ref', 'HEAD', 'refs/heads/main') | Out-Null
     $canonical = Join-Path $testRoot 'canonical-owner'
     GitText $source @('clone', '--no-local', $promotionRemote, $canonical) | Out-Null
     GitText $canonical @('config', '--local', 'aer.repositoryRole', 'CANONICAL_OWNER') | Out-Null
@@ -134,15 +138,15 @@ try {
     }
     $manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $manifestPath -Encoding UTF8
 
-    $promotionArgs = @(
-        '-Phase', 'Promote',
-        '-CandidateSource', $source,
-        '-CandidateCommit', $candidate,
-        '-ExpectedBaseCommit', $base,
-        '-ExpectedTitle', $title,
-        '-ExpectedFiles'
-    ) + $changedFiles + @('-ValidationManifest', $manifestPath, '-Branch', 'main', '-Remote', 'origin', '-Push')
-    $promotion = RunPowerShell -Root $canonical -Script (Join-Path $canonical $promotionRelative) -Arguments $promotionArgs -InputText $null
+    $quote = {
+        param([string]$Value)
+        return "'" + $Value.Replace("'", "''") + "'"
+    }
+    $expectedLiterals = @($changedFiles | ForEach-Object { & $quote $_ })
+    $promotionDriver = Join-Path $testRoot 'run-promotion.ps1'
+    $promotionCommand = "& $(& $quote (Join-Path $canonical $promotionRelative)) -Phase Promote -CandidateSource $(& $quote $source) -CandidateCommit $candidate -ExpectedBaseCommit $base -ExpectedTitle $(& $quote $title) -ExpectedFiles @($($expectedLiterals -join ',')) -ValidationManifest $(& $quote $manifestPath) -Branch main -Remote origin -Push"
+    Set-Content -LiteralPath $promotionDriver -Value $promotionCommand -Encoding UTF8
+    $promotion = RunPowerShell -Root $canonical -Script $promotionDriver -Arguments @() -InputText $null
     Require (($promotion.ExitCode -eq 0) -and ($promotion.Output -match 'Result: PROMOTION_COMPLETE')) "isolated exact-Commit promotion passes ($($promotion.Error.Trim()))"
     Require ((GitText $canonical @('rev-parse', 'HEAD')) -eq $candidate) 'local canonical main equals candidate'
     Require ((GitText $source @('ls-remote', '--heads', $promotionRemote, 'refs/heads/main')) -match "^$candidate") 'isolated actual origin/main equals candidate'

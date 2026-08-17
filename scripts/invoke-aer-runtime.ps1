@@ -230,9 +230,13 @@ function New-Binding {
         }
         else { $pushBoundary = 'DENIED_BY_LOCAL_CONFIG_AND_PUSH_URL' }
 
-        if (($null -eq $remoteHead.Sha) -or (-not (Test-CommitExists -Root $Root -Revision $remoteHead.Sha))) {
+        if ($null -eq $remoteHead.Sha) {
             $baselineStatus = 'REMOTE_UNVERIFIED'
             $promotionHolds.Add('ACTUAL_REMOTE_BASE_UNVERIFIED')
+        }
+        elseif (-not (Test-CommitExists -Root $Root -Revision $remoteHead.Sha)) {
+            $baselineStatus = 'REMOTE_BASE_CHANGED_OBJECT_UNAVAILABLE'
+            $holds.Add('REMOTE_BASE_CHANGED_OBJECT_UNAVAILABLE')
         }
         elseif ($baseline -eq $remoteHead.Sha) { $baselineStatus = 'CURRENT' }
         elseif (Test-IsAncestor -Root $Root -Ancestor $baseline -Descendant $remoteHead.Sha) {
