@@ -66,16 +66,18 @@ Codex may edit approved files and run validation, but may not Stage, Commit, or 
 Git Permission: Autonomous Closure
 ```
 
-means that the human approved the immediately preceding semantic summary and authorizes, within the approved scope:
+means that the human approved the immediately preceding semantic summary and authorizes, within the approved scope of an `EXECUTION` repository:
 
 - file creation or modification,
 - validation,
 - explicit-path Stage,
-- one Commit,
-- non-force Push to the approved branch,
+- one candidate Commit,
+- creation of a verified exact-object transport artifact,
 - final result reporting.
 
-No separate Diff, Stage, Commit, or Push approval is required in the normal Autonomous path.
+It does not authorize an Agent execution environment to move or Push canonical `main`. Owner-controlled promotion is a separate acceptance action that imports and verifies the exact validated candidate Commit and advances canonical `main` only by fast-forward.
+
+No separate Diff, Stage, or candidate-Commit approval is required in the normal Autonomous path. A Handoff may also pre-authorize later owner promotion, but that action remains technically separate.
 
 ---
 
@@ -116,7 +118,7 @@ Allowed values:
 - Apply Only
 - Stage After Review
 - Commit After Review
-- Push After Review
+- Push After Review (owner-controlled canonical promotion only)
 - Autonomous Closure
 
 Manual permissions are cumulative only when explicitly stated.
@@ -148,9 +150,9 @@ The files to create, modify, inspect, or intentionally leave unchanged, or the a
 For Autonomous Closure, Repository Actions must additionally state:
 
 - expected base Commit,
-- target branch,
+- candidate branch,
 - proposed Commit title,
-- whether Push is authorized,
+- whether later owner-controlled promotion is authorized,
 - protected files explicitly permitted,
 - allowed file paths or a bounded path pattern.
 
@@ -264,16 +266,18 @@ Codex reports the problem rather than silently resolving a material ambiguity or
 ### Autonomous Procedure
 
 1. Read AGENTS.md, governance, and the Handoff.
-2. Run Preflight against branch, expected base Commit, remote, and clean working tree.
+2. Run Preflight in an independent `EXECUTION` repository against role, candidate branch, expected canonical baseline Commit, object-database independence, Push-deny boundary, and working-tree state.
 3. Inspect relevant existing objects.
 4. Derive and apply the minimum sufficient change set inside the approved boundary.
 5. Run required validation and self-review.
 6. Correct one in-scope validation failure and rerun validation.
 7. Stage only validated approved paths.
-8. Create one Commit.
-9. Recheck remote base and Push without force when authorized.
-10. Verify local and remote HEAD.
+8. Create one candidate Commit.
+9. Freeze the exact candidate Commit SHA and create a verified bundle or fetchable exact-object reference.
+10. Stop before canonical mutation and report the owner-promotion inputs.
 11. Report the final result.
+
+Owner-controlled promotion then independently verifies the candidate SHA, expected parent or explicitly approved fast-forward ancestry, title, exact changed-file set, validation artifacts, and unchanged actual `origin/main`; performs an ff-only `main` promotion and normal Push; and verifies the post-promotion authority state.
 
 ---
 
@@ -303,12 +307,16 @@ Codex must not claim completion when a required check, Commit, Push, or remote v
 A Handoff may move through:
 
 ```text
-Draft → Approved → Applied → Committed → Pushed
+Draft → Approved → Applied → Candidate Committed → Validated → Promoted → Pushed
 ```
 
 `Applied` means files were modified and validated.
 
-`Committed` means a local Commit was created.
+`Candidate Committed` means an exact candidate Commit was created in an `EXECUTION` repository.
+
+`Validated` means that exact candidate SHA and its validation evidence are frozen for promotion.
+
+`Promoted` means an owner-controlled canonical repository advanced `main` to that exact Commit by fast-forward.
 
 `Pushed` means the approved remote branch was verified at that Commit.
 
@@ -338,8 +346,8 @@ After Autonomous application, report:
 6. files intentionally not modified
 7. validations performed
 8. warnings or unresolved issues
-9. Commit hash and title or No-op result
-10. Push and remote-verification result
+9. candidate Commit hash, title, and exact-object transport or No-op result
+10. owner promotion, Push, and remote-verification result
 11. next baseline Commit
 
 Manual reports also state the current Git permission boundary and next required approval.
@@ -355,6 +363,6 @@ The default Autonomous objective is:
 - minimum sufficient documentation,
 - minimum necessary file changes,
 - one human semantic approval,
-- one research Commit,
-- one authorized non-force Push,
+- one candidate research Commit,
+- one separately owner-controlled fast-forward promotion and authorized non-force Push,
 - no duplicate status Commit.

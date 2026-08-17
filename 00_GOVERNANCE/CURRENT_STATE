@@ -309,6 +309,19 @@ Repository Reconciliation Status: RESOLVED
 - Local SESSION-019 remains explicitly non-official and outside the canonical Session index. It is preserved in the working copy and is neither promoted nor deleted.
 - Reconciliation changes identifier assignment, discoverability, and authority synchronization only. It changes no research conclusion, stage-level closure, version, Production Layer Hold, or RPA Hold.
 
+Repository Git Operating Model:
+
+- `origin/main` is the remote SSOT. A local canonical repository is an owner-controlled integration copy.
+- Agent/Codex work occurs only in an independent full `EXECUTION` clone with writable Git metadata and an explicit canonical Push deny boundary.
+- Candidate validation and canonical promotion use the exact Git Commit SHA. Bundle or fetch transports the exact object; file copy and recommit are not the standard path.
+- The canonical owner repository is not a general Agent workspace. Only the repository owner may import, verify, and promote an exact validated candidate Commit.
+- Canonical promotion is fast-forward only. Merge Commit, Rebase, Cherry-pick, force Push, and Reset are outside the standard operating model.
+- Linked worktrees, external `GIT_DIR`, shared clones, alternates, shallow clones, and partial clones are not authority-isolation defaults.
+- Broad recursive `.git` write-deny is rejected. Each repository role requires normally writable Git metadata for the identity authorized to operate that role.
+- A stale or divergent local canonical state, stale execution baseline, undeclared role, unverified shared-object condition, or changed actual `origin/main` is `HOLD`.
+
+This operating-model change repairs repository execution and promotion authority. It creates no new AX research conclusion and does not change AER v1.0, AETF v0.1.2, AER Core, DEC-014, Production Layer Hold, or RPA Hold.
+
 ---
 
 # 6. Validated Scope

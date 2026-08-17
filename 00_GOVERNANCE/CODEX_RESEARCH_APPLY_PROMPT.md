@@ -32,10 +32,10 @@ For `Autonomous Closure`, Repository Actions must also make clear:
 
 - approved repository boundary,
 - protected-file permission,
-- target branch,
+- candidate branch,
 - expected base Commit,
 - proposed Commit title,
-- whether Push is authorized.
+- whether later owner-controlled promotion is authorized.
 
 ---
 
@@ -66,7 +66,7 @@ Research Handoff source:
 2. Closure Mode가 명시됐는지 확인한다.
 3. Git Permission이 Autonomous Closure인지 확인한다.
 4. 승인된 결론, Scope, Limitation, Repository Actions 사이에 모순이 없는지 확인한다.
-5. 대상 Branch와 Expected Base Commit을 확인한다.
+5. `EXECUTION` 역할, Candidate Branch와 Expected Canonical Base Commit을 확인한다.
 6. scripts/invoke-aer-closure.ps1의 Preflight를 실행한다.
 7. 관련 기존 연구객체와 명명·보호파일 규칙을 읽는다.
 8. 승인된 의미를 보존하는 최소 변경파일 집합을 내부적으로 결정한다.
@@ -103,14 +103,14 @@ Research Handoff source:
 
 두 번째 검증도 실패하면 Stage 또는 Commit하지 않고 중단결과를 보고한다.
 
-# Phase 4 — Finalize
+# Phase 4 — Candidate Finalize
 
 검증이 통과하면 scripts/invoke-aer-closure.ps1의 Finalize를 실행한다.
 
 스크립트에 다음을 제공한다.
 
 - Closure Mode
-- Target Branch
+- Candidate Branch
 - Expected Base Commit
 - 실제 허용 변경파일 목록
 - Proposed Commit Title
@@ -181,7 +181,7 @@ Manual sequence:
 3. wait for Apply approval,
 4. apply and validate,
 5. present one concise Diff summary,
-6. follow the exact Stage, Commit, and Push permission stated in the Handoff.
+6. follow the exact Stage and candidate-Commit permission stated in the Handoff; canonical promotion remains a separate owner action.
 
 Default Manual Git Permission:
 
@@ -199,13 +199,14 @@ Never run:
 
 - `git add .`
 - `git commit --amend`
-- `git reset --hard`
+- `git reset`
 - `git clean -fd`
 - `git rebase`
+- `git cherry-pick`
 - `git push --force`
 - `git push --force-with-lease`
 
-Autonomous Closure may use one explicit-path Stage, one Commit, and one non-force Push only after validation and scope checks pass.
+Autonomous Closure may use one explicit-path Stage and one candidate Commit in an `EXECUTION` repository only after validation and scope checks pass. It may not Push canonical history.
 
 ---
 
@@ -217,8 +218,8 @@ The ordinary AER research-close workflow should require:
 - one internal approved Handoff,
 - one minimum repository edit,
 - one automated validation sequence,
-- one research Commit,
-- one authorized non-force Push,
+- one exact candidate research Commit,
+- one separately owner-controlled ff-only promotion and authorized non-force Push,
 - one concise result report.
 
 It must not require repeated manual copying or Git approval.

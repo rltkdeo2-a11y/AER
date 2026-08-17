@@ -2,7 +2,7 @@
 
 Document ID: AER-CRM-001
 
-Status: Applied locally; SessionStart, UserPromptSubmit, and PreToolUse activation observed; SubagentStart pending
+Status: Runtime binding active on observed paths; Git execution and canonical-promotion roles defined
 
 Version: 1.0
 
@@ -23,10 +23,12 @@ References:
 - `scripts/invoke-aer-runtime.ps1`
 - `scripts/validate-research-close.ps1`
 - `scripts/invoke-aer-closure.ps1`
+- `scripts/invoke-aer-promotion.ps1`
+- `scripts/test-aer-repository-operating-model.ps1`
 
 Summary:
 
-This manual defines the supported operating path from a new Codex task through AER reasoning, approved repository application, validation, and authorized closure. Commands do not create research approval, change scope, or grant Git permission by themselves.
+This manual defines the supported operating path from a new Codex task through AER reasoning, approved candidate production, validation, and owner-controlled canonical promotion. Commands do not create research approval, change scope, or grant Git permission by themselves.
 
 ---
 
@@ -39,6 +41,9 @@ This manual applies only inside the AER repository.
 - AER Core remains unchanged. Runtime binding is an execution-integrity control.
 - A repository write requires a human-approved Research Handoff with an explicit Closure Mode and Git Permission.
 - A command must be run only when its preconditions are satisfied. Do not use commands to bypass approval, protected-file restrictions, validation, or Git safety.
+- `origin/main` is the remote SSOT. The local canonical repository is an owner-controlled integration copy, not the SSOT by itself.
+- Candidate-production authority and canonical-acceptance authority are separate repository roles. An Agent execution environment may create a validated candidate Commit but may not move or Push canonical `main`.
+- Broad recursive `.git` write-deny is prohibited. Each authorized identity must have normally writable Git metadata inside its own repository role boundary.
 
 The Codex project must be trusted and the repository hooks must be reviewed and trusted for automatic binding. If either condition is unavailable, use the manual verification fallback in Section 4.
 
@@ -106,14 +111,16 @@ The packet validates required authority files, current-state references, reposit
 Use this command when hooks are unavailable, disabled, untrusted, or suspected to have failed.
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-runtime.ps1 -HookEvent Verify
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-runtime.ps1 -HookEvent Verify -RefreshRemote
 ```
 
-Expected final line:
+Expected final line when the repository boundary is valid:
 
 ```text
 AER_RUNTIME_VERIFY_PASS
 ```
+
+`AER_RUNTIME_VERIFY_HOLD` is a deliberate stop result. It identifies an undeclared role, stale or divergent authority, dirty canonical repository, invalid execution branch, shared object database, disabled permission boundary, or another repository-role violation. Remote unavailability must be reported as unverified; it must not be converted into a claim about credentials or current `origin/main`.
 
 If verification fails, do not form or apply a repository conclusion. Repair the authority-reference or repository-state issue first, then rerun verification.
 
@@ -183,7 +190,7 @@ Unresolved Questions
 Validation Requirements
 ```
 
-For Autonomous Closure, it must additionally state the target branch, expected base Commit, allowed files, proposed Commit title, protected-file permission, and Push authorization.
+For Autonomous Closure, it must additionally state the candidate branch, expected canonical baseline Commit, allowed files, proposed candidate Commit title, protected-file permission, and whether later owner-controlled promotion is authorized.
 
 Do not edit the repository when approval status, Closure Mode, Git Permission, scope, or limitations are missing or inconsistent.
 
@@ -227,65 +234,177 @@ The placeholder paths above are examples and must be replaced by the approved sc
 
 ---
 
-## 8. Autonomous Closure Commands
+## 8. Git Execution and Canonical Promotion
 
-Run these commands only after an Approved Handoff grants `Git Permission: Autonomous Closure`.
+Run these commands only after an Approved Handoff grants the applicable candidate-closure and owner-promotion authority.
 
-### 8.1 Preflight
+### 8.1 Repository roles
+
+The role is explicit local Git state, not a directory-name inference.
+
+```powershell
+# Owner-controlled canonical integration copy
+git config --local aer.repositoryRole CANONICAL_OWNER
+git config --local aer.pushPolicy OWNER_ONLY
+git config --local aer.canonicalRemote origin
+git config --local aer.canonicalBranch main
+
+# Agent/Codex execution clone
+git config --local aer.repositoryRole EXECUTION
+git config --local aer.pushPolicy DENY
+git config --local aer.canonicalRemote origin
+git config --local aer.canonicalBranch main
+git config --local aer.canonicalBaseline <verified-full-origin-main-sha>
+git remote set-url --push origin disabled://execution-repository
+```
+
+`aer.pushPolicy=DENY` plus the disabled Push URL is an actual local permission boundary. Do not claim that credentials are absent; report only the verified boundary. In `CANONICAL_OWNER`, Push capability is `NOT_TESTED` until the owner explicitly runs a dry-run permission check or the promotion runner performs the authorized normal Push.
+
+### 8.2 Independent execution clone
+
+Prefer a normal full clone from the canonical fetch URL:
+
+```powershell
+git clone <canonical-fetch-url> <execution-path>
+git -C <execution-path> config --local aer.repositoryRole EXECUTION
+git -C <execution-path> config --local aer.pushPolicy DENY
+git -C <execution-path> config --local aer.canonicalRemote origin
+git -C <execution-path> config --local aer.canonicalBranch main
+git -C <execution-path> config --local aer.canonicalBaseline <verified-full-origin-main-sha>
+git -C <execution-path> remote set-url --push origin disabled://execution-repository
+git -C <execution-path> switch -c candidate/<approved-name> <verified-full-origin-main-sha>
+```
+
+When cloning from a local canonical path, add `--no-local` so objects are copied instead of hard-linked:
+
+```powershell
+git clone --no-local <canonical-owner-path> <execution-path>
+```
+
+Do not use `--shared`, `--reference`, alternates, linked `git worktree`, external `GIT_DIR`, shallow clone, or partial clone for authority isolation. They share, relocate, or omit repository metadata and therefore weaken failure containment or provenance independence.
+
+An explicitly approved candidate may depend on an earlier unpromoted exact candidate. Record that dependency locally and promote in order:
+
+```powershell
+git config --local aer.canonicalBaseline <predecessor-candidate-sha>
+git config --local aer.allowPendingPredecessor true
+git config --local aer.predecessorCandidate <predecessor-candidate-sha>
+```
+
+This allows candidate production but keeps promotion on `HOLD` until actual `origin/main` reaches the predecessor SHA.
+
+### 8.3 Candidate preflight and finalize
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-closure.ps1 `
   -Phase Preflight `
   -Mode Release `
-  -ExpectedBaseCommit <approved-full-commit-sha> `
+  -ExpectedBaseCommit <approved-full-candidate-parent-sha> `
+  -Branch candidate/<approved-name>
+```
+
+Then finalize only the approved paths:
+
+```powershell
+$allowed = @(
+  'path/to/approved-file-1',
+  'path/to/approved-file-2'
+)
+
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-closure.ps1 `
+  -Phase Finalize `
+  -Mode Release `
+  -ExpectedBaseCommit <approved-full-candidate-parent-sha> `
+  -Branch candidate/<approved-name> `
+  -AllowedFiles $allowed `
+  -CommitMessage '<approved-candidate-commit-title>' `
+  -ValidationScript 'scripts/validate-research-close.ps1'
+```
+
+The closure runner requires `REPOSITORY_ROLE=EXECUTION`, a full independent object database, a non-`main` candidate branch, and the explicit canonical Push deny boundary. Its former `-Push` path is rejected.
+
+### 8.4 Exact-object transport
+
+Freeze the candidate SHA, create the validation manifest required by the promotion contract, and transport the exact object. A bundle is preferred when the owner environment cannot fetch the execution repository directly.
+
+```powershell
+$candidate = git rev-parse HEAD
+git bundle create <candidate-bundle-path> candidate/<approved-name> ^<approved-full-candidate-parent-sha>
+git bundle verify <candidate-bundle-path>
+```
+
+The bundle or fetch source transports Git objects. Do not copy files and create a new Commit.
+
+### 8.5 Owner-controlled promotion
+
+The validation manifest must identify the exact candidate, expected base, parent, title, exact changed-file set, and PASS results for bundle or source verification, `git diff --check`, repository validation, Runtime verification, authority validation, and `git fsck --full`. Validator warnings are permitted only when the manifest records a `PASS_WITH_WARNINGS` policy and contains no FAIL result.
+
+Run owner preflight before changing `main`:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-promotion.ps1 `
+  -Phase Preflight `
+  -CandidateSource <bundle-or-fetch-source> `
+  -CandidateCommit <validated-full-candidate-sha> `
+  -ExpectedBaseCommit <validated-full-parent-sha> `
+  -ExpectedTitle '<validated-candidate-title>' `
+  -ExpectedFiles $allowed `
+  -ValidationManifest <validation-manifest-path> `
   -Branch main `
   -Remote origin
 ```
 
-Use the Handoff's actual Closure Mode, branch, remote, and full expected base Commit. Preflight stops if the working tree, branch, local base, remote base, or Git operation state is inconsistent.
+After owner review, use the same arguments with `-Phase Promote -Push`. The runner imports the exact object, rechecks actual `origin/main`, uses only `git merge --ff-only`, performs a normal non-force Push, and verifies the postconditions. If local fast-forward succeeds but Push fails, it reports `LOCAL ONLY` and preserves the local state; it does not Reset or rewrite history.
 
-### 8.2 Finalize without Push
+### 8.6 Canonical `.git` ACL repair
 
-```powershell
-$allowed = @(
-  'path/to/approved-file-1',
-  'path/to/approved-file-2'
-)
+The canonical repository owner must have normal write access to Git metadata. Do not use `/reset`. First run as the account that owns `.git`, back up the ACL outside the repository, and remove only the confirmed explicit Deny principals.
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-closure.ps1 `
-  -Phase Finalize `
-  -Mode Release `
-  -ExpectedBaseCommit <approved-full-commit-sha> `
-  -Branch main `
-  -Remote origin `
-  -AllowedFiles $allowed `
-  -CommitMessage '<approved-commit-title>' `
-  -ValidationScript 'scripts/validate-research-close.ps1'
+The 2026-08-17 incident inspection found owner `DESKTOP-ON595UG\admin` and explicit recursive Deny ACEs for these two SIDs:
+
+```text
+S-1-5-21-3910502522-3632848469-1333837873-3048639951
+S-1-5-21-1367308410-1437228978-2538376216-3260784637
 ```
 
-### 8.3 Finalize and Push
-
-Add `-Push` only when the Handoff explicitly authorizes non-force Push.
+Owner-executable procedure:
 
 ```powershell
-$allowed = @(
-  'path/to/approved-file-1',
-  'path/to/approved-file-2'
-)
+$repo = 'C:\Users\admin\Documents\GIT\AER'
+$gitDir = Join-Path $repo '.git'
+$acl = Get-Acl -LiteralPath $gitDir
+$currentIdentity = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+if ($currentIdentity -ne $acl.Owner) { throw "Run as repository owner $($acl.Owner), not $currentIdentity" }
 
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/invoke-aer-closure.ps1 `
-  -Phase Finalize `
-  -Mode Release `
-  -ExpectedBaseCommit <approved-full-commit-sha> `
-  -Branch main `
-  -Remote origin `
-  -AllowedFiles $allowed `
-  -CommitMessage '<approved-commit-title>' `
-  -ValidationScript 'scripts/validate-research-close.ps1' `
-  -Push
+$backup = '<owner-controlled-backup-path>\AER-dotgit-acl-before.txt'
+icacls $gitDir /save $backup /T /C
+if ($LASTEXITCODE -ne 0) { throw 'ACL backup failed' }
+
+$denySids = @(
+  'S-1-5-21-3910502522-3632848469-1333837873-3048639951',
+  'S-1-5-21-1367308410-1437228978-2538376216-3260784637'
+)
+foreach ($denySid in $denySids) {
+  icacls $gitDir /remove:d "*$denySid"
+  if ($LASTEXITCODE -ne 0) { throw "Failed to remove Deny ACE for $denySid" }
+}
+
+Get-Acl -LiteralPath $gitDir
+Get-Acl -LiteralPath (Join-Path $gitDir 'index')
+Get-Acl -LiteralPath (Join-Path $gitDir 'objects')
+Get-Acl -LiteralPath (Join-Path $gitDir 'refs')
+
+git -C $repo config --local aer.repositoryRole CANONICAL_OWNER
+git -C $repo config --local aer.pushPolicy OWNER_ONLY
+git -C $repo config --local aer.canonicalRemote origin
+git -C $repo config --local aer.canonicalBranch main
 ```
 
-The closure script stages only the actual validated changed files, creates one Commit, checks the remote base again, and performs only a non-force Push.
+Stop if the owner identity, backup, SID attribution, or resulting ACL cannot be verified. Do not remove unrelated ACEs, disable inheritance broadly, or replace the complete ACL.
+
+### 8.7 Remote protection
+
+Recommended minimum protection for `origin/main` is force-Push disabled, branch deletion disabled, linear history required where compatible, and required validation checks where available. A repository document or local Git setting does not prove that a GitHub ruleset exists. Verify remote protection through an authenticated owner interface or connector and record `UNVERIFIED` when that boundary cannot be queried.
 
 ---
 
@@ -310,6 +429,12 @@ Do not run `git add`, `git commit`, or `git push` until the specific subsequent 
 Stop before editing or closure when any of the following is true:
 
 - authority verification fails,
+- repository role is undeclared or invalid,
+- Agent/Codex is asked to edit a `CANONICAL_OWNER` repository,
+- an `EXECUTION` repository uses a linked worktree, external `GIT_DIR`, alternates, shared, shallow, or partial object storage,
+- the execution canonical Push deny boundary is absent or not actually configured,
+- actual `origin/main` cannot be verified for canonical promotion,
+- a broad recursive `.git` Deny ACE remains on the canonical owner repository,
 - the official state conflicts with the current conclusion,
 - a required Handoff field is missing,
 - the change needs an unexpected protected file or version change,
@@ -341,8 +466,9 @@ Files Modified
 Files Intentionally Not Modified
 Validation Result
 Warnings or Unresolved Issues
-Commit Result
-Push Result
+Candidate Commit and Exact-Object Transport Result
+Owner Promotion Result
+Push and Actual Remote Verification Result
 Next Baseline Commit
 ```
 

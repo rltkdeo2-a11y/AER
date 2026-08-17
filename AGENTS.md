@@ -26,6 +26,21 @@ The default mode is analysis and proposal only.
 
 Do not create or modify files unless the user explicitly requests repository application.
 
+Every working repository must declare exactly one local role:
+
+- `CANONICAL_OWNER` — owner-controlled integration copy for canonical `main` promotion only.
+- `EXECUTION` — independent full clone in which Agent/Codex may branch, edit, validate, Stage, and create candidate Commits.
+
+Declare the role with local Git configuration, never by path inference:
+
+```powershell
+git config --local aer.repositoryRole CANONICAL_OWNER
+# or
+git config --local aer.repositoryRole EXECUTION
+```
+
+An undeclared role is `HOLD`. The canonical owner repository is not a general Agent workspace. A Codex edit attempt in `CANONICAL_OWNER` is `STOP`; use an `EXECUTION` clone instead.
+
 Two repository-application modes are supported.
 
 ### Manual Closure
@@ -42,16 +57,18 @@ When all of the following are present:
 - an approved semantic summary,
 - an approved repository scope,
 
-that single human approval authorizes the approved scope through:
+that single human approval authorizes the approved scope in an `EXECUTION` repository through:
 
 - file creation or modification,
 - validation,
 - explicit-path Stage,
-- one Commit,
-- non-force Push to the approved branch,
+- one candidate Commit,
+- creation of a verified bundle or another exact-object transport artifact,
 - final result reporting.
 
-Do not request separate Diff, Stage, Commit, or Push approval during a normal Autonomous Closure.
+Do not request separate Diff, Stage, or candidate-Commit approval during a normal Autonomous Closure.
+
+Autonomous Closure does not authorize an Agent execution environment to move canonical `main` or Push it. Canonical acceptance is a separate owner-controlled promotion of the validated exact candidate Commit.
 
 Autonomous Closure does not authorize work outside the approved scope.
 
@@ -141,7 +158,7 @@ The handoff must identify:
 
 When the handoff is incomplete or internally inconsistent, stop before editing and report the missing information.
 
-For `Autonomous Closure`, the handoff is an execution contract. It may remain an internal transfer artifact unless archival is explicitly requested.
+For `Autonomous Closure`, the handoff is an execution contract. It must identify the canonical baseline, candidate branch, exact candidate-Commit validation requirements, and whether later owner promotion is authorized. It may remain an internal transfer artifact unless archival is explicitly requested.
 
 ## 8. File Safety
 
@@ -196,7 +213,7 @@ After file edits and before Commit, run or verify:
 
 In Manual Closure, do not Stage files until the required human review has occurred.
 
-In Autonomous Closure, Stage only the validated files inside the approved scope and continue without additional human approval.
+In Autonomous Closure, Stage only the validated files inside the approved scope in an `EXECUTION` repository and continue to one candidate Commit without additional human approval.
 
 ## 11. Change Report
 
@@ -208,7 +225,7 @@ After applying an approved handoff, report concisely:
 4. validations performed,
 5. warnings or unresolved issues,
 6. Commit result,
-7. Push result when authorized.
+7. candidate transport and canonical promotion result when authorized.
 
 Do not claim success when a required validation or Git action has not been confirmed.
 
@@ -218,9 +235,10 @@ Never run the following:
 
 - `git add .`,
 - `git commit --amend`,
-- `git reset --hard`,
+- `git reset` in any standard closure or promotion flow,
 - `git clean -fd`,
 - `git rebase`,
+- `git cherry-pick`,
 - `git push --force`,
 - `git push --force-with-lease`.
 
@@ -230,4 +248,10 @@ Create one Commit unless a genuinely independent correction is required.
 
 Manual Closure requires the permissions defined in its handoff.
 
-Autonomous Closure permits one non-force Push to the approved remote branch after all validation passes and the remote base remains unchanged.
+Autonomous Closure permits one candidate Commit in an `EXECUTION` repository after all validation passes. The execution repository must have an explicit local Push deny boundary for the canonical remote.
+
+Canonical promotion must import or fetch the validated exact Commit object, verify its SHA, parent or approved fast-forward ancestry, title, changed-file set, and validation manifest, then move `main` only by fast-forward and perform a normal non-force Push. Do not recreate the change by file copy, recommit, merge Commit, Rebase, or Cherry-pick.
+
+`origin/main` is the remote SSOT. A local canonical or execution state that is stale, divergent, or not verifiably based on the approved canonical baseline is `HOLD`.
+
+For authority isolation, do not use linked `git worktree`, an external `GIT_DIR`, `git clone --shared`, alternates, a shallow clone, or a partial clone as the default execution repository. Both roles require normally writable Git metadata for the identity authorized to operate that role. A broad recursive `.git` write-deny is prohibited.

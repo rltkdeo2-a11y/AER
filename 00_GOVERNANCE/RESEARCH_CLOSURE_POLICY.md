@@ -29,8 +29,8 @@ The default Autonomous Closure target is:
 - one human semantic approval,
 - one minimum repository change set,
 - one automated validation sequence,
-- one research Commit,
-- one non-force Push when authorized,
+- one candidate research Commit in an independent `EXECUTION` repository,
+- one separately owner-controlled exact-Commit fast-forward promotion and non-force Push when authorized,
 - no repeated manual transfer or Git approval.
 
 Manual Closure remains available as fallback.
@@ -129,15 +129,16 @@ The human responds with one of:
 [미반영]
 ```
 
-`[승인]` authorizes the approved scope through editing, validation, explicit-path Stage, one Commit, and non-force Push to the approved branch.
+`[승인]` authorizes the approved scope through editing, validation, explicit-path Stage, one candidate Commit, and exact-object transport in an `EXECUTION` repository. It does not authorize that execution environment to mutate or Push canonical `main`.
 
 Normal Autonomous Closure must not request separate:
 
 - minimum-set approval,
 - Diff approval,
 - Stage approval,
-- Commit approval,
-- Push approval.
+- candidate-Commit approval.
+
+Canonical promotion remains an owner-controlled acceptance action. It may be pre-authorized by the approved Handoff, but it must run in a separate `CANONICAL_OWNER` boundary and promote only the validated exact Commit.
 
 ### 4.2 Manual Closure
 
@@ -357,26 +358,36 @@ Stop before Commit when:
 
 Do not silently expand scope, Stash user work, reset, clean, merge, or rebase.
 
-If Commit succeeds but Push fails, preserve the local Commit and report the failure.
+If candidate Commit succeeds but transport fails, preserve the candidate Commit and report the failure. If canonical fast-forward succeeds but Push fails, preserve the local canonical Commit position and report `LOCAL ONLY`; do not Reset or rewrite it.
 
 ---
 
 ## 13. Git Workflow
 
-### Autonomous Closure
+### Autonomous Candidate Closure
 
 1. Validate the approved Handoff and semantic scope.
-2. Run repository Preflight.
+2. Run repository Preflight in an independent `EXECUTION` repository.
 3. Inspect only relevant existing objects.
 4. Derive and apply the minimum sufficient change set.
 5. Run required validation and `git diff --check`.
 6. Compare actual changed files with the approved scope.
 7. Stage only explicit validated paths.
-8. Create one Commit.
-9. Recheck the remote base.
-10. Push without force when authorized.
-11. Verify local and remote HEAD.
-12. Report the result.
+8. Create one candidate Commit.
+9. Validate the exact candidate SHA and freeze its validation evidence.
+10. Create a verified bundle or other fetchable exact-object transport.
+11. Report the candidate result and stop before canonical mutation.
+
+### Owner-Controlled Promotion
+
+1. Use a clean `CANONICAL_OWNER` repository with normally writable Git metadata.
+2. Query actual `origin/main` and require the expected validated baseline.
+3. Import the exact candidate object without copying files or recommitting.
+4. Verify SHA, parent or approved fast-forward ancestry, title, changed-file set, validation artifacts, and unrelated-file exclusion.
+5. Recheck actual `origin/main` immediately before promotion.
+6. Advance local `main` only by fast-forward.
+7. Push normally without force.
+8. Verify local `main`, actual `origin/main`, ahead/behind `0/0`, Runtime PASS, and a clean canonical worktree.
 
 ### Manual Closure
 
@@ -394,8 +405,8 @@ An Autonomous Closure report contains:
 - files intentionally not modified,
 - validation result,
 - warnings or unresolved issues,
-- Commit hash and title,
-- Push and remote-verification result,
+- candidate Commit hash, title, and exact-object transport,
+- owner promotion, Push, and remote-verification result,
 - next baseline Commit.
 
 A Manual Closure report also states the next required approval.
@@ -411,5 +422,6 @@ This policy succeeds when:
 - research conclusions remain traceable,
 - ordinary closure requires one human semantic approval,
 - zero-byte, wrong-path, and out-of-scope changes are prevented,
-- one research Commit closes the approved change,
+- one exact candidate research Commit closes the approved execution change,
+- canonical acceptance promotes that same Commit without rewrite,
 - repository management remains subordinate to research activity.

@@ -129,6 +129,18 @@ function Get-GitLine {
     return (($result.StandardOutput | Select-Object -First 1).ToString().Trim())
 }
 
+function Get-LocalConfig {
+    param([Parameter(Mandatory = $true)][string]$Name)
+
+    $result = Invoke-Git -Arguments @("config", "--local", "--get", $Name) -AllowFailure
+    if ($result.ExitCode -eq 0) {
+        return (($result.StandardOutput | Select-Object -First 1).ToString().Trim())
+    }
+    if ($result.ExitCode -eq 1) { return $null }
+    $diagnostics = Format-GitDiagnostics -StandardOutput $result.StandardOutput -StandardError $result.StandardError
+    throw "Unable to read local Git configuration '$Name'. $diagnostics"
+}
+
 function Normalize-RepositoryPath {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -274,6 +286,60 @@ function Assert-NoStagedChanges {
     }
 }
 
+function Assert-ExecutionRepositoryBoundary {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepositoryRoot,
+        [Parameter(Mandatory = $true)][string]$GitDirectory,
+        [Parameter(Mandatory = $true)][string]$ExpectedBase
+    )
+
+    if ((Get-LocalConfig -Name "aer.repositoryRole") -ne "EXECUTION") {
+        throw "Candidate closure requires REPOSITORY_ROLE=EXECUTION."
+    }
+    if ($Push.IsPresent) {
+        throw "The execution repository cannot Push canonical history. Use owner-controlled exact-Commit promotion."
+    }
+
+    $commonDirectoryRaw = Get-GitLine -Arguments @("rev-parse", "--git-common-dir")
+    $commonDirectory = if ([IO.Path]::IsPathRooted($commonDirectoryRaw)) {
+        [IO.Path]::GetFullPath($commonDirectoryRaw)
+    }
+    else {
+        [IO.Path]::GetFullPath((Join-Path $RepositoryRoot $commonDirectoryRaw))
+    }
+    $expectedGitDirectory = [IO.Path]::GetFullPath((Join-Path $RepositoryRoot ".git"))
+    if (($GitDirectory -ne $expectedGitDirectory) -or ($commonDirectory -ne $GitDirectory)) {
+        throw "Execution repository must use its own in-tree Git directory; linked worktree or external GIT_DIR detected."
+    }
+    if (Test-Path -LiteralPath (Join-Path $GitDirectory "objects/info/alternates") -PathType Leaf) {
+        throw "Execution repository uses object alternates. A full independent object database is required."
+    }
+    if ((Test-Path -LiteralPath (Join-Path $GitDirectory "shallow") -PathType Leaf) -or
+        (-not [string]::IsNullOrWhiteSpace($env:GIT_ALTERNATE_OBJECT_DIRECTORIES)) -or
+        (-not [string]::IsNullOrWhiteSpace($env:GIT_OBJECT_DIRECTORY))) {
+        throw "Execution repository is shallow or uses an external/shared object directory."
+    }
+
+    $promisor = Invoke-Git -Arguments @("config", "--local", "--get-regexp", "^remote\..*\.promisor$") -AllowFailure
+    if (($promisor.ExitCode -eq 0) -or (-not [string]::IsNullOrWhiteSpace((Get-LocalConfig -Name "extensions.partialClone")))) {
+        throw "Execution repository is partial or promisor-backed; a full clone is required."
+    }
+
+    $canonicalBaseline = Get-LocalConfig -Name "aer.canonicalBaseline"
+    if ($canonicalBaseline -ne $ExpectedBase) {
+        throw "Local aer.canonicalBaseline '$canonicalBaseline' does not match expected candidate parent '$ExpectedBase'."
+    }
+    if ((Get-LocalConfig -Name "aer.pushPolicy") -ne "DENY") {
+        throw "Execution repository must set aer.pushPolicy=DENY."
+    }
+
+    $pushUrls = Invoke-Git -Arguments @("remote", "get-url", "--push", "--all", $Remote) -AllowFailure
+    if (($pushUrls.ExitCode -ne 0) -or (@($pushUrls.StandardOutput).Count -eq 0) -or
+        (@($pushUrls.StandardOutput | Where-Object { $_.ToString() -notlike "disabled://*" }).Count -gt 0)) {
+        throw "Execution canonical Push URL is not explicitly disabled for remote '$Remote'."
+    }
+}
+
 function Invoke-ClosureValidation {
     param(
         [Parameter(Mandatory = $true)][string]$RepositoryRoot,
@@ -341,10 +407,7 @@ try {
         throw "Local HEAD '$localHead' does not match expected base '$expectedBase'."
     }
 
-    $remoteHead = Update-RemoteBranch -RemoteName $Remote -BranchName $Branch
-    if ($remoteHead -ne $expectedBase) {
-        throw "Remote '$Remote/$Branch' is '$remoteHead', expected '$expectedBase'."
-    }
+    Assert-ExecutionRepositoryBoundary -RepositoryRoot $repositoryRoot -GitDirectory $gitDirectory -ExpectedBase $expectedBase
 
     if ($Phase -eq "Preflight") {
         Assert-CleanWorkingTree
@@ -352,7 +415,8 @@ try {
         Write-Output "Repository: $repositoryRoot"
         Write-Output "Branch: $Branch"
         Write-Output "Base Commit: $expectedBase"
-        Write-Output "Remote: $Remote/$Branch"
+        Write-Output "Canonical Push Boundary: DENIED"
+        Write-Output "Remote authority must be rechecked by the owner promotion runner."
         exit 0
     }
 
@@ -403,34 +467,10 @@ try {
     Invoke-Git -Arguments @("commit", "-m", $CommitMessage, "--") | Out-Null
     $newCommit = Resolve-Commit -Revision "HEAD"
 
-    if ($Push.IsPresent) {
-        $remoteBeforePush = Update-RemoteBranch -RemoteName $Remote -BranchName $Branch
-        if ($remoteBeforePush -ne $expectedBase) {
-            throw "Remote changed before Push. Current '$remoteBeforePush', expected '$expectedBase'. Local Commit preserved: $newCommit"
-        }
-
-        Write-Step "Pushing $Branch to $Remote"
-        $pushResult = Invoke-Git -Arguments @("push", $Remote, "$Branch`:$Branch") -AllowFailure
-        if ($pushResult.ExitCode -ne 0) {
-            $diagnostics = Format-GitDiagnostics -StandardOutput $pushResult.StandardOutput -StandardError $pushResult.StandardError
-            throw "Push failed. Local Commit preserved: $newCommit. $diagnostics"
-        }
-
-        $remoteAfterPush = Update-RemoteBranch -RemoteName $Remote -BranchName $Branch
-        if ($remoteAfterPush -ne $newCommit) {
-            throw "Remote verification failed. Local Commit: $newCommit; Remote: $remoteAfterPush"
-        }
-
-        Write-Step "Finalize passed with Push"
-        Write-Output "Result: PUSHED"
-        Write-Output "Commit: $newCommit"
-        Write-Output "Remote Commit: $remoteAfterPush"
-    }
-    else {
-        Write-Step "Finalize passed without Push"
-        Write-Output "Result: COMMITTED"
-        Write-Output "Commit: $newCommit"
-    }
+    Write-Step "Candidate Finalize passed"
+    Write-Output "Result: CANDIDATE_COMMITTED"
+    Write-Output "Candidate Commit: $newCommit"
+    Write-Output "Canonical Push: DENIED_BY_EXECUTION_BOUNDARY"
 
     $remaining = Invoke-Git -Arguments @("status", "--porcelain=v1", "--untracked-files=all")
     $remainingLines = @($remaining.StandardOutput | Where-Object { -not [string]::IsNullOrWhiteSpace($_.ToString()) })

@@ -41,7 +41,7 @@ The workflow separates three responsibilities.
 - approves, corrects, or rejects the semantic summary,
 - reviews the final result or any stopped condition.
 
-In normal Autonomous Closure, the human does not separately approve the minimum file set, Diff, Stage, Commit, or Push.
+In normal Autonomous Closure, the human does not separately approve the minimum file set, Diff, Stage, or candidate Commit. Owner promotion may be authorized in the same semantic approval, but it executes separately in the `CANONICAL_OWNER` boundary.
 
 ---
 
@@ -79,8 +79,8 @@ When the Handoff uses `Git Permission: Autonomous Closure`, this one approval au
 - approved file creation or modification,
 - validation,
 - explicit-path Stage,
-- one Commit,
-- non-force Push to the approved branch,
+- one candidate Commit in an `EXECUTION` repository,
+- verified exact-object transport for later owner promotion,
 - final result reporting.
 
 Approval does not authorize any stronger conclusion, unexpected protected-file change, version change, or repository scope expansion.
@@ -140,13 +140,14 @@ ChatGPT research discussion
 → minimum in-scope application
 → validation and self-review
 → explicit-path Stage
-→ one Commit
-→ non-force Push
-→ remote verification
+→ one exact candidate Commit
+→ candidate validation manifest and exact-object transport
+→ separate owner-controlled ff-only promotion
+→ normal non-force Push and remote verification
 → final report
 ```
 
-A No-op closure creates no Commit and performs no Push.
+A No-op closure creates no candidate Commit and requires no promotion.
 
 ---
 
@@ -193,7 +194,7 @@ For Manual Closure, the default remains:
 Git Permission: Apply Only
 ```
 
-`Autonomous Closure` is valid only when Approval Status, Closure Mode, repository scope, target branch, expected base Commit, validation requirements, and proposed Commit title are sufficiently defined.
+`Autonomous Closure` is valid only when Approval Status, Closure Mode, repository scope, candidate branch, expected canonical baseline Commit, validation requirements, and proposed candidate Commit title are sufficiently defined. Any later owner promotion must additionally identify the exact validated candidate SHA and actual remote baseline.
 
 ---
 
@@ -241,7 +242,8 @@ Codex stops before Commit when:
 - the actual change would exceed the approved semantic or repository scope,
 - an unexpected protected-file or version change is required,
 - unexplained pre-existing working-tree changes exist,
-- branch, base Commit, or remote state differs,
+- repository role, branch, base Commit, or remote state differs,
+- the execution repository is not a full independent clone or lacks the canonical Push deny boundary,
 - Merge or Rebase is in progress,
 - required validation fails after one in-scope correction attempt.
 
@@ -282,7 +284,7 @@ The protocol succeeds when an ordinary approved AER conclusion is stored through
 - one semantic approval,
 - one internal Handoff,
 - one automated validation sequence,
-- one research Commit,
-- one non-force Push when authorized,
+- one exact candidate research Commit,
+- one separately owner-controlled ff-only promotion and non-force Push when authorized,
 
 without manual file copying or repeated Git approval.
