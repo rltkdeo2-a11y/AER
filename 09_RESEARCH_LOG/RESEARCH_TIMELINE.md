@@ -1493,3 +1493,337 @@ Implementation code and repeated actual-work usability validation remain deferre
 Repository Integration Status:
 
 DEC-006 and SESSION-012 applied locally under Git Permission Apply Only; Stage, Commit, and Push not authorized
+
+---
+
+# SESSION-021 Runtime Binding Layer Separation Validation
+
+Date:
+
+2026-07-30
+
+Closure Mode:
+
+Standard
+
+## Research Topic
+
+Whether valid approval provenance adds semantic State Departure detection value beyond matched Current State and Decision reload.
+
+## Design
+
+- Five cases across three conditions with three fresh-session repetitions per case
+- Common prompts, hidden condition labels, referential-integrity provenance manipulation, and independent blind scoring by three models
+- One invalid empty observation replaced before final aggregation
+
+## Observed Result
+
+- All scorers found substantially more semantic failures without authoritative context reload.
+- No scorer found A/B failures; small A/B differences did not reproduce in one direction across scorers.
+- Scorer disagreement remained material and was retained as a limitation.
+
+## Approved Conclusion and Boundary
+
+- Authoritative state reload is supported within the tested synthetic boundary.
+- Incremental semantic benefit from approval provenance was not demonstrated.
+- Statistical equivalence, general AER utility, and removal of governance controls were not established.
+
+## Next Task
+
+Conduct an actual-work pilot before broader simplification or permanent toolization.
+
+Repository Integration Status:
+
+The approved local record was renumbered from the conflicting `SESSION-013` label to collision-free `SESSION-021`; EV-006 and DEC-007 references were synchronized; AER Core, AER v1.0, and AETF v0.1.2 remain unchanged
+
+---
+
+# SESSION-013 Proposal TOC Workbook Contract v0.1 Freeze
+
+Date:
+
+2026-08-03
+
+## Research Topic
+
+Freeze the successful first-case TOC workbook prototype as a bounded normalized-state, generation, and re-import contract without making XLSX the canonical state or authorizing PPT production.
+
+## Approved Result
+
+- Normalized JSON remains canonical and XLSX is the PM editing surface.
+- Stable node identity, explicit baseline comparison, page-budget checks, and human-controlled regeneration and RPA release are required.
+- The contract was frozen as v0.1 for the observed first case only.
+
+## Traceability
+
+- Decision: `07_DECISIONS/DEC008_FREEZE_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_1.md`
+- Reasoning: `06_REASONING/RS003_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_1.md`
+- Session: `09_RESEARCH_LOG/SESSION_013_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_1.md`
+
+Repository Integration Status:
+
+Committed and retained as the authoritative SESSION-013; the later conflicting local Runtime label has been moved to SESSION-021
+
+---
+
+# SESSION-014 Proposal TOC Workbook Case 2 Validation
+
+Date:
+
+2026-08-03
+
+## Research Topic
+
+Apply the v0.1 TOC contract to a second RFP and extend it only where the new case cannot be represented faithfully.
+
+## Approved Result
+
+Case 2 lacked both an exact RFP page target and an A3 count multiplier. Contract v0.2 was adopted as the minimum extension, while allocation and RPA release remained on Hold and all prior limitations stayed active.
+
+## Traceability
+
+- Evidence: `05_EVIDENCE/EV007_PROPOSAL_TOC_CONTRACT_CASE2_VALIDATION.md`
+- Decision: `07_DECISIONS/DEC009_ADOPT_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_2.md`
+- Session: `09_RESEARCH_LOG/SESSION_014_PROPOSAL_TOC_WORKBOOK_CASE2_VALIDATION.md`
+
+Repository Integration Status:
+
+Committed and synchronized with the canonical Decision, Evidence, and Session indexes
+
+---
+
+# SESSION-015 Proposal TOC Workbook Case 3 Validation
+
+Date:
+
+2026-08-03
+
+## Research Topic
+
+Apply contract v0.2 to a split RFP and task-specification source bundle without creating a general exception system.
+
+## Approved Result
+
+Contract v0.3 was adopted as the minimum extension for page budgets, source authority, and content policies. The case retained explicit source-missing state, Volume 2 anonymity, and RPA Hold; further generalization requires another materially different observed case.
+
+## Traceability
+
+- Evidence: `05_EVIDENCE/EV008_PROPOSAL_TOC_CONTRACT_CASE3_VALIDATION.md`
+- Decision: `07_DECISIONS/DEC010_ADOPT_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_3.md`
+- Session: `09_RESEARCH_LOG/SESSION_015_PROPOSAL_TOC_WORKBOOK_CASE3_VALIDATION.md`
+
+Repository Integration Status:
+
+Committed and synchronized with the canonical Decision, Evidence, and Session indexes
+
+---
+
+# SESSION-016 Proposal TOC Human Roundtrip Operational Validation
+
+Date:
+
+2026-08-03
+
+## Research Topic
+
+Return an actual human-edited Case 3 workbook through the v0.3 re-import and explicit-acceptance path while preserving report-only analysis and human regeneration authority.
+
+## Approved Result
+
+The remediated runtime v0.3.2 and acceptance routine 0.1.0 reproduced the observed human roundtrip, synchronized a zero-material-change accepted baseline, preserved stable identity and page budgets, and kept RPA release on Hold. The semantic contract remained v0.3.
+
+## Traceability
+
+- Evidence: `05_EVIDENCE/EV009_PROPOSAL_TOC_HUMAN_ROUNDTRIP_VALIDATION.md`
+- Decision: `07_DECISIONS/DEC011_ADOPT_PROPOSAL_TOC_ROUNDTRIP_OPERATION_V0_3.md`
+- Session: `09_RESEARCH_LOG/SESSION_016_PROPOSAL_TOC_HUMAN_ROUNDTRIP_VALIDATION.md`
+
+Repository Integration Status:
+
+Committed and synchronized with the canonical Decision, Evidence, and Session indexes
+
+---
+
+# SESSION-017 Proposal Initial Workflow Integration
+
+Date:
+
+2026-08-04
+
+## Research Topic
+
+Connect the approved TOC workbook routine to the bounded initial proposal workflow through one stateful coordinator without automating semantic judgment or weakening human gates.
+
+## Approved Result
+
+Coordinator v0.1.0 was adopted for source intake through strategy-candidate registration. Late information, explicit regeneration, immutable state progression, downstream invalidation, and negative gates are represented; AER Core retains material semantic judgment and RPA remains on Hold.
+
+## Traceability
+
+- Evidence: `05_EVIDENCE/EV010_PROPOSAL_INITIAL_WORKFLOW_INTEGRATION_VALIDATION.md`
+- Supporting Evidence: `05_EVIDENCE/EV011_AER_CORE_SEMANTIC_REGISTRATION_GATE_VALIDATION.md`
+- Supporting Evidence: `05_EVIDENCE/EV012_TOC_ACCEPTANCE_EXECUTION_INTEGRITY_VALIDATION.md`
+- Decision: `07_DECISIONS/DEC012_ADOPT_PROPOSAL_INITIAL_WORKFLOW_COORDINATOR_V0_1.md`
+- Session: `09_RESEARCH_LOG/SESSION_017_PROPOSAL_INITIAL_WORKFLOW_INTEGRATION.md`
+
+Repository Integration Status:
+
+Committed and synchronized with the canonical Decision, Evidence, and Session indexes
+
+---
+
+# SESSION-018 Proposal Initial Manifest Runner
+
+Date:
+
+2026-08-04
+
+## Research Topic
+
+Remove handwritten mechanical transition payloads from the corrected initial workflow without bypassing AER Core evidence or human acceptance gates.
+
+## Approved Result
+
+Manifest runner v0.1.0 was adopted as a bounded two-phase convenience layer. It stops after TOC acceptance and requires new strategy evidence bound to the accepted TOC hash before strategy registration; it does not claim general RFP compatibility or release Production Layer or PPT RPA.
+
+## Traceability
+
+- Evidence: `05_EVIDENCE/EV013_PROPOSAL_INITIAL_MANIFEST_RUNNER_VALIDATION.md`
+- Decision: `07_DECISIONS/DEC013_ADOPT_PROPOSAL_INITIAL_MANIFEST_RUNNER_V0_1.md`
+- Session: `09_RESEARCH_LOG/SESSION_018_PROPOSAL_INITIAL_MANIFEST_RUNNER.md`
+
+Repository Integration Status:
+
+Committed and synchronized with the canonical Decision, Evidence, and Session indexes
+
+---
+
+# AX TRACK — AX-SESSION-002 DX to AX Residual Gap Exploration Closure
+
+Date:
+
+2026-08-14
+
+Closure Mode:
+
+Release
+
+Git Permission:
+
+Apply Only
+
+## Research Topic
+
+Whether repeated comparison of Enterprise AX candidate concepts against verifiable actual-company cases and established DX/AX, SAP, strategy-consulting, GRC, and Decision Science domains leaves a general, defensible residual micro-gap.
+
+## Research-Integrity Correction
+
+- Synthetic cases were limited to explanation, test design, and falsification structure; they were not accepted as evidence of enterprise recurrence, materiality, or novelty.
+- `Claim-State Delta` was withdrawn after the synthetic-example boundary was identified.
+- Actual-company cases and primary or near-primary materials became the required basis for retaining gap claims.
+
+## Candidate Disposition
+
+`Judgment Architecture`, `Semantic Integrity`, `Reference Judgment`, `Claim-State Delta`, and `Cognitive Executability` did not survive as general residual gaps after actual-case and prior-domain comparison.
+
+## Closure Result
+
+No defensible general Enterprise AX residual micro-gap was identified within the reviewed scope. This is an appropriate research stop, not a research failure and not evidence that no gap exists universally.
+
+Further concept generation is stopped. Reopen only when actual enterprise work or a material technology change reveals a concrete repeated failure that existing SAP or ERP capabilities, strategy-consulting operating-model methods, GRC or assurance controls, and Decision Science do not adequately explain or address.
+
+## Preserved Boundaries
+
+- Separate AX track and independent identifier namespace
+- No AER Core or fixed-conclusion change
+- No new Decision or Evidence object
+- No change to AER v1.0 or AETF v0.1.2
+- No change to Runtime, Production Layer, proposal-workflow, or RPA states
+- `absence of evidence` remains distinct from `evidence of absence`
+
+Repository Integration Status:
+
+AX-SESSION-001, AX-SESSION-002, and related AX state are integrated as an isolated canonical research track by the repository reconciliation application; they do not modify AER Core or create a universal AX claim
+
+---
+
+# SESSION-020 AX Method Assembly System-Level Reconciliation and Structural Closure Decision
+
+Date:
+
+2026-08-17
+
+Closure Mode:
+
+Release
+
+Git Permission:
+
+Apply Only
+
+## Research Topic
+
+Whether the three provisionally closed AX Method Assembly stages, Governance & Assurance, and Change / Reopen / Exit form one repeatable execution system without a material interface contradiction across handoff, authority, Evidence, verdict, Validated Envelope, change, revalidation, reopen, and exit semantics.
+
+## Protected Stage State
+
+```text
+DEFINE & DESIGN / REALIZE
+→ PROVISIONAL CLOSURE
+
+VALIDATE THE TARGET WORK SYSTEM
+→ PROVISIONAL CLOSURE
+
+TRANSITION, OPERATE & MONITOR
+→ PROVISIONAL CLOSURE
+
+GOVERNANCE & ASSURANCE
+→ CROSS-CUTTING CONTROL PLANE
+
+CHANGE / REOPEN / EXIT
+→ RECURSIVE CONTROL
+```
+
+No stage-internal conclusion was silently revised or reopened.
+
+## Validation Performed
+
+- minimum-sufficient system assembly and explicit stage handoff contracts;
+- bounded invoice-exception end-to-end walkthrough;
+- A–P structural stress tests: 16/16 PASS;
+- normalized structural closure matrix: 32/32 PASS;
+- global consistency check; and
+- opposing-model review of extra stages, O8 System Assurance, and a mandatory universal full end-to-end execution gate.
+
+The review preserved the distinction among Evidence Verdict, Operational Acceptance, and Operational Disposition. It confirmed first-affected-proposition routing through V1/V2, targeted Validation reopen, targeted Define & Design reopen, Operational Re-Acceptance, and Governance-authorized Retire.
+
+## Closure Result
+
+> **AX METHOD ASSEMBLY SYSTEM — FIRST-ORDER STRUCTURAL PROVISIONAL CLOSURE: PASS**
+
+No material interface contradiction was identified. The evidence supports structural and logical provisional closure only. It does not establish actual enterprise effectiveness, long-term operation, universality, causal business outcomes, comparative superiority, or a complete methodology.
+
+No new lifecycle stage, O8 obligation, universal Pilot or Scale gate, or universal full end-to-end test requirement was adopted. Further structural expansion is stopped until DEC-014's reopen conditions are met.
+
+## Traceability
+
+- Evidence: `05_EVIDENCE/EV014_AX_METHOD_ASSEMBLY_SYSTEM_LEVEL_RECONCILIATION_VALIDATION.md`
+- Decision: `07_DECISIONS/DEC014_ACCEPT_FIRST_ORDER_STRUCTURAL_PROVISIONAL_CLOSURE_OF_AX_METHOD_ASSEMBLY_SYSTEM.md`
+- Session: `09_RESEARCH_LOG/SESSION_020_AX_METHOD_ASSEMBLY_SYSTEM_LEVEL_RECONCILIATION.md`
+
+This repository-wide Session is new. It does not reuse or overwrite AX-SESSION-001 or AX-SESSION-002, and it does not reopen the bounded no-residual-gap result of the separate AX track.
+
+Repository Integration Status:
+
+EV-014, DEC-014, SESSION-020, Current State, related indexes, and timeline are integrated by the repository reconciliation and AX formalization application
+
+## Repository Reconciliation — Resolved Without Semantic Revision
+
+- Committed `SESSION-013 Proposal TOC Workbook Contract v0.1` remains unchanged and authoritative.
+- The approved local Runtime Binding Layer Separation record is renumbered to collision-free SESSION-021, formalized as its own Session object, and synchronized with EV-006 and DEC-007.
+- Decision, Evidence, and Session indexes now include the committed objects through DEC-014, EV-014, and the applicable repository-wide Sessions through SESSION-021.
+- Timeline entries for committed SESSION-013 through SESSION-018 are restored from their authoritative objects.
+- Local SESSION-019 remains a non-official test checkpoint and is intentionally excluded from canonical authority.
+- The AX track is integrated in its independent namespace, while EV-014, DEC-014, and SESSION-020 hold repository-wide AX Method Assembly closure authority.
+
+Repository reconciliation changes only identifiers, discoverability, and authority synchronization. It does not change the AX Method Assembly structural verdict or any earlier research conclusion.

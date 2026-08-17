@@ -2,7 +2,7 @@
 
 Last Updated
 
-2026-07-30
+2026-08-17
 
 Repository Version
 
@@ -14,11 +14,11 @@ AETF v0.1.2
 
 Current Phase
 
-Execution Integrity Remediation Applied; Cognitive Interaction Architecture Adopted; Lifecycle Closure Pending; Production Layer Held
+Execution Integrity Remediation Applied; Cognitive Interaction Architecture Adopted; Proposal TOC Contract and Initial Workflow Adopted Within Bounded Scope; Production Layer Held; AX Method Assembly First-Order Structural Provisional Closure Accepted; Repository Authority Reconciled
 
 Current Status
 
-Repository-bound Session Binding is active for observed SessionStart, UserPromptSubmit, and PreToolUse paths; DEC-006 cognitive-load-reduction interaction architecture is adopted outside AER Core; SubagentStart validation and formal Execution Integrity closure remain the current priority; Production Layer candidate design is on hold
+Repository-bound Session Binding is active for observed SessionStart, UserPromptSubmit, and PreToolUse paths; DEC-006 cognitive-load-reduction interaction architecture is adopted outside AER Core; DEC-007 provisionally separates Semantic Runtime Binding from Governance Closure under explicit limits; Proposal TOC contract v0.3, human roundtrip operation, bounded initial-workflow coordinator v0.1.0, and manifest runner v0.1.0 are adopted while Production Layer and PPT RPA remain on hold; SubagentStart validation and formal Execution Integrity closure remain the current priority; the isolated DX-to-AX residual-gap track is closed with no defensible general Enterprise AX residual micro-gap identified within its reviewed scope; the AX Method Assembly System has passed first-order structural provisional closure without reopening its three stage-level Provisional Closures; Decision, Evidence, Session, timeline, and Current State authority are reconciled through DEC-014, EV-014, SESSION-021, and the separate AX track
 
 ---
 
@@ -142,11 +142,26 @@ Required Bottleneck Record:
 - `05_EVIDENCE/EV003_AUTONOMOUS_CLOSURE_SELF_APPLICATION_CASE.md`
 - `05_EVIDENCE/EV004_SYNTHETIC_EXECUTION_INTEGRITY_AND_STRUCTURAL_DIVERSITY_VALIDATION.md`
 - `05_EVIDENCE/EV005_TIERED_RUNTIME_COMPARATIVE_VALIDATION.md`
+- `05_EVIDENCE/EV006_RUNTIME_BINDING_LAYER_SEPARATION_VALIDATION.md`
+- `05_EVIDENCE/EV007_PROPOSAL_TOC_CONTRACT_CASE2_VALIDATION.md`
+- `05_EVIDENCE/EV008_PROPOSAL_TOC_CONTRACT_CASE3_VALIDATION.md`
+- `05_EVIDENCE/EV009_PROPOSAL_TOC_HUMAN_ROUNDTRIP_VALIDATION.md`
+- `05_EVIDENCE/EV010_PROPOSAL_INITIAL_WORKFLOW_INTEGRATION_VALIDATION.md`
+- `05_EVIDENCE/EV011_AER_CORE_SEMANTIC_REGISTRATION_GATE_VALIDATION.md`
+- `05_EVIDENCE/EV012_TOC_ACCEPTANCE_EXECUTION_INTEGRITY_VALIDATION.md`
+- `05_EVIDENCE/EV013_PROPOSAL_INITIAL_MANIFEST_RUNNER_VALIDATION.md`
+- `05_EVIDENCE/EV014_AX_METHOD_ASSEMBLY_SYSTEM_LEVEL_RECONCILIATION_VALIDATION.md`
 
 ## Reasoning
 
 - `06_REASONING/RS001_PROPOSAL_MODEL_GENERALIZATION.md`
 - `06_REASONING/RS002_RFP_BOTTLENECK_REASONING_KERNEL.md`
+- `06_REASONING/RS003_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_1.md`
+- `06_REASONING/RS004_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_2.md`
+- `06_REASONING/RS005_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_3.md`
+- `06_REASONING/RS006_PROPOSAL_TOC_ROUNDTRIP_OPERATION_V0_3.md`
+- `06_REASONING/RS007_PROPOSAL_INITIAL_WORKFLOW_COORDINATOR_V0_1.md`
+- `06_REASONING/RS008_PROPOSAL_INITIAL_MANIFEST_RUNNER_V0_1.md`
 
 ## Decisions
 
@@ -156,6 +171,14 @@ Required Bottleneck Record:
 - `07_DECISIONS/DEC004_ACCEPT_FIRST_STAGE_STABILITY_OF_MINIMAL_AER_REASONING_SKELETON.md`
 - `07_DECISIONS/DEC005_ADOPT_TIERED_RUNTIME_SELECTION_AND_PRODUCTION_LAYER_TRANSFORMATION.md`
 - `07_DECISIONS/DEC006_ADOPT_COGNITIVE_LOAD_REDUCTION_INTERACTION_LAYER.md`
+- `07_DECISIONS/DEC007_SEPARATE_SEMANTIC_RUNTIME_BINDING_FROM_GOVERNANCE_CLOSURE.md`
+- `07_DECISIONS/DEC008_FREEZE_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_1.md`
+- `07_DECISIONS/DEC009_ADOPT_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_2.md`
+- `07_DECISIONS/DEC010_ADOPT_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_3.md`
+- `07_DECISIONS/DEC011_ADOPT_PROPOSAL_TOC_ROUNDTRIP_OPERATION_V0_3.md`
+- `07_DECISIONS/DEC012_ADOPT_PROPOSAL_INITIAL_WORKFLOW_COORDINATOR_V0_1.md`
+- `07_DECISIONS/DEC013_ADOPT_PROPOSAL_INITIAL_MANIFEST_RUNNER_V0_1.md`
+- `07_DECISIONS/DEC014_ACCEPT_FIRST_ORDER_STRUCTURAL_PROVISIONAL_CLOSURE_OF_AX_METHOD_ASSEMBLY_SYSTEM.md`
 
 ## Open Problem
 
@@ -178,6 +201,67 @@ Required Bottleneck Record:
 - `09_RESEARCH_LOG/SESSION_010_REPOSITORY_BOUND_CODEX_RUNTIME_BINDING.md` — Runtime binding applied locally; SessionStart, UserPromptSubmit, and PreToolUse activation observed; SubagentStart pending.
 - `09_RESEARCH_LOG/SESSION_011_PRODUCTION_LAYER_CANDIDATE_DESIGN_HOLD.md` — candidate Production Layer design and explicit Hold decision retained; no Production Layer implementation is authorized.
 - `09_RESEARCH_LOG/SESSION_012_COGNITIVE_LOAD_REDUCTION_INTERACTION_DESIGN.md` — DEC-006 interaction architecture recorded; implementation code and actual-work usability validation deferred.
+- `09_RESEARCH_LOG/SESSION_013_PROPOSAL_TOC_WORKBOOK_CONTRACT_V0_1.md` — proposal TOC normalized-state, workbook-generation, and re-import contract v0.1 frozen for its bounded first case.
+- `09_RESEARCH_LOG/SESSION_014_PROPOSAL_TOC_WORKBOOK_CASE2_VALIDATION.md` — contract v0.2 adopted as the minimum extension for missing exact-page and A3-multiplier source conditions.
+- `09_RESEARCH_LOG/SESSION_015_PROPOSAL_TOC_WORKBOOK_CASE3_VALIDATION.md` — contract v0.3 adopted for split-source authority, page-budget, and content-policy conditions without a general exception engine.
+- `09_RESEARCH_LOG/SESSION_016_PROPOSAL_TOC_HUMAN_ROUNDTRIP_VALIDATION.md` — human roundtrip runtime v0.3.2 and explicit acceptance routine 0.1.0 validated within the observed boundary; RPA remains on Hold.
+- `09_RESEARCH_LOG/SESSION_017_PROPOSAL_INITIAL_WORKFLOW_INTEGRATION.md` — bounded initial workflow coordinator v0.1.0 adopted; AER Core and human gates retain semantic authority.
+- `09_RESEARCH_LOG/SESSION_018_PROPOSAL_INITIAL_MANIFEST_RUNNER.md` — bounded two-phase manifest runner v0.1.0 adopted; strategy evidence remains bound to the accepted TOC state.
+- `09_RESEARCH_LOG/SESSION_020_AX_METHOD_ASSEMBLY_SYSTEM_LEVEL_RECONCILIATION.md` — independent system-level reconciliation; 16/16 A–P stress tests and 32/32 structural closure criteria PASS; empirical effectiveness remains unvalidated.
+- `09_RESEARCH_LOG/SESSION_021_RUNTIME_BINDING_LAYER_SEPARATION_VALIDATION.md` — approved Runtime Binding Layer Separation record, renumbered from the conflicting local-only SESSION-013 label without semantic change.
+
+## Bounded Proposal TOC and Initial Workflow State
+
+- Proposal TOC contract v0.3 is the current semantic contract. Normalized JSON is canonical state and XLSX is the PM editing surface.
+- Human workbook re-import is report-only until explicit acceptance; regeneration, strategy selection, and RPA release remain human-controlled.
+- Runtime implementation v0.3.2 and acceptance routine 0.1.0 are validated only for the recorded observed cases and explicit acceptance pattern.
+- Initial workflow coordinator v0.1.0 and manifest runner v0.1.0 automate bounded mechanical transitions, not AER Core semantic judgment.
+- Strategy registration requires AER Core evidence bound to the newly accepted TOC hash.
+- No general RFP compatibility, universal workflow engine, PPT production, Production Layer release, or RPA implementation is approved.
+
+## Separate Closed Research Track
+
+- `09_RESEARCH_LOG/AX/` — isolated AX research track; it does not modify AER Core or existing Decisions and Evidence Records.
+- `09_RESEARCH_LOG/AX/SESSIONS/AX_SESSION_002_DX_TO_AX_RESIDUAL_GAP_CLOSURE.md` — repeated comparison against actual-company cases and established DX/AX, SAP, strategy-consulting, GRC, and Decision Science domains left no defensible general Enterprise AX residual micro-gap within the reviewed scope.
+- The result is absence of supporting evidence for a retained gap within that scope, not evidence of universal absence.
+- Reopen only for a concrete repeated actual-enterprise failure or material technology change that existing adjacent domains do not adequately explain or address.
+- No AER fixed conclusion, version, Runtime state, Production Layer Hold, or RPA state is changed by this track.
+
+## AX Method Assembly System Structural Closure
+
+The three stage-level conclusions remain:
+
+```text
+DEFINE & DESIGN / REALIZE
+→ PROVISIONAL CLOSURE
+
+VALIDATE THE TARGET WORK SYSTEM
+→ PROVISIONAL CLOSURE
+
+TRANSITION, OPERATE & MONITOR
+→ PROVISIONAL CLOSURE
+```
+
+Their integrated control structure is:
+
+```text
+GOVERNANCE & ASSURANCE
+→ INTEGRATED CROSS-CUTTING CONTROL PLANE
+
+CHANGE / REOPEN / EXIT
+→ INTEGRATED RECURSIVE CONTROL
+
+ENTERPRISE AX METHOD ASSEMBLY SYSTEM
+→ FIRST-ORDER STRUCTURAL PROVISIONAL CLOSURE: PASS
+```
+
+The system-level walkthrough, A–P stress tests, global consistency check, opposing-model review, and 32-item closure matrix found no material interface contradiction. Evidence Verdict, Operational Acceptance, and Operational Disposition remain separate objects; change starts from the first affected proposition and uses V1/V2 for targeted revalidation or design reopen.
+
+This is structural and logical closure, not proof of actual enterprise effectiveness, long-term operation, universality, causal business outcome, comparative superiority, or a complete universal methodology. No new mandatory lifecycle stage, O8 obligation, or universal full end-to-end test gate is adopted.
+
+Reopen only under DEC-014's material interface, authority, provenance, envelope-enforcement, targeted-routing, or decisive new-evidence conditions. While those conditions are unmet, further stage and taxonomy expansion is stopped.
+
+This result does not reopen the separate bounded AX residual-gap closure. It creates no new general Enterprise AX residual gap or product claim.
 
 ---
 
@@ -200,7 +284,8 @@ RC-004 Integration:
 - The unsupported local Commit `40c3e638e59a5269c45fa2e4eac420b10d8b6edc` was removed by a mixed reset to `42890100895edc03f9bd10ce1a3ee13515360e20`, which matched `origin/main` at the time of reconciliation.
 - SHA-256 comparison confirmed that all nine pre-existing Runtime, governance, and Session working files were preserved unchanged across the reset.
 - The approval's duplicated `Apply Only` label is normalized under the Research Closure Policy to `Closure Mode: Release` and `Git Permission: Apply Only`; this changes neither the approved file scope nor the prohibition on Commit and Push.
-- Runtime and Session reconciliation remains in the working tree under Apply Only authority. Stage, Commit, and Push are not authorized.
+- At that time, Runtime and Session reconciliation remained in the working tree under Apply Only authority and Stage, Commit, and Push were not authorized.
+- The explicit 2026-08-17 repository reconciliation instruction separately authorizes formal integration of those preserved approved records, identifier repair, canonical synchronization, validation, and one scoped Commit.
 
 Repository Structural Version:
 
@@ -212,6 +297,17 @@ Research State Version:
 
 Git history is the authoritative record for later documentation-synchronization Commits.
 A second status Commit must not be created merely to record a preceding Commit hash.
+
+Repository Reconciliation Status: RESOLVED
+
+- Decision index synchronized through DEC-014, including committed DEC-008 through DEC-013 and approved local DEC-007.
+- Evidence index synchronized through EV-014, including committed EV-007 through EV-013 and approved local EV-006.
+- Session index and timeline synchronized with committed SESSION-013 through SESSION-018, new AX closure SESSION-020, and formalized Runtime record SESSION-021.
+- Committed `SESSION-013 Proposal TOC Workbook Contract v0.1` remains unchanged and authoritative.
+- The conflicting local Runtime Binding Layer Separation label was renumbered to collision-free SESSION-021; EV-006, DEC-007, the timeline, and a dedicated Session object now use that identifier.
+- The isolated AX track is canonical in `09_RESEARCH_LOG/AX/`; repository-wide AX Method Assembly closure authority is held by EV-014, DEC-014, and SESSION-020.
+- Local SESSION-019 remains explicitly non-official and outside the canonical Session index. It is preserved in the working copy and is neither promoted nor deleted.
+- Reconciliation changes identifier assignment, discoverability, and authority synchronization only. It changes no research conclusion, stage-level closure, version, Production Layer Hold, or RPA Hold.
 
 ---
 
@@ -247,6 +343,16 @@ Tiered Runtime Comparative Validation:
 
 This establishes selective runtime value within the tested boundary, not universal superiority.
 
+AX Method Assembly First-Order Structural Validation:
+
+- bounded end-to-end walkthrough closed with existing objects and V1/V2;
+- A–P stress tests: 16/16 structural discrimination PASS;
+- normalized closure matrix: 32/32 PASS;
+- global consistency and opposing-model review: PASS; and
+- no material interface contradiction found across the three stages, Governance & Assurance, and Change / Reopen / Exit.
+
+This establishes first-order structural and logical provisional closure, not empirical enterprise effectiveness.
+
 Not Yet Validated:
 
 - Operation and maintenance projects
@@ -259,6 +365,9 @@ Not Yet Validated:
 - Transferability to other proposal managers
 - Causal relationship with winning outcomes
 - Universal application across all industries and proposal types
+- Empirical effectiveness of the AX Method Assembly System in actual enterprises
+- Long-term operability, maintainability, supportability, and causal outcome performance of the AX Method Assembly System
+- Universal transferability of the AX Method Assembly System across industries, organizations, technologies, risk levels, and legal regimes
 
 미검증 범위를 승인된 일반원칙으로 강화하지 않는다.
 
@@ -364,7 +473,9 @@ Deferred or non-core:
 8. Human proposal-workflow understanding — Completed
 9. Session Binding and State Departure execution-integrity remediation — Runtime applied; SessionStart, UserPromptSubmit, and PreToolUse observed; SubagentStart and formal closure pending
 10. Cognitive-load-reduction interaction architecture — Adopted outside AER Core; implementation code and actual-work usability validation deferred
-11. Proposal Production Layer implementation — On hold under SESSION-011 reopening conditions
+11. Proposal TOC v0.3 and bounded initial-workflow operation — Adopted through SESSION-018; further generalization stops until an observed incompatibility; Production Layer and PPT RPA remain on hold
+12. AX Method Assembly System-level reconciliation — First-order structural provisional closure PASS; empirical validation deferred; structural expansion stopped until DEC-014 reopening conditions are met
+13. Repository authority reconciliation — Completed through DEC-014, EV-014, SESSION-021, the canonical indexes and timeline, and the isolated AX track
 
 ## Completed: Autonomous Closure
 
@@ -481,4 +592,17 @@ AER v1.0은 저장소 구조와 운영규칙의 버전이다.
 AETF v0.1.2는 현재 연구내용의 진행상태를 나타낸다.
 
 현재 단계는 AER Core의 1차 안정화, 선택적 B 강화와 제한적 C 검증모드의 적용경계, Production Layer 변환원리와 인간 제안업무의 실무 제약을 보존하면서 Session Binding Runtime과 비-Core 인지부담 저감 상호작용 구조를 적용한 상태다. SessionStart, UserPromptSubmit, PreToolUse는 실제 활성화가 관찰되었으나 SubagentStart의 실제 클라이언트 활성화 및 형식적 종결은 남아 있다. 인지부담 저감 구조의 실행 코드와 실제 업무 사용성 검증은 보류하며, Production Layer 후보 설계는 SESSION-011의 재개방 조건이 충족될 때까지 Hold한다.
+AX Method Assembly System은 세 stage의 Provisional Closure, Governance & Assurance control plane, Change / Reopen / Exit recursive control을 결합한 상태에서 first-order structural provisional closure PASS로 판정되었다. 이는 구조적·논리적 판정이며 실제 기업효과나 장기 운영성을 확정하지 않는다. Repository Reconciliation은 committed SESSION-013을 보존하고 Runtime Binding Layer Separation record를 SESSION-021로 재번호화하며 Decision·Evidence·Session index와 timeline을 실제 object에 동기화하는 방식으로 해결되었다.
 새로운 규칙, 상태값, 진단모듈은 승인된 재개방 조건에 해당하는 반복적이고 구조적인 실패가 확인될 때에만 최소한으로 검토한다.
+
+---
+
+# 12. Canonical Progress Pointer
+
+Repository authority repair and AX closure formalization are complete at the document state represented here.
+
+- Immediate existing AER priority: independently observe SubagentStart lifecycle activation and complete a separately approved formal Execution Integrity closure.
+- Proposal path: use the adopted v0.3 TOC contract, roundtrip operation, coordinator, and manifest runner only within their bounded authority; keep Production Layer and PPT RPA on Hold.
+- AX Method Assembly path: preserve the three stage-level Provisional Closures and the first-order structural provisional closure; do not expand stages, O1–O7, governance layers, or universal gates while DEC-014 reopening conditions are unmet.
+- Empirical enterprise application is a separate future scope and is not authorized or claimed by repository reconciliation.
+- Reopen the isolated AX residual-gap track only under its concrete repeated actual-enterprise evidence condition.
