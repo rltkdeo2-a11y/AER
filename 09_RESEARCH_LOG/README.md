@@ -18,6 +18,7 @@
 - `SESSION-018` — Proposal Initial Manifest Runner
 - `SESSION-020` — AX Method Assembly System-Level Reconciliation and Structural Closure Decision
 - `SESSION-021` — Runtime Binding Layer Separation Validation; renumbered during repository reconciliation from the conflicting local-only SESSION-013 label
+- `SESSION-022` — Small-Organization Knowledge Continuity MVP Checkpoint; detailed problem, boundary, rejected-path, MVP, falsification, and resumption state
 
 The authoritative chronology is maintained in `09_RESEARCH_LOG/RESEARCH_TIMELINE.md`.
 

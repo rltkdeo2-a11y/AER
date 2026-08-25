@@ -1827,3 +1827,49 @@ EV-014, DEC-014, SESSION-020, Current State, related indexes, and timeline are i
 - The AX track is integrated in its independent namespace, while EV-014, DEC-014, and SESSION-020 hold repository-wide AX Method Assembly closure authority.
 
 Repository reconciliation changes only identifiers, discoverability, and authority synchronization. It does not change the AX Method Assembly structural verdict or any earlier research conclusion.
+
+---
+
+# SESSION-022 Small-Organization Knowledge Continuity MVP Checkpoint
+
+Date:
+
+2026-08-26
+
+Closure Mode:
+
+Standard
+
+Git Permission:
+
+Autonomous Closure for an exact candidate Commit; canonical promotion remains owner-controlled
+
+## Research Topic
+
+Whether loss of decision rationale, change history, cross-functional impact, current validity, and follow-up responsibility when people, roles, and projects change in small organizations leaves a defensible OSS product hypothesis beyond document storage, project management, personal wiki, and generic RAG.
+
+## Approved Checkpoint
+
+- The intended problem is organization-wide knowledge and judgment continuity, not development-project management or document storage alone.
+- The Toss cases support workflow-embedded capture, access, updating, and validity as relevant design anchors, but do not prove transferability or product demand in small organizations.
+- Existing repositories and work tools remain systems of record. The candidate is a source-retaining control layer for evidence, claim state, authority, access, change impact, reuse, and knowledge gaps.
+- Jira, Confluence, Obsidian, a small KMS, PMS, NAS search, and generic RAG are not adopted product definitions; individual OSS capabilities should be reused where possible.
+- Methodological novelty and product edge remain unproven. KCS and other prior work constrain novelty claims.
+- The next stage is a comparative Minimum Viable Learning Product, beginning with a frozen adversarial SI handoff fixture and proceeding to R&D and sales/finance/operations only if the first gate passes.
+- Case generation, audit, implementation, and evaluation are separated, and the implementer must not see hidden ground truth.
+
+## Evidence and Limits
+
+The basis is a bounded interview observation, repeated human experience in small organizations, verified Toss Tech articles, prior-method comparison, and preliminary OSS and license review. No synthetic fixture, MVP, actual-company deployment, market validation, comparative result, or general product claim exists yet.
+
+## Progress Pointer
+
+Define and freeze the external synthetic-case generation and audit contract. Do not begin MVP implementation, reopen rejected product forms, change AER Core or existing Holds, or infer actual organizational effectiveness from future synthetic PASS.
+
+## Traceability
+
+- Session: `09_RESEARCH_LOG/SESSION_022_SMALL_ORGANIZATION_KNOWLEDGE_CONTINUITY_MVP_CHECKPOINT.md`
+
+Repository Integration Boundary:
+
+Agent execution may produce only an exact validated candidate Commit. Canonical integration status is held by Git history and the separate owner-controlled promotion result; this timeline entry does not authorize or claim Agent-side canonical mutation.
