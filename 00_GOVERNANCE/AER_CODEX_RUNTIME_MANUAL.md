@@ -8,7 +8,7 @@ Version: 1.0
 
 Created: 2026-07-28
 
-Updated: 2026-07-28
+Updated: 2026-08-14
 
 State Reconciled: 2026-07-30
 
@@ -424,7 +424,48 @@ Do not run `git add`, `git commit`, or `git push` until the specific subsequent 
 
 ---
 
-## 10. Stop Conditions and Recovery
+## 10. Recording-Only Repository Application
+
+### 10.1 Definition and boundary
+
+A **recording-only repository application** writes and synchronizes human-approved Decision, Evidence, Session, and State content into the repository's existing object schemas and indexes. It is an application activity, not a new research-reasoning activity.
+
+This classification is permitted only when all semantic content, scope, limitations, object status, and repository authority have already been validated and approved through the applicable Handoff and Closure controls. The recording task may perform deterministic schema mapping, identifier and path checks, index synchronization, formatting, and validation. It must not add, strengthen, reconcile, reinterpret, or reopen a research conclusion.
+
+Repository application authority is unchanged. Recording-only work still requires an Approved Handoff, an explicit Closure Mode, the applicable Git Permission, protected-file authority when relevant, and all existing closure validation.
+
+### 10.2 Recording execution profile
+
+When the execution environment supports an explicitly selected recording-only model profile, use:
+
+```text
+Policy label: Luna / extra high
+Model ID: gpt-5.6-luna
+Reasoning effort: xhigh
+```
+
+`extra high` is the human-facing label; `xhigh` is the configuration value. This is an operational selection, not a claim that `xhigh` is research-validated as the optimal cost or quality setting.
+
+The repository's current project configuration does not automatically dispatch tasks by semantic workflow type. Therefore this section records the required profile but does not claim that model selection is automatically enforced. Do not change the project-wide default model merely to implement this recording-only policy. If `gpt-5.6-luna` with `xhigh` cannot be explicitly selected or its availability cannot be confirmed in the active execution environment, stop and report the limitation; do not invent a configuration, silently substitute another model, or claim that the profile ran.
+
+### 10.3 Mandatory return to research reasoning
+
+The task is not recording-only and must return to a separate high-reasoning research stage when any of the following is required:
+
+- resolving a semantic conflict between approved or candidate objects;
+- deciding `REVISE`, `REOPEN`, or a change to an existing fixed conclusion;
+- creating a Decision whose meaning, alternatives, scope, limitations, or status are not already approved;
+- interpreting evidence, selecting among materially different meanings, or promoting an assumption or inference;
+- changing research scope, authority, version, protected boundaries, or the AX independent-session boundary;
+- making any choice that could alter the approved research meaning rather than only its schema-compliant representation.
+
+On any trigger, stop the recording lane, preserve all existing repository work, classify the issue under the Active Reasoning State, and resume under the AER Core and the applicable DEC-005 high-reasoning or high-precision validation rule. Only a newly validated and approved result may later re-enter the recording-only lane.
+
+This policy changes no existing AER research conclusion and no content or authority boundary of the independent AX research session.
+
+---
+
+## 11. Stop Conditions and Recovery
 
 Stop before editing or closure when any of the following is true:
 
@@ -454,7 +495,7 @@ Recovery path:
 
 ---
 
-## 11. Completion Report
+## 12. Completion Report
 
 Every completed repository application reports:
 
