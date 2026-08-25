@@ -67,6 +67,23 @@ try {
         throw 'PowerShell entry-point RegisterAnalysis semantic evidence assertion failed.'
     }
 
+    $externalPayload = Join-Path $tempDirectory 'external.json'
+    $externalState = Join-Path $tempDirectory 'state-external.json'
+    $reviewPayload = Join-Path $tempDirectory 'review-external.json'
+    $reviewedState = Join-Path $tempDirectory 'state-external-reviewed.json'
+    [ordered]@{ information_id = 'EXT-PS-001'; source_path = $source; description = 'Late source for entry-point review test' } |
+        ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $externalPayload -Encoding UTF8
+    & (Join-Path $PSScriptRoot 'invoke-proposal-initial-workflow.ps1') -Action AddExternalInformation -StatePath $summaryState -PayloadPath $externalPayload -OutputStatePath $externalState -NodeExecutable $node
+    if ($LASTEXITCODE -ne 0) { throw 'PowerShell entry-point AddExternalInformation failed.' }
+    [ordered]@{ information_id = 'EXT-PS-001'; impact_status = 'RESOLVED'; rationale = 'No summary revision required.' } |
+        ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $reviewPayload -Encoding UTF8
+    & (Join-Path $PSScriptRoot 'invoke-proposal-initial-workflow.ps1') -Action ReviewExternalInformation -StatePath $externalState -PayloadPath $reviewPayload -OutputStatePath $reviewedState -NodeExecutable $node
+    if ($LASTEXITCODE -ne 0) { throw 'PowerShell entry-point ReviewExternalInformation failed.' }
+    $reviewed = Get-Content -LiteralPath $reviewedState -Encoding UTF8 -Raw | ConvertFrom-Json
+    if ($reviewed.pending_impacts.Count -ne 0 -or $reviewed.next_action -ne 'REQUEST_HUMAN_SUMMARY_CONFIRMATION') {
+        throw 'PowerShell entry-point external impact resolution assertion failed.'
+    }
+
     $collisionRejected = $false
     try {
         & (Join-Path $PSScriptRoot 'invoke-proposal-initial-workflow.ps1') -Action Start -PayloadPath $payload -OutputStatePath $payload -NodeExecutable $node

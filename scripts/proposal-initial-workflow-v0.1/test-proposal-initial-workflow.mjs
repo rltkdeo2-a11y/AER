@@ -104,12 +104,40 @@ const withExternal = applyAction("ADD_EXTERNAL_INFORMATION", toc, {
 assert.equal(withExternal.stage, "TOC_HUMAN_EDIT");
 assert.equal(withExternal.pending_impacts[0].regeneration_authorized, false);
 assert.equal(withExternal.next_action, "REVIEW_EXTERNAL_INFORMATION_IMPACT");
+assert.throws(() => applyAction("RECORD_TOC_ANALYSIS", withExternal, {
+  returned_workbook_path: "toc-edited.xlsx", report_path: "changes.json", report: {},
+}), /blocked until all external information impacts are reviewed/);
+const withTwoExternal = applyAction("ADD_EXTERNAL_INFORMATION", withExternal, {
+  source_path: "notice-2.pdf",
+  description: "Second external source received before review",
+});
+assert.equal(withTwoExternal.pending_impacts.length, 2);
+assert.equal(withTwoExternal.pending_impacts[1].resume_next_action, "WAIT_FOR_HUMAN_TOC_EDIT");
+assert.throws(() => applyAction("REVIEW_EXTERNAL_INFORMATION", withTwoExternal, {
+  information_id: "EXT-999", impact_status: "RESOLVED", rationale: "unknown item",
+}), /No pending external information impact/);
+const firstExternalResolved = applyAction("REVIEW_EXTERNAL_INFORMATION", withTwoExternal, {
+  information_id: withTwoExternal.external_information[0].information_id,
+  impact_status: "RESOLVED",
+  rationale: "The supplied information does not change the accepted TOC input.",
+});
+assert.equal(firstExternalResolved.pending_impacts.length, 1);
+assert.equal(firstExternalResolved.next_action, "REVIEW_EXTERNAL_INFORMATION_IMPACT");
+const externalResolved = applyAction("REVIEW_EXTERNAL_INFORMATION", firstExternalResolved, {
+  information_id: withTwoExternal.external_information[1].information_id,
+  impact_status: "DEFERRED",
+  rationale: "The second source is relevant only after TOC acceptance.",
+});
+assert.equal(externalResolved.pending_impacts.length, 0);
+assert.equal(externalResolved.external_information[0].impact_status, "RESOLVED");
+assert.equal(externalResolved.external_information[1].impact_status, "DEFERRED");
+assert.equal(externalResolved.next_action, "WAIT_FOR_HUMAN_TOC_EDIT");
 
 const analysisReport = {
   summary: { rows_read: 10, baseline_rows: 10, material_changes: 1, blocking_changes: 0, structural_changes: 0 },
   release_recommendation: "HUMAN_CONFIRMATION_REQUIRED",
 };
-const reimport = applyAction("RECORD_TOC_ANALYSIS", withExternal, {
+const reimport = applyAction("RECORD_TOC_ANALYSIS", externalResolved, {
   returned_workbook_path: "toc-edited.xlsx",
   report_path: "changes.json",
   report: analysisReport,
@@ -196,16 +224,26 @@ assert.equal(selected.stage, "COMPLETE");
 assert.equal(selected.status, "COMPLETE");
 
 const revised = applyAction("ADD_EXTERNAL_INFORMATION", selected, { source_path: "qa.pdf", description: "Late official Q&A" });
-const authorized = applyAction("AUTHORIZE_REGENERATION", revised, {
+assert.throws(() => applyAction("AUTHORIZE_REGENERATION", revised, {
+  target_stage: "TOC_DRAFT", reason: "Impact has not been reviewed.", human_command: true,
+}), /reviewed as REQUIRES_REGENERATION/);
+const regenerationRequired = applyAction("REVIEW_EXTERNAL_INFORMATION", revised, {
+  information_id: revised.external_information.at(-1).information_id,
+  impact_status: "REQUIRES_REGENERATION",
+  rationale: "Official Q&A changes the strategic TOC allocation.",
+});
+assert.equal(regenerationRequired.next_action, "AUTHORIZE_REGENERATION");
+const authorized = applyAction("AUTHORIZE_REGENERATION", regenerationRequired, {
   target_stage: "TOC_DRAFT",
   reason: "Official Q&A changes the strategic TOC allocation.",
   human_command: true,
 });
 assert.equal(authorized.stage, "TOC_DRAFT");
-assert.equal(authorized.pending_impacts[0].regeneration_authorized, true);
+assert.equal(authorized.pending_impacts.length, 0);
+assert.equal(authorized.external_information.at(-1).impact_status, "REGENERATION_AUTHORIZED");
 assert.equal(authorized.human_gates.toc_changes_accepted, false);
 assert.equal(authorized.artifacts.accepted_state_path, undefined);
-assert.throws(() => applyAction("AUTHORIZE_REGENERATION", revised, {
+assert.throws(() => applyAction("AUTHORIZE_REGENERATION", regenerationRequired, {
   target_stage: "TOC_DRAFT", reason: "No human command", human_command: false,
 }), /human_command=true/);
 

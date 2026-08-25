@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('Start','RegisterAnalysis','ConfirmSummary','RecordFoundationInput','RegisterTocDraft','AnalyzeTocReturn','AcceptTocReturn','RegisterStrategyCandidates','ConfirmStrategySelection','AddExternalInformation','AuthorizeRegeneration')]
+    [ValidateSet('Start','RegisterAnalysis','ConfirmSummary','RecordFoundationInput','RegisterTocDraft','AnalyzeTocReturn','AcceptTocReturn','RegisterStrategyCandidates','ConfirmStrategySelection','AddExternalInformation','ReviewExternalInformation','AuthorizeRegeneration')]
     [string]$Action,
 
     [string]$StatePath,
@@ -48,6 +48,7 @@ $engineAction = @{
     RegisterStrategyCandidates = 'REGISTER_STRATEGY_CANDIDATES'
     ConfirmStrategySelection = 'CONFIRM_STRATEGY_SELECTION'
     AddExternalInformation = 'ADD_EXTERNAL_INFORMATION'
+    ReviewExternalInformation = 'REVIEW_EXTERNAL_INFORMATION'
     AuthorizeRegeneration = 'AUTHORIZE_REGENERATION'
 }[$Action]
 $temporaryPayload = $null

@@ -126,6 +126,12 @@ function assertStage(state, action) {
   if (!allowed.includes(state.stage)) throw new Error(`${action} is not permitted from ${state.stage}.`);
 }
 
+function assertNoPendingExternalImpact(state, action) {
+  if (state.pending_impacts.length > 0) {
+    throw new Error(`${action} is blocked until all external information impacts are reviewed.`);
+  }
+}
+
 function transition(state, action, nextStage, detail = {}) {
   const next = clone(state);
   next.revision += 1;
@@ -377,9 +383,43 @@ function addExternalInformation(state, payload) {
   next.pending_impacts.push({
     information_id: next.external_information.at(-1).information_id,
     current_stage: state.stage,
+    impact_status: "PENDING_REVIEW",
+    resume_next_action: state.pending_impacts[0]?.resume_next_action || state.next_action,
     regeneration_authorized: false,
   });
   next.next_action = "REVIEW_EXTERNAL_INFORMATION_IMPACT";
+  return next;
+}
+
+function reviewExternalInformation(state, payload) {
+  const informationId = requireText(payload.information_id, "information_id");
+  const impactStatus = requireText(payload.impact_status, "impact_status").toUpperCase();
+  if (!["RESOLVED", "DEFERRED", "REQUIRES_REGENERATION"].includes(impactStatus)) {
+    throw new Error("impact_status must be RESOLVED, DEFERRED, or REQUIRES_REGENERATION.");
+  }
+  const rationale = requireText(payload.rationale, "rationale");
+  const pending = state.pending_impacts.find((item) => item.information_id === informationId);
+  if (!pending) throw new Error(`No pending external information impact matches ${informationId}.`);
+  const information = state.external_information.find((item) => item.information_id === informationId);
+  if (!information) throw new Error(`External information record is missing for ${informationId}.`);
+
+  const next = transition(state, "REVIEW_EXTERNAL_INFORMATION", state.stage, { information_id: informationId, impact_status: impactStatus });
+  const reviewedAt = next.updated_at;
+  next.external_information = next.external_information.map((item) => item.information_id === informationId
+    ? { ...item, impact_status: impactStatus, impact_rationale: rationale, reviewed_at: reviewedAt }
+    : item);
+
+  if (impactStatus === "REQUIRES_REGENERATION") {
+    next.pending_impacts = next.pending_impacts.map((item) => item.information_id === informationId
+      ? { ...item, impact_status: impactStatus, rationale, reviewed_at: reviewedAt }
+      : item);
+    next.next_action = "AUTHORIZE_REGENERATION";
+  } else {
+    next.pending_impacts = next.pending_impacts.filter((item) => item.information_id !== informationId);
+    next.next_action = next.pending_impacts.length > 0
+      ? "REVIEW_EXTERNAL_INFORMATION_IMPACT"
+      : (pending.resume_next_action || state.next_action);
+  }
   return next;
 }
 
@@ -389,9 +429,16 @@ function authorizeRegeneration(state, payload) {
     throw new Error("target_stage must be SOURCE_INTAKE, TOC_DRAFT, or STRATEGY_CANDIDATES.");
   }
   if (payload.human_command !== true) throw new Error("Regeneration requires human_command=true.");
+  if (state.pending_impacts.length === 0 || state.pending_impacts.some((item) => item.impact_status !== "REQUIRES_REGENERATION")) {
+    throw new Error("Regeneration authorization requires every pending impact to be reviewed as REQUIRES_REGENERATION.");
+  }
   const next = transition(state, "AUTHORIZE_REGENERATION", target, { human_command: true, reason: requireText(payload.reason, "reason") });
   next.regeneration_authorizations.push({ target_stage: target, reason: payload.reason, authorized_at: next.updated_at });
-  next.pending_impacts = next.pending_impacts.map((item) => ({ ...item, regeneration_authorized: true }));
+  const authorizedIds = new Set(next.pending_impacts.map((item) => item.information_id));
+  next.external_information = next.external_information.map((item) => authorizedIds.has(item.information_id)
+    ? { ...item, impact_status: "REGENERATION_AUTHORIZED", regeneration_authorized_at: next.updated_at }
+    : item);
+  next.pending_impacts = [];
   const removeArtifacts = (names) => names.forEach((name) => { delete next.artifacts[name]; });
   if (target === "SOURCE_INTAKE") {
     next.human_gates.summary_confirmed = false;
@@ -425,6 +472,9 @@ export function applyAction(action, state, payload = {}) {
   const normalized = requireText(action, "action").toUpperCase();
   if (normalized === "START") return start(payload);
   assertState(state);
+  if (!["ADD_EXTERNAL_INFORMATION", "REVIEW_EXTERNAL_INFORMATION", "AUTHORIZE_REGENERATION"].includes(normalized)) {
+    assertNoPendingExternalImpact(state, normalized);
+  }
   switch (normalized) {
     case "REGISTER_ANALYSIS": return registerAnalysis(state, payload);
     case "CONFIRM_SUMMARY": return confirmSummary(state, payload);
@@ -435,6 +485,7 @@ export function applyAction(action, state, payload = {}) {
     case "REGISTER_STRATEGY_CANDIDATES": return registerStrategyCandidates(state, payload);
     case "CONFIRM_STRATEGY_SELECTION": return confirmStrategySelection(state, payload);
     case "ADD_EXTERNAL_INFORMATION": return addExternalInformation(state, payload);
+    case "REVIEW_EXTERNAL_INFORMATION": return reviewExternalInformation(state, payload);
     case "AUTHORIZE_REGENERATION": return authorizeRegeneration(state, payload);
     default: throw new Error(`Unsupported workflow action: ${normalized}`);
   }
