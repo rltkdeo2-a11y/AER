@@ -1873,3 +1873,14 @@ Define and freeze the external synthetic-case generation and audit contract. Do 
 Repository Integration Boundary:
 
 Agent execution may produce only an exact validated candidate Commit. Canonical integration status is held by Git history and the separate owner-controlled promotion result; this timeline entry does not authorize or claim Agent-side canonical mutation.
+
+## Successive Checkpoint Timeline (within SESSION-022)
+
+This subsection extends the existing SESSION-022 timeline without creating a new Session heading. It records the sequence as it occurred; later results do not retroactively change earlier states. The reconciliation record was prepared in an independent `EXECUTION` candidate on `2026-08-28` and remains non-canonical pending owner-controlled promotion.
+
+1. `2026-08-27` — **Minimum Learning PRD Closure**: PRD `CLOSED`; Evaluation Contract / Validation Design was the next stage; product value and comparative advantage remained unvalidated. Implementation and comparative evaluation were not claimed.
+2. `2026-08-27` — **Evaluation Contract / Validation Design Closure**: PRD and evaluation contract/design `CLOSED`; B0, Gates A–D, sealed truth, Tasks, Change Pulse, isolation, human-cost, External New-PM, observation order, anti-tuning, and verdict rules were fixed. Final v0.3/R2 readiness was still pending.
+3. `2026-08-27` — **Final Pre-Blind Fixture v0.3 and R2 Targeted Re-Audit**: Fixture `v0.3`; R2 `PASS`; `PRE-BLIND CONTRACT READY: YES`. This established pre-blind apparatus readiness only; no blind execution or product verdict was claimed.
+4. `2026-08-27`–`2026-08-28` — **Minimum Learning MVP Implementation and Non-Blind Technical Validation**: MVP implementation `PROVISIONAL CLOSED`; non-blind technical validation `PASS`; `RUN CONFIGURATION FREEZE: HOLD`; `BLIND EXECUTION READY: NO`. The SQLite implementation and `RUN_CONFIGURATION.json` remained external, non-canonical candidate artifacts.
+
+The four transitions belong to SESSION-022. The former `62a71fcd...` candidate and its `SESSION_023...` file are excluded from canonical authority and are not used as the source of this reconciliation.

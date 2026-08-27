@@ -2,7 +2,7 @@
 
 Last Updated
 
-2026-08-17
+2026-08-28
 
 Repository Version
 
@@ -14,11 +14,11 @@ AETF v0.1.2
 
 Current Phase
 
-Execution Integrity Remediation Applied; Cognitive Interaction Architecture Adopted; Proposal TOC Contract and Initial Workflow Adopted Within Bounded Scope; Production Layer Held; AX Method Assembly First-Order Structural Provisional Closure Accepted; Repository Authority Reconciled
+Execution Integrity Remediation Applied; Cognitive Interaction Architecture Adopted; Proposal TOC Contract and Initial Workflow Adopted Within Bounded Scope; Production Layer Held; AX Method Assembly First-Order Structural Provisional Closure Accepted; Repository Authority Reconciled; SESSION-022 Minimum Learning successive checkpoints reconciled through non-blind technical validation, with RUN CONFIGURATION freeze held and blind execution not ready
 
 Current Status
 
-Repository-bound Session Binding is active for observed SessionStart, UserPromptSubmit, and PreToolUse paths; DEC-006 cognitive-load-reduction interaction architecture is adopted outside AER Core; DEC-007 provisionally separates Semantic Runtime Binding from Governance Closure under explicit limits; Proposal TOC contract v0.3, human roundtrip operation, bounded initial-workflow coordinator v0.1.0, and manifest runner v0.1.0 are adopted while Production Layer and PPT RPA remain on hold; SubagentStart validation and formal Execution Integrity closure remain the current priority; the isolated DX-to-AX residual-gap track is closed with no defensible general Enterprise AX residual micro-gap identified within its reviewed scope; the AX Method Assembly System has passed first-order structural provisional closure without reopening its three stage-level Provisional Closures; Decision, Evidence, Session, timeline, and Current State authority are reconciled through DEC-014, EV-014, SESSION-021, and the separate AX track
+Repository-bound Session Binding is active for observed SessionStart, UserPromptSubmit, and PreToolUse paths; DEC-006 cognitive-load-reduction interaction architecture is adopted outside AER Core; DEC-007 provisionally separates Semantic Runtime Binding from Governance Closure under explicit limits; Proposal TOC contract v0.3, human roundtrip operation, bounded initial-workflow coordinator v0.1.0, and manifest runner v0.1.0 are adopted while Production Layer and PPT RPA remain on hold; SubagentStart validation and formal Execution Integrity closure remain the current priority; the isolated DX-to-AX residual-gap track is closed with no defensible general Enterprise AX residual micro-gap identified within its reviewed scope; the AX Method Assembly System has passed first-order structural provisional closure without reopening its three stage-level Provisional Closures; Decision, Evidence, Session, timeline, and Current State authority are reconciled through DEC-014, EV-014, SESSION-021, and the separate AX track; the SESSION-022 Minimum Learning track now records PRD CLOSED, Evaluation Contract / Validation Design CLOSED, Final Pre-Blind Fixture v0.3, R2 PASS, PRE-BLIND CONTRACT READY YES, MVP IMPLEMENTATION PROVISIONAL CLOSED, and NON-BLIND TECHNICAL VALIDATION PASS, while RUN CONFIGURATION freeze remains HOLD and blind execution remains not ready
 
 ---
 
@@ -619,3 +619,23 @@ Repository authority repair and AX closure formalization are complete at the doc
 - AX Method Assembly path: preserve the three stage-level Provisional Closures and the first-order structural provisional closure; do not expand stages, O1–O7, governance layers, or universal gates while DEC-014 reopening conditions are unmet.
 - Empirical enterprise application is a separate future scope and is not authorized or claimed by repository reconciliation.
 - Reopen the isolated AX residual-gap track only under its concrete repeated actual-enterprise evidence condition.
+
+---
+
+# 13. Current Minimum Learning Research State
+
+The following is the current state of the Minimum Learning research track recorded under `SESSION-022`:
+
+- Minimum Learning PRD: `CLOSED`
+- Evaluation Contract / Validation Design: `CLOSED`
+- Final Pre-Blind Fixture: `v0.3`
+- R2 Targeted Re-Audit: `PASS`
+- `PRE-BLIND CONTRACT READY`: `YES`
+- Minimum Learning MVP IMPLEMENTATION: `PROVISIONAL CLOSED`
+- NON-BLIND TECHNICAL VALIDATION: `PASS`
+- `RUN CONFIGURATION FREEZE`: `HOLD`
+- `BLIND EXECUTION READY`: `NO`
+
+This is a research-state checkpoint, not a product-validation result. The MVP implementation and its `RUN_CONFIGURATION.json` remain in an independent external candidate workspace and have not been promoted into the canonical repository. Canonicalization of this research state must not be interpreted as canonical promotion of the implementation artifact.
+
+The next authorized action for this track is to resolve all remaining `RUN_CONFIGURATION.json` values, verify B0/Product execution symmetry, and freeze the configuration before any blind evaluation is considered. No blind execution is authorized by this state.

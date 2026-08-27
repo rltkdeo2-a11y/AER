@@ -620,3 +620,98 @@ This checkpoint does not:
 - authorize canonical promotion or Push from an Agent execution environment.
 
 Further research must preserve this boundary until new evidence is explicitly classified and approved.
+
+---
+
+## 19. Successive Checkpoints / Addendum
+
+This is an append-only reconciliation of successive state transitions within `SESSION-022`. Sections 1–18 and their original wording and historical status are preserved. The entries below do not rewrite an earlier checkpoint when a later result became available.
+
+The checkpoint occurrence dates below are taken from the available approved or external working records. Where an exact approval time is not preserved, only the recorded date is used. The reconciliation record was prepared in an independent `EXECUTION` candidate on 2026-08-28; it is not canonical until an owner-controlled promotion.
+
+### 19.1 Minimum Learning PRD Closure
+
+Checkpoint occurrence and approval: `2026-08-27` (external PRD-closure working record; non-canonical).
+
+State at this transition:
+
+- Minimum Learning PRD: `CLOSED`.
+- Evaluation Contract / Validation Design: next stage; not yet closed at this transition.
+- Final Pre-Blind Fixture v0.3 and R2 Targeted Re-Audit: not yet claimed as complete at this transition.
+- Minimum Learning MVP implementation and non-blind technical validation: not yet claimed.
+- Product value, comparative advantage, organizational effectiveness, and production readiness: unvalidated.
+
+Boundary preserved at this transition:
+
+- The PRD fixed the smallest falsifiable product hypothesis and G5-1–G5-9 scope.
+- It did not authorize implementation before the evaluation contract was frozen.
+- It did not create a Decision or Evidence object, alter AER Core, or authorize canonical promotion.
+
+### 19.2 Evaluation Contract / Validation Design Closure
+
+Checkpoint occurrence and approval: `2026-08-27` (current-session closure materials; exact wall-clock approval time is not preserved in repository authority).
+
+State at this transition:
+
+- Minimum Learning PRD: `CLOSED`.
+- Evaluation Contract / Validation Design: `CLOSED`.
+- B0 baseline, Critical Gates A–D, sealed truth, Task 1–3, Change Pulse, observation order, human-cost boundary, Task × Condition isolation, External New-PM contract, and verdict operationalization: fixed for subsequent apparatus work.
+- Final Pre-Blind Fixture v0.3 and R2 Targeted Re-Audit: still pending completion at this transition.
+- `PRE-BLIND CONTRACT READY`: `NO` until the targeted re-audit passed.
+- MVP implementation and product validation: not claimed.
+
+Boundary preserved at this transition:
+
+- The contract froze the comparison and anti-tuning rules; it did not authorize changing fixture, truth, gates, baseline, cost calculation, or verdict rules to improve a later result.
+- No blind execution was authorized, and no Decision or Evidence object was created.
+
+### 19.3 Final Pre-Blind Fixture v0.3 and R2 Targeted Re-Audit PASS
+
+Checkpoint occurrence and approval: `2026-08-27` (v0.3 audit and readiness records; exact approval wall-clock time is not preserved in repository authority).
+
+State at this transition:
+
+- Minimum Learning PRD: `CLOSED`.
+- Evaluation Contract / Validation Design: `CLOSED`.
+- Final Pre-Blind Fixture: `v0.3`.
+- R2 Targeted Re-Audit: `PASS`.
+- `PRE-BLIND CONTRACT READY`: `YES`.
+- MVP implementation: not yet claimed as implemented in this transition.
+- `RUN CONFIGURATION FREEZE`: not yet released; blind execution remained prohibited until the implementation and configuration were complete and symmetric.
+- `BLIND EXECUTION READY`: `NO`.
+
+Boundary preserved at this transition:
+
+- R2 PASS confirms the targeted v0.3 control checks and protected invariants; it is not a product verdict.
+- The fixture, sealed truth, gates, baseline, change-pulse contents, human-cost boundary, and verdict operationalization were not redesigned for Product advantage.
+- No blind evaluation was run.
+
+### 19.4 Minimum Learning MVP Implementation and Non-Blind Technical Validation PASS
+
+Checkpoint occurrence and validation window: `2026-08-27`; checkpoint approval and technical-validation record: `2026-08-28` (independent external working record; non-canonical).
+
+State at this transition:
+
+- Minimum Learning PRD: `CLOSED`.
+- Evaluation Contract / Validation Design: `CLOSED`.
+- Final Pre-Blind Fixture: `v0.3`.
+- R2 Targeted Re-Audit: `PASS`.
+- `PRE-BLIND CONTRACT READY`: `YES`.
+- Minimum Learning MVP IMPLEMENTATION: `PROVISIONAL CLOSED`.
+- NON-BLIND TECHNICAL VALIDATION: `PASS`.
+- `RUN CONFIGURATION FREEZE`: `HOLD`.
+- `BLIND EXECUTION READY`: `NO`.
+
+Technical-validation boundary:
+
+- The implementation is a SQLite persistent minimum control state using only `source → statement → relation`, `revision`, and operation log structures.
+- Unit tests and the v0.3 Public Run and Change Pulse mechanics passed the recorded non-blind checks without opening sealed truth and without running blind evaluation.
+- The implementation and its `RUN_CONFIGURATION.json` remain external working artifacts in an independent candidate workspace. They are not canonical repository assets and are not promoted by this research-state reconciliation.
+- This transition does not claim product validation, comparative superiority, organizational effectiveness, market demand, or production readiness.
+
+### 19.5 Addendum Authority and Non-Effects
+
+- These four entries are successive checkpoints of `SESSION-022`, not new repository-wide Sessions.
+- The pre-existing `62a71fcd...` candidate and `SESSION_023...` file are not canonical sources, are not copied into this record, and are not promoted.
+- This addendum synchronizes already approved research state; it does not create a Principle, Decision, or Evidence object, change AER Core, release an existing Hold, or authorize blind execution.
+- The final current state is maintained in `00_GOVERNANCE/CURRENT_STATE`; this Session retains the historical sequence and contemporaneous boundaries.
