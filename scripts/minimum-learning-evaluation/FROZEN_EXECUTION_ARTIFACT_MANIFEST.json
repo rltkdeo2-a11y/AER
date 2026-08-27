@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "session": "SESSION-022",
+  "checkpoint": "Pre-Blind Execution Freeze Checkpoint",
+  "freeze_timestamp": "2026-08-28T03:08:01.333+09:00",
+  "status": {
+    "run_configuration_freeze": "PASS",
+    "b0_product_symmetry_check": "PASS",
+    "blind_execution_ready": true,
+    "blind_execution_performed": false,
+    "json_unresolved_values": 0
+  },
+  "apparatus_incident": {
+    "type": "PRODUCT_AGGREGATE_IDENTITY_METADATA_MISMATCH",
+    "product_content_changed": false,
+    "product_file_hashes_match": "5/5",
+    "superseded_freeze_status": "INVALIDATED_BY_HASH_IDENTITY_CORRECTION",
+    "superseded_freeze_timestamp": "2026-08-28T02:38:50.133+09:00",
+    "superseded_configuration_raw_sha256": "c2d166321233f63ad30e9d6a5a602e8b717876d087e242be36a4b4053b94f071",
+    "superseded_configuration_normalized_digest": "caf7ae157b9d4928e4b83ac03b78b942531e619e728e53cc115f8e6a8f4bb102",
+    "invalid_product_content_sha256": "3a1946974bbe05da4261e74152b64ea1d46fa25f3343ba4cc6049bf9c909689b",
+    "corrected_product_content_sha256": "7d17b7dc8113a51ed00424f61c50c7b771a3dfb80a36d03e1ead1581032ccd7c",
+    "correction_scope": "aggregate identity and dependent configuration hash/freeze metadata only"
+  },
+  "preservation": {
+    "authority": "exact files preserved by the candidate Git commit and later owner-controlled canonical promotion",
+    "observation_archives_in_git": true,
+    "observation_archive_count": 10,
+    "observation_archive_total_bytes": 135552,
+    "external_observation_artifact": null,
+    "rationale": "The exact distribution is small, no repository-governed immutable external artifact store is established, and direct Git object preservation avoids a non-portable local-path authority.",
+    "post_freeze_change_rule": "No performance improvement or PASS-probability improvement is allowed after freeze. Only an execution-blocking technical defect, material Evaluation Contract contradiction, or security/permission impossibility may reopen the apparatus under the frozen boundary."
+  },
+  "run_configuration": {
+    "path": "scripts/minimum-learning-mvp/RUN_CONFIGURATION.json",
+    "raw_sha256": "b8402f23aa4a9f38e80708983cb3bd95b625a0ab4cac85201f6ae99108d9258f",
+    "normalized_digest": "15f2fb8fae63f78e5c3f728e679f2ba4b6a62c14f6694b808b0721f680b28592",
+    "normalized_scope": "SHA-256 of UTF-8 RUN_CONFIGURATION.json bytes with freeze.configuration_sha256 replaced by the literal SELF_EXCLUDED"
+  },
+  "product_build": {
+    "path": "scripts/minimum-learning-mvp",
+    "name": "AER Minimum Learning MVP",
+    "version": "0.1.0-dev",
+    "content_sha256": "7d17b7dc8113a51ed00424f61c50c7b771a3dfb80a36d03e1ead1581032ccd7c",
+    "content_hash_algorithm": "SHA-256 of a UTF-8 LF manifest containing '<file_sha256><two spaces><relative_path><LF>' in ordinal filename order; RUN_CONFIGURATION.json excluded",
+    "content_manifest": {
+      ".gitignore": "23a1bcf4736ffc81ac8a503a1a2e9dddb54a85d2baf4b9da75b03409608f275e",
+      "minimum_learning_mvp.py": "5bcfdf216f65a8d491d94d80db18949fac84ce96320280b976254b40bddceb87",
+      "README.md": "7c5daa739750233a97ff65e066b64368a8bed6eaff8838970a83b0fc779a8e48",
+      "schema.sql": "983207f8668b0c5511a85cc03d09d661919c39f7f8e8517759aa1b3e2e9a177d",
+      "test_minimum_learning_mvp.py": "b387fa667be07bbcad5d94aeab0288d563dca0b47abc0a27524312953d568b4f"
+    }
+  },
+  "observation_workspace_generation": {
+    "path": "scripts/minimum-learning-evaluation/observation_workspace.py",
+    "sha256": "8ba1b794da3d9395ad03ab85e41fdfe77ce24dcda24456044251e722ded73462"
+  },
+  "observation_distribution": {
+    "path": "scripts/minimum-learning-evaluation/frozen-observation-distribution-v0.3",
+    "manifest": "OBSERVATION_PACKAGE_MANIFEST.json",
+    "manifest_sha256": "5274e03e31be26fc0fca9ccf538baea9cd020b5dbe1ffcf84d916f4ad8367d1c",
+    "sha256_sidecar": "OBSERVATION_DISTRIBUTION_SHA256.txt",
+    "sha256_sidecar_sha256": "546b627199e5714a94b6c21b7532965692a6d7e80da3071c91a6fa1940388cd6",
+    "packages": {
+      "TASK-01_B0_INITIAL.zip": "bd40d633bb13042744c8f9fe53847dcaaf886aaf2ca2ade0f9e2b8ccdca959e4",
+      "TASK-01_B0_UPDATE.zip": "9a1aadf87e930527d5e0ba6f4809feed0776d364aa1862e6967dd983b2748fa7",
+      "TASK-01_Product_INITIAL.zip": "407c1df265260f49207d4bde1ed1a39a899ef0878148151b74d702e457386476",
+      "TASK-01_Product_UPDATE.zip": "682ac30253f6832e2a1e210f86c7f54045a57c46072f61a5296140a51117de8c",
+      "TASK-02_B0_INITIAL.zip": "c443b8d2f9abd415c922ec28f204b895661b1952019c082024fe29132570ec55",
+      "TASK-02_Product_INITIAL.zip": "c9e5c765673aad4cef5be0804a85dbe351ebdfd6f6bdb4bbb4b2aac41929ffea",
+      "TASK-03_B0_INITIAL.zip": "08032322161d37ac6e9d3a2b5ad01efd8a04ac8587f55dd9d0f0f90f74f09002",
+      "TASK-03_B0_UPDATE.zip": "ff8e91af9108edeb889e3305e7079e6a4cd94bb8d16e2a6b0aca92fdae27a50d",
+      "TASK-03_Product_INITIAL.zip": "64a3144a422135917327ca021d6f2f04a8b05a969950ae09491ffed9f68a5362",
+      "TASK-03_Product_UPDATE.zip": "705be9e9856b4f64aca8597db4ce94492977cb473c843a133eb141c6af127762"
+    }
+  },
+  "released_input_hashes": {
+    "public_run_package_sha256": "1d6c0f5bbd167c1865546a8fc40223a074113ad8f69d6284ffe3bf5ac56055b6",
+    "change_pulse_package_sha256": "d9ecd2cf2001d5fd0bd839fc3799560691268ae8e736112b3ec6ba82bd98c6b6",
+    "task_01_change_pulse_payload_sha256": "a2899a4116536d88621659d689f36b2442a1d216471d9f6fff8cb74c4dacc6f7",
+    "task_03_change_pulse_payload_sha256": "fae2305aa43ff799b57b77e5100f55155b90a6ad0fda8fbf80d6f036bd93ae06"
+  },
+  "contract_manifest_hashes": {
+    "match_result": "10/10",
+    "master_manifest_sha256": "06296e51c5a0f0ef507b10d7d138ecb605f5ce0be9f7bacce476f95ce12a4f9d",
+    "immutable_anchor_file_sha256": "47b81f9e0c0b610bc529035d1fd4709ff292bba0ba825cea2955fca7e3118c47",
+    "evaluation_contract_sha256": "fcc5e357a72f4f3cbd470a93526f172730e6484d24b6a64b4db77f57a322bd18",
+    "execution_contract_sha256": "7a69141d83b370d8e92d41647be2b47c95e257b53d391e189b5bb4fd512d2b7b",
+    "human_cost_boundary_sha256": "11c0f5481a13b21cfc4730b6863379e6c9f9892a365fe18f465039e612ed045c",
+    "session_isolation_protocol_sha256": "cd5ae16b4738b3783b9794a42dbf67a346d2d00309ffe6f1eee7a863a2695048",
+    "verdict_operationalization_sha256": "abd9fad4de336418e7195209d5aaf2642949b2c2d4579fe99180487febc6afe9",
+    "external_new_pm_prompt_sha256": "1a3955385594e5617e6b531e135c5d1eeb3e95b7825e9def8752d7ea273b5408",
+    "release_plan_sha256": "d679b1036f848df94df8031cf65440ae53ea0a1af61481667a0dda1c1ee38596",
+    "role_boundaries_sha256": "51469a592f1ab200d289e6dbaba6d83e2419776aa11dd22764212b2454aa8b60"
+  }
+}

@@ -1,0 +1,325 @@
+{
+  "fixture_version": "0.3",
+  "status": "RUN_CONFIGURATION_FROZEN",
+  "blind_execution_ready": true,
+  "authority": {
+    "canonical_branch": "main",
+    "canonical_commit": "2e78ac6ed76752e8cd155cf6f3355d8ad7da1234",
+    "execution_repository_role": "EXECUTION",
+    "candidate_branch": "candidate/minimum-learning-run-configuration-freeze",
+    "candidate_parent_commit": "2e78ac6ed76752e8cd155cf6f3355d8ad7da1234",
+    "canonical_push_policy": "DENY via local config and disabled push URL",
+    "evaluation_contract": "Evaluation Contract v0.2",
+    "execution_contract": "B0 / Product Execution Contract v0.2",
+    "pre_blind_contract_ready": true,
+    "blind_execution_performed": false
+  },
+  "product_build": {
+    "name": "AER Minimum Learning MVP",
+    "version": "0.1.0-dev",
+    "entrypoint": "minimum_learning_mvp.py",
+    "runtime": "CPython 3.12.13 bundled with Codex workspace dependencies",
+    "persistent_state": "SQLite source/statement/relation/revision/operation state",
+    "content_sha256": "7d17b7dc8113a51ed00424f61c50c7b771a3dfb80a36d03e1ead1581032ccd7c",
+    "content_hash_algorithm": "SHA-256 of a UTF-8 LF manifest containing '<file_sha256><two spaces><relative_path><LF>' in ordinal filename order; RUN_CONFIGURATION.json excluded",
+    "content_manifest": {
+      ".gitignore": "23a1bcf4736ffc81ac8a503a1a2e9dddb54a85d2baf4b9da75b03409608f275e",
+      "minimum_learning_mvp.py": "5bcfdf216f65a8d491d94d80db18949fac84ce96320280b976254b40bddceb87",
+      "README.md": "7c5daa739750233a97ff65e066b64368a8bed6eaff8838970a83b0fc779a8e48",
+      "schema.sql": "983207f8668b0c5511a85cc03d09d661919c39f7f8e8517759aa1b3e2e9a177d",
+      "test_minimum_learning_mvp.py": "b387fa667be07bbcad5d94aeab0288d563dca0b47abc0a27524312953d568b4f"
+    }
+  },
+  "common": {
+    "execution_environment": "Codex Desktop local task on Windows; one fresh task directory per Task x Condition; service tier default",
+    "base_model": "OpenAI GPT-5.6 Sol",
+    "base_model_version": "gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "reasoning_mode": "standard",
+    "ocr_parser": "UTF-8 Markdown and JSON direct read; no OCR because the frozen Public/Pulse packages contain only .md and .json payloads",
+    "parser_runtime": "CPython 3.12.13 standard library for ZIP/JSON verification and direct UTF-8 text; PowerShell 7.6.4 for byte/hash checks",
+    "search_engine": "ripgrep 15.2.0 exact/regex search plus direct full-corpus file reads over only the released phase corpus",
+    "search_executable_sha256": "ecdc1c724c90a5d35f4943ea6d0a740bf38a8818442b0055e67d65ba6352a383",
+    "reranker": "none; the entire released corpus is directly readable and no candidate truncation/reranking stage is used",
+    "context_limit": {
+      "model_context_window_tokens": 1050000,
+      "operator_input_budget_tokens_per_phase": 120000,
+      "operator_output_budget_tokens_per_phase": 12000,
+      "enforcement": "pre-registered append-only logging and operator stop at the first configured limit; the Evaluation/Execution Contracts do not require a model-level hard cap"
+    },
+    "call_limit": {
+      "codex_tasks_per_task_condition_phase": 1,
+      "user_submissions_per_phase": 6,
+      "follow_up_submissions_within_phase": 5,
+      "restart_or_second_task_after_output": false
+    },
+    "cost_limit": {
+      "external_api_spend_usd": 0,
+      "paid_external_tools": false,
+      "codex_account": "same signed-in account and same service tier for B0 and Product",
+      "enforcement": "one Codex task, no external API key or paid external tool, append-only execution logging, and operator stop at the first configured call/time/cost limit"
+    },
+    "time_limit": {
+      "wall_clock_minutes_per_task_condition_phase": 60,
+      "external_new_pm_minutes_per_observation": 15,
+      "clock_start": "first fixture/corpus-specific human contact, including ingestion or indexing preparation",
+      "clock_stop": "final answer and next action submitted or an earlier termination condition fires"
+    },
+    "public_run_package": "AER_EVAL_PUBLIC_RUN_PACKAGE_V0_3.zip",
+    "public_run_package_sha256": "1d6c0f5bbd167c1865546a8fc40223a074113ad8f69d6284ffe3bf5ac56055b6",
+    "change_pulse_package": "AER_EVAL_CHANGE_PULSE_PACKAGE_V0_3.zip",
+    "change_pulse_package_sha256": "d9ecd2cf2001d5fd0bd839fc3799560691268ae8e736112b3ec6ba82bd98c6b6",
+    "task_01_change_pulse_payload": "public/change_pulse/TASK-01/ORBIT_변경합의서_2_서명본_2026-04-02.md",
+    "task_01_change_pulse_payload_sha256": "a2899a4116536d88621659d689f36b2442a1d216471d9f6fff8cb74c4dacc6f7",
+    "task_03_change_pulse_payload": "public/change_pulse/TASK-03/HELIOS_고객변경승인_2026-07-30.md",
+    "task_03_change_pulse_payload_sha256": "fae2305aa43ff799b57b77e5100f55155b90a6ad0fda8fbf80d6f036bd93ae06"
+  },
+  "B0": {
+    "tools": [
+      "released-package file listing",
+      "UTF-8 original-file read",
+      "SHA-256 verification",
+      "ripgrep 15.2.0 exact/regex search",
+      "Codex gpt-5.6-sol high reasoning",
+      "condition-local temporary notes",
+      "common human-cost log"
+    ],
+    "permissions": {
+      "released_public_source_read": true,
+      "original_source_open": true,
+      "condition_local_notes_write": true,
+      "network": false,
+      "web_search": false,
+      "apps_connectors_mcp": false,
+      "other_task_or_condition_outputs": false,
+      "product_state_or_database": false,
+      "sealed_truth_access": false
+    },
+    "persistent_control_state": false,
+    "human_preparation_policy": "HUMAN_COST_BOUNDARY.md",
+    "initial_state": "fresh task and empty condition-local notes; no prior task or condition state"
+  },
+  "Product": {
+    "tools": [
+      "all common B0 tools",
+      "minimum_learning_mvp.py control-state CLI",
+      "condition-local SQLite database",
+      "control-state export, review, relate, pulse, validate, and cost-log commands"
+    ],
+    "permissions": {
+      "released_public_source_read": true,
+      "original_source_open": true,
+      "condition_local_notes_write": true,
+      "condition_local_sqlite_write": true,
+      "network": false,
+      "web_search": false,
+      "apps_connectors_mcp": false,
+      "other_task_or_condition_outputs": false,
+      "sealed_truth_access": false
+    },
+    "extra_tools_allowed_only_for_persistent_control_state": [
+      "minimum_learning_mvp.py control-state CLI",
+      "control-state condition-local SQLite source/statement/relation/revision/operation database"
+    ],
+    "persistent_control_state": true,
+    "human_preparation_policy": "HUMAN_COST_BOUNDARY.md",
+    "initial_state": "fresh task and empty SQLite database created before fixture-specific ingest; no pre-generated fixture-specific labels or relations",
+    "fixture_specific_prestructure_before_cost_clock": false
+  },
+  "source_and_truth_access": {
+    "initial_release": "only AER_EVAL_PUBLIC_RUN_PACKAGE_V0_3.zip; Pulse package name, paths, manifest, and existence are not disclosed",
+    "pulse_release": "only the applicable Task payload after both B0 and Product initial outputs for that Task are frozen",
+    "common_corpus": "both conditions receive byte-identical released packages and the same POLICY_MANIFEST.json",
+    "original_viewing": "allowed for both conditions only for currently released source files within policy scope",
+    "sealed_truth": "forbidden to R4 blind operators and inaccessible from the intended run mount",
+    "current_host_enforcement": "PASS by distribution boundary: R4 receives and extracts exactly one immutable Task x Condition package into an empty Observation workspace on which the separate Evaluation workspace is not present, mounted, copied, or discoverable. A broad-read workspace containing Evaluation assets is not an eligible R4 environment."
+  },
+  "observation_distribution": {
+    "version": "0.3",
+    "builder": "scripts/minimum-learning-evaluation/observation_workspace.py",
+    "builder_sha256": "8ba1b794da3d9395ad03ab85e41fdfe77ce24dcda24456044251e722ded73462",
+    "manifest": "OBSERVATION_PACKAGE_MANIFEST.json",
+    "manifest_sha256": "5274e03e31be26fc0fca9ccf538baea9cd020b5dbe1ffcf84d916f4ad8367d1c",
+    "sha256_sidecar": "OBSERVATION_DISTRIBUTION_SHA256.txt",
+    "sha256_sidecar_sha256": "546b627199e5714a94b6c21b7532965692a6d7e80da3071c91a6fa1940388cd6",
+    "initial_packages": {
+      "TASK-01_B0_INITIAL.zip": "bd40d633bb13042744c8f9fe53847dcaaf886aaf2ca2ade0f9e2b8ccdca959e4",
+      "TASK-01_Product_INITIAL.zip": "407c1df265260f49207d4bde1ed1a39a899ef0878148151b74d702e457386476",
+      "TASK-02_B0_INITIAL.zip": "c443b8d2f9abd415c922ec28f204b895661b1952019c082024fe29132570ec55",
+      "TASK-02_Product_INITIAL.zip": "c9e5c765673aad4cef5be0804a85dbe351ebdfd6f6bdb4bbb4b2aac41929ffea",
+      "TASK-03_B0_INITIAL.zip": "08032322161d37ac6e9d3a2b5ad01efd8a04ac8587f55dd9d0f0f90f74f09002",
+      "TASK-03_Product_INITIAL.zip": "64a3144a422135917327ca021d6f2f04a8b05a969950ae09491ffed9f68a5362"
+    },
+    "update_packages": {
+      "TASK-01_B0_UPDATE.zip": "9a1aadf87e930527d5e0ba6f4809feed0776d364aa1862e6967dd983b2748fa7",
+      "TASK-01_Product_UPDATE.zip": "682ac30253f6832e2a1e210f86c7f54045a57c46072f61a5296140a51117de8c",
+      "TASK-03_B0_UPDATE.zip": "ff8e91af9108edeb889e3305e7079e6a4cd94bb8d16e2a6b0aca92fdae27a50d",
+      "TASK-03_Product_UPDATE.zip": "705be9e9856b4f64aca8597db4ce94492977cb473c843a133eb141c6af127762"
+    },
+    "observation_workspace": "one empty package-only workspace per Task x Condition; only released public input, condition assets, common runtime declarations, and append-only logs",
+    "evaluation_workspace": "separate workspace retaining sealed truth, evaluator-only materials, contracts, and frozen outputs; never transferred or mounted into an Observation workspace",
+    "initial_clean_start": true,
+    "condition_state_leak": false,
+    "sealed_or_evaluator_assets_packaged": false,
+    "additional_evaluation_gates": []
+  },
+  "human_intervention": {
+    "authoritative_log": "condition-external append-only JSONL plus Task Observation Record v0.2; Product operation-table cost records are secondary reconciliation evidence only",
+    "jsonl_required_fields": [
+      "run_id",
+      "task_id",
+      "condition",
+      "phase",
+      "activity_type",
+      "started_at_utc",
+      "ended_at_utc",
+      "human_seconds",
+      "actor_id",
+      "fixture_specific",
+      "artifact_or_statement_id",
+      "notes"
+    ],
+    "activity_types": [
+      "자료탐색",
+      "원문확인",
+      "문서간 대조",
+      "상태판정",
+      "근거연결",
+      "변경·대체 판정",
+      "영향범위 판정",
+      "결과정정",
+      "fixture-specific 준비/초기화"
+    ],
+    "allowed_for_both": [
+      "search released sources",
+      "open policy-allowed originals",
+      "compare sources",
+      "ask up to the common call limit",
+      "record condition-local temporary notes",
+      "correct the final reconstruction before submission",
+      "record all human time and interventions"
+    ],
+    "product_only_allowed": [
+      "ingest released inputs into an initially empty control state",
+      "review or correct one control-state field",
+      "add an evidence-backed relation",
+      "apply the released Task pulse",
+      "export and validate the control state"
+    ],
+    "forbidden": [
+      "unpriced fixture-specific expert prestructure",
+      "prewritten final labels or relations",
+      "cross-condition assistance",
+      "sealed truth or evaluator-answer access",
+      "unlogged review, correction, or Pulse work"
+    ],
+    "generic_orientation": "fixture-blind common environment orientation is recorded separately; any fixture-specific judgment starts the Task clock",
+    "external_new_pm": "same frozen reconstruction result format and the same External New-PM Prompt v0.2; condition label hidden; no Product-only explanation or onboarding"
+  },
+  "isolation": {
+    "protocol": "SESSION_ISOLATION_PROTOCOL.md",
+    "unit": "Task x Condition",
+    "initial": "fresh Codex task and fresh directory for every Task x Condition; no prior task, condition, output, note, search result, or state is mounted",
+    "pulse_continuity": "only the same Task x Condition initial notes and, for Product, its own SQLite state continue to pulse",
+    "cross_task_continuity": false,
+    "cross_condition_continuity": false,
+    "external_new_pm": "fresh isolated task for every Task x Condition x Phase; first response frozen; no retry for improvement",
+    "result_queue": "operator writes output to a condition-opaque queue; sibling condition results are not mounted into operator tasks",
+    "sealed_truth_path_disclosure": false,
+    "operational_enforcement_status": "PASS_PACKAGE_ONLY_PHYSICAL_SEPARATION"
+  },
+  "termination_contract": "EXECUTION_CONTRACT.md",
+  "execution_termination": {
+    "rule": "Stop at the first applicable condition.",
+    "conditions": [
+      "Task final answer and next action submitted",
+      "60 wall-clock minutes reached for the current Task x Condition x Phase",
+      "6 user submissions reached for the current phase",
+      "120000 input-token or 12000 output-token operator budget reached when observable",
+      "apparatus incident prevents normal execution"
+    ],
+    "apparatus_incident_conditions": [
+      "package hash mismatch",
+      "wrong or early Pulse exposure",
+      "cross-task or cross-condition context exposure",
+      "sealed truth path or content exposure",
+      "model, parser, search, reranker, permission, corpus, or limit mismatch",
+      "human-cost log unavailable or incomplete",
+      "Product state visible to B0",
+      "condition-local state cannot be resumed for its own Pulse"
+    ],
+    "incident_disposition": "freeze output; mark apparatus incident; do not score as product performance; do not continue as the same run"
+  },
+  "contract_hashes": {
+    "master_manifest_sha256": "06296e51c5a0f0ef507b10d7d138ecb605f5ce0be9f7bacce476f95ce12a4f9d",
+    "immutable_anchor_file_sha256": "47b81f9e0c0b610bc529035d1fd4709ff292bba0ba825cea2955fca7e3118c47",
+    "evaluation_contract_sha256": "fcc5e357a72f4f3cbd470a93526f172730e6484d24b6a64b4db77f57a322bd18",
+    "execution_contract_sha256": "7a69141d83b370d8e92d41647be2b47c95e257b53d391e189b5bb4fd512d2b7b",
+    "human_cost_boundary_sha256": "11c0f5481a13b21cfc4730b6863379e6c9f9892a365fe18f465039e612ed045c",
+    "session_isolation_protocol_sha256": "cd5ae16b4738b3783b9794a42dbf67a346d2d00309ffe6f1eee7a863a2695048",
+    "verdict_operationalization_sha256": "abd9fad4de336418e7195209d5aaf2642949b2c2d4579fe99180487febc6afe9",
+    "external_new_pm_prompt_sha256": "1a3955385594e5617e6b531e135c5d1eeb3e95b7825e9def8752d7ea273b5408",
+    "release_plan_sha256": "d679b1036f848df94df8031cf65440ae53ea0a1af61481667a0dda1c1ee38596",
+    "role_boundaries_sha256": "51469a592f1ab200d289e6dbaba6d83e2419776aa11dd22764212b2454aa8b60"
+  },
+  "symmetry": {
+    "status": "PASS",
+    "independent_variable": "Product-only persistent minimum control state",
+    "differences": [
+      {
+        "item": "persistent control state",
+        "B0": "absent",
+        "Product": "condition-local SQLite source/statement/relation/revision/operation state",
+        "contract_allowed": true,
+        "basis": "the frozen independent variable"
+      },
+      {
+        "item": "control-state CLI",
+        "B0": "absent",
+        "Product": "minimum_learning_mvp.py commands limited to creating, querying, reviewing, correcting, validating, and pulsing the persistent state",
+        "contract_allowed": true,
+        "basis": "minimum tool needed to operate the frozen independent variable"
+      },
+      {
+        "item": "condition-local durable file",
+        "B0": "temporary notes only",
+        "Product": "SQLite database plus temporary notes",
+        "contract_allowed": true,
+        "basis": "durability is the frozen independent variable; Product database is never visible to B0"
+      }
+    ],
+    "forbidden_advantages_present": [],
+    "common_fields_equal_by_configuration": true,
+    "operational_attribution_blocker": "none",
+    "attribution_unresolved": false
+  },
+  "freeze": {
+    "status": "FROZEN",
+    "configuration_sha256": "15f2fb8fae63f78e5c3f728e679f2ba4b6a62c14f6694b808b0721f680b28592",
+    "configuration_sha256_scope": "SHA-256 of the UTF-8 RUN_CONFIGURATION.json bytes with freeze.configuration_sha256 set to the literal SELF_EXCLUDED",
+    "frozen_at": "2026-08-27T18:08:01.333Z",
+    "frozen_at_local": "2026-08-28T03:08:01.333+09:00",
+    "product_content_sha256": "7d17b7dc8113a51ed00424f61c50c7b771a3dfb80a36d03e1ead1581032ccd7c",
+    "refreeze_reason": "APPARATUS_METADATA_CORRECTION",
+    "correction_scope": [
+      "Product aggregate identity metadata",
+      "dependent configuration hashes",
+      "freeze timestamp and status metadata"
+    ],
+    "product_content_changed": false,
+    "superseded_freeze": {
+      "status": "INVALIDATED_BY_HASH_IDENTITY_CORRECTION",
+      "frozen_at": "2026-08-27T17:38:50.133Z",
+      "frozen_at_local": "2026-08-28T02:38:50.133+09:00",
+      "configuration_raw_sha256": "c2d166321233f63ad30e9d6a5a602e8b717876d087e242be36a4b4053b94f071",
+      "configuration_normalized_digest": "caf7ae157b9d4928e4b83ac03b78b942531e619e728e53cc115f8e6a8f4bb102",
+      "invalid_product_content_sha256": "3a1946974bbe05da4261e74152b64ea1d46fa25f3343ba4cc6049bf9c909689b",
+      "incident": "The five frozen Product file hashes remained unchanged and matched 5/5, but the aggregate identity was not reproducible under the declared algorithm. The prior freeze was invalidated without changing Product content or execution conditions."
+    },
+    "public_run_package_sha256": "1d6c0f5bbd167c1865546a8fc40223a074113ad8f69d6284ffe3bf5ac56055b6",
+    "change_pulse_package_sha256": "d9ecd2cf2001d5fd0bd839fc3799560691268ae8e736112b3ec6ba82bd98c6b6",
+    "post_freeze_change_boundary": "After a future PASS freeze, no model/effort, parser, search, reranker, corpus, package, permission, prompt, limit, product content, cost boundary, isolation rule, termination rule, or human-intervention rule may change except for an execution-blocking technical defect, material Evaluation Contract contradiction, or security/permission impossibility.",
+    "hold_blockers": []
+  },
+  "unresolved_fields": []
+}

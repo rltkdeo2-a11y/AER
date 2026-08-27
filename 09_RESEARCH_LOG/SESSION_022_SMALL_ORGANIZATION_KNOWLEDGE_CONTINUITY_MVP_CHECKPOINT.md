@@ -715,3 +715,51 @@ Technical-validation boundary:
 - The pre-existing `62a71fcd...` candidate and `SESSION_023...` file are not canonical sources, are not copied into this record, and are not promoted.
 - This addendum synchronizes already approved research state; it does not create a Principle, Decision, or Evidence object, change AER Core, release an existing Hold, or authorize blind execution.
 - The final current state is maintained in `00_GOVERNANCE/CURRENT_STATE`; this Session retains the historical sequence and contemporaneous boundaries.
+
+### 19.6 Pre-Blind Execution Freeze Checkpoint
+
+Checkpoint occurrence and corrected freeze timestamp: `2026-08-28T03:08:01.333+09:00`.
+
+Apparatus incident and bounded reopening:
+
+- The five frozen Product file hashes matched their prior identities `5/5`; Product content was unchanged.
+- The prior Product aggregate identity `3a1946974bbe05da4261e74152b64ea1d46fa25f3343ba4cc6049bf9c909689b` was not reproducible under the declared aggregate algorithm.
+- The prior freeze at `2026-08-28T02:38:50.133+09:00`, raw configuration SHA-256 `c2d166321233f63ad30e9d6a5a602e8b717876d087e242be36a4b4053b94f071`, and normalized digest `caf7ae157b9d4928e4b83ac03b78b942531e619e728e53cc115f8e6a8f4bb102` are retained as an invalidated pre-freeze attempt with status `INVALIDATED_BY_HASH_IDENTITY_CORRECTION`.
+- Reopening was limited to the Product aggregate identity, dependent configuration hashes, and freeze timestamp/status metadata. Product code/content, fixture, sealed truth, Evaluation Contract, Observation package content, model, tools, limits, condition boundary, and human-cost contract were not reopened.
+- B0/Product symmetry was revalidated rather than redesigned because the Product content and execution-condition differences did not change.
+
+State at this transition:
+
+- Product content: `UNCHANGED`.
+- Product file hashes: `5/5 PASS`.
+- Corrected Product content SHA-256: `7d17b7dc8113a51ed00424f61c50c7b771a3dfb80a36d03e1ead1581032ccd7c`.
+- `RUN CONFIGURATION FREEZE`: `PASS`.
+- `B0 / PRODUCT SYMMETRY CHECK`: `PASS`.
+- `BLIND EXECUTION READY`: `YES`.
+- JSON unresolved values: `0`.
+- No blind evaluation was run.
+
+Frozen execution authority:
+
+- Final configuration: `scripts/minimum-learning-mvp/RUN_CONFIGURATION.json`.
+- Configuration raw SHA-256: `b8402f23aa4a9f38e80708983cb3bd95b625a0ab4cac85201f6ae99108d9258f`.
+- Configuration normalized digest: `15f2fb8fae63f78e5c3f728e679f2ba4b6a62c14f6694b808b0721f680b28592`.
+- Observation workspace/package generation logic: `scripts/minimum-learning-evaluation/observation_workspace.py`, SHA-256 `8ba1b794da3d9395ad03ab85e41fdfe77ce24dcda24456044251e722ded73462`.
+- Frozen execution artifact manifest: `scripts/minimum-learning-evaluation/FROZEN_EXECUTION_ARTIFACT_MANIFEST.json`, SHA-256 `cbbd3fca3a31e3404eeb9301cab7f7e151a227170f66cb4fb641945630e4453d`.
+- Observation package manifest: `scripts/minimum-learning-evaluation/frozen-observation-distribution-v0.3/OBSERVATION_PACKAGE_MANIFEST.json`, SHA-256 `5274e03e31be26fc0fca9ccf538baea9cd020b5dbe1ffcf84d916f4ad8367d1c`.
+- Observation distribution sidecar: `scripts/minimum-learning-evaluation/frozen-observation-distribution-v0.3/OBSERVATION_DISTRIBUTION_SHA256.txt`, SHA-256 `546b627199e5714a94b6c21b7532965692a6d7e80da3071c91a6fa1940388cd6`.
+- Public Run package SHA-256: `1d6c0f5bbd167c1865546a8fc40223a074113ad8f69d6284ffe3bf5ac56055b6`; Change Pulse package SHA-256: `d9ecd2cf2001d5fd0bd839fc3799560691268ae8e736112b3ec6ba82bd98c6b6`.
+- Contract/manifest hashes: `10/10` match the corrected frozen configuration.
+
+Artifact preservation decision:
+
+- The ten exact Observation distribution ZIP files total only `135552` bytes.
+- AER governance defines the candidate Git Commit, its validation manifest, and verified exact-object transport as the promotion authority, but does not establish a repository-governed immutable external store for these execution archives.
+- The generator, cryptographic manifests, sidecar, and ten exact ZIP files are therefore preserved directly in the candidate Git object. No non-portable external local path is introduced as canonical authority.
+
+Freeze boundary and non-effects:
+
+- The authorized next step is `Blind Observation Execution` under the corrected frozen apparatus.
+- Performance improvements or changes intended to improve PASS probability remain prohibited after this freeze.
+- This checkpoint does not claim Product performance, comparative advantage, organizational effectiveness, market demand, or production readiness.
+- This checkpoint creates no new Session, Principle, Decision, Evidence object, evaluation Gate, or blind result.

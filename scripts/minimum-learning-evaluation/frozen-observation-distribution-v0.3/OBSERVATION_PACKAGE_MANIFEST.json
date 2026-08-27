@@ -1,0 +1,89 @@
+{
+  "boundary": "Observation packages contain only released public input, condition assets, common runtime declarations, and logging files. Evaluation workspace is not packaged or mounted.",
+  "change_pulse_package_sha256": "d9ecd2cf2001d5fd0bd839fc3799560691268ae8e736112b3ec6ba82bd98c6b6",
+  "packages": [
+    {
+      "bytes": 15911,
+      "condition": "B0",
+      "file": "TASK-01_B0_INITIAL.zip",
+      "kind": "initial",
+      "sha256": "bd40d633bb13042744c8f9fe53847dcaaf886aaf2ca2ade0f9e2b8ccdca959e4",
+      "task_id": "TASK-01"
+    },
+    {
+      "bytes": 27440,
+      "condition": "Product",
+      "file": "TASK-01_Product_INITIAL.zip",
+      "kind": "initial",
+      "sha256": "407c1df265260f49207d4bde1ed1a39a899ef0878148151b74d702e457386476",
+      "task_id": "TASK-01"
+    },
+    {
+      "bytes": 15911,
+      "condition": "B0",
+      "file": "TASK-02_B0_INITIAL.zip",
+      "kind": "initial",
+      "sha256": "c443b8d2f9abd415c922ec28f204b895661b1952019c082024fe29132570ec55",
+      "task_id": "TASK-02"
+    },
+    {
+      "bytes": 27440,
+      "condition": "Product",
+      "file": "TASK-02_Product_INITIAL.zip",
+      "kind": "initial",
+      "sha256": "c9e5c765673aad4cef5be0804a85dbe351ebdfd6f6bdb4bbb4b2aac41929ffea",
+      "task_id": "TASK-02"
+    },
+    {
+      "bytes": 15911,
+      "condition": "B0",
+      "file": "TASK-03_B0_INITIAL.zip",
+      "kind": "initial",
+      "sha256": "08032322161d37ac6e9d3a2b5ad01efd8a04ac8587f55dd9d0f0f90f74f09002",
+      "task_id": "TASK-03"
+    },
+    {
+      "bytes": 27441,
+      "condition": "Product",
+      "file": "TASK-03_Product_INITIAL.zip",
+      "kind": "initial",
+      "sha256": "64a3144a422135917327ca021d6f2f04a8b05a969950ae09491ffed9f68a5362",
+      "task_id": "TASK-03"
+    },
+    {
+      "bytes": 1380,
+      "condition": "B0",
+      "file": "TASK-01_B0_UPDATE.zip",
+      "kind": "update",
+      "sha256": "9a1aadf87e930527d5e0ba6f4809feed0776d364aa1862e6967dd983b2748fa7",
+      "task_id": "TASK-01"
+    },
+    {
+      "bytes": 1381,
+      "condition": "Product",
+      "file": "TASK-01_Product_UPDATE.zip",
+      "kind": "update",
+      "sha256": "682ac30253f6832e2a1e210f86c7f54045a57c46072f61a5296140a51117de8c",
+      "task_id": "TASK-01"
+    },
+    {
+      "bytes": 1368,
+      "condition": "B0",
+      "file": "TASK-03_B0_UPDATE.zip",
+      "kind": "update",
+      "sha256": "ff8e91af9108edeb889e3305e7079e6a4cd94bb8d16e2a6b0aca92fdae27a50d",
+      "task_id": "TASK-03"
+    },
+    {
+      "bytes": 1369,
+      "condition": "Product",
+      "file": "TASK-03_Product_UPDATE.zip",
+      "kind": "update",
+      "sha256": "705be9e9856b4f64aca8597db4ce94492977cb473c843a133eb141c6af127762",
+      "task_id": "TASK-03"
+    }
+  ],
+  "public_run_package_sha256": "1d6c0f5bbd167c1865546a8fc40223a074113ad8f69d6284ffe3bf5ac56055b6",
+  "status": "OBSERVATION_DISTRIBUTION_BUILT",
+  "version": "0.3"
+}
