@@ -764,7 +764,114 @@ Freeze boundary and non-effects:
 - This checkpoint does not claim Product performance, comparative advantage, organizational effectiveness, market demand, or production readiness.
 - This checkpoint creates no new Session, Principle, Decision, Evidence object, evaluation Gate, or blind result.
 
-### 19.7 Product Definition, Initial Market, and Project Continuity Checkpoint
+### 19.7 Minimum Learning Blind Observation, Independent Evaluation, and Frozen STOP Reconstruction Checkpoint
+
+Observation and evaluation window: `2026-08-28`–`2026-08-29`; retrospective continuity reconstruction and human approval: `2026-08-29`.
+
+This is a retrospective reconstruction inside `SESSION-022`, positioned at the time represented by the evidence. It closes the historical gap between the Pre-Blind Execution Freeze in 19.6 and the later product-definition checkpoint in 19.8. It creates no new Session, Evaluation rule, or result.
+
+#### 19.7.1 Inherited Implementation and Frozen-Apparatus State
+
+The state entering Blind Observation was:
+
+- Minimum Learning MVP IMPLEMENTATION: `PROVISIONAL CLOSED`.
+- NON-BLIND TECHNICAL VALIDATION: `PASS`.
+- Canonical execution commit: `733d4ec548320f7411deb92150547a64afc18461`.
+- Frozen execution artifact manifest SHA-256: `cbbd3fca3a31e3404eeb9301cab7f7e151a227170f66cb4fb641945630e4453d`.
+- `RUN CONFIGURATION FREEZE`: `PASS`.
+- `B0 / PRODUCT SYMMETRY CHECK`: `PASS`.
+- `BLIND EXECUTION READY`: `YES`.
+
+These statuses retain the limits recorded in 19.4 and 19.6. They establish implementation and apparatus readiness only; they do not establish Product value or comparative advantage.
+
+#### 19.7.2 Blind Observation Execution History
+
+The first execution, `AER_BLIND_OBSERVATION_EXECUTION_20260828_030733b2_FINAL`, had ZIP SHA-256 `140794d642417b64eb7c69d06f419da40442c430fe0b88e5fa1fa2e33f8f2be6`. Its reconstruction payload was `6/6`, but the required External New-PM Observation was `0/10`. It is therefore `OBSERVATIONALLY INCOMPLETE`, retained only as historical failed-execution and apparatus-execution evidence. It was not used, combined, supplemented, or reused as an Independent Evaluation input.
+
+The clean re-execution used the same frozen apparatus without changing Product, fixture, truth, Gate, B0, cost boundary, Evaluation Contract, or configuration:
+
+- Execution ID: `AER_BLIND_OBSERVATION_EXECUTION_20260828_210157925c3245_FINAL`.
+- Final ZIP SHA-256: `08a952177644a52a5fe0eefb2e887f6afea33eba89d96e01d6284ad4ba5a4107`.
+- Reconstruction: `6/6 COMPLETE`.
+- External New-PM Observation: `10/10 COMPLETE`.
+- TASK-01 and TASK-03 Change Pulse, both conditions: `4/4 COMPLETE`.
+- Human time: `0 seconds`.
+- Sealed truth/evaluator material read: `FALSE`.
+- Frozen apparatus changed: `FALSE`.
+- Previous failed execution reused: `FALSE`.
+- Internal ZIP manifest: `298/298 PASS`.
+- Recovered incidents: `2`, both independently judged non-material to completeness, identity, isolation, result, and cost attribution.
+
+The re-execution report and ZIP are external working artifacts, not canonical repository authority:
+
+- `C:\Users\admin\Documents\Codex\2026-08-28\referenced-chatgpt-conversation-this-is-an\outputs\AER_BLIND_OBSERVATION_EXECUTION_20260828_210157925c3245_FINAL_EXECUTION_REPORT.md`.
+- `C:\Users\admin\Documents\Codex\2026-08-28\referenced-chatgpt-conversation-this-is-an\outputs\AER_BLIND_OBSERVATION_EXECUTION_20260828_210157925c3245_FINAL.zip`.
+
+#### 19.7.3 Independent Evaluation COMPLETE
+
+The Independent Evaluation used only the successful re-execution and the frozen Evaluation authority. It independently recalculated the ZIP hash, verified the internal manifest `298/298`, verified the evaluator master manifest `67/67`, and matched the authority chain by content hash. The Evaluation Contract, sealed truth, Critical Gates, human-cost boundary, and verdict operationalization were not changed.
+
+Evaluation results:
+
+- `INDEPENDENT EVALUATION: COMPLETE`.
+- B0 and Product both correctly reconstructed every preregistered core claim across all three valid Tasks.
+- Critical Gates A–D: no failure for either condition; Product-only Gate count `0`.
+- External New-PM error propagation: `0/10`; material user-interpretation failure: `0/10`; no downstream safety difference was observed.
+- Human cost: B0 `0 seconds`; Product `0 seconds`.
+- Product reliability advantage: `0/3 Tasks`.
+- Product human-burden advantage: `0/3 Tasks`.
+- Product was not clearly inferior on both dimensions in any valid Task, but it also produced no comparative advantage.
+
+The frozen evaluation authority identifiers reused here are:
+
+- Evaluation Contract SHA-256: `fcc5e357a72f4f3cbd470a93526f172730e6484d24b6a64b4db77f57a322bd18`.
+- Verdict Operationalization SHA-256: `abd9fad4de336418e7195209d5aaf2642949b2c2d4579fe99180487febc6afe9`.
+- Human Cost Boundary SHA-256: `11c0f5481a13b21cfc4730b6863379e6c9f9892a365fe18f465039e612ed045c`.
+- Sealed truth SHA-256: `14896f8f0d51bf420a8f87ffe8dc13c10b420f2082ad2524a9850e005039f424`.
+- Evaluator master manifest SHA-256: `06296e51c5a0f0ef507b10d7d138ecb605f5ce0be9f7bacce476f95ce12a4f9d`.
+
+The evaluation report remains an external working artifact and is not promoted as a separate canonical Evidence object:
+
+- `C:\Users\admin\Documents\Codex\2026-08-28\aer-independent-evaluation-aer-minimum-learning\outputs\AER_INDEPENDENT_EVALUATION_REPORT_20260829.md`.
+
+#### 19.7.4 Persistent Control State Contribution and Frozen Verdict
+
+Observation fact: Product created and used condition-local persistent control state in all three Tasks, and the TASK-01 and TASK-03 state was continued into the matching Change Pulse.
+
+Evaluation judgment: the first two required links were present — a Product-only persistent object/relation existed and was actually used — but the comparative third link was absent. Product did not produce a correct result different from B0 and did not remove human work required by B0. The independent contribution of persistent control state was therefore `NOT IDENTIFIED`; attribution remained unresolved.
+
+The frozen operationalization yielded:
+
+> **Final Frozen Verdict: STOP.**
+
+The reason is bounded and specific: across all valid Tasks, the strong B0 was broadly equivalent to Product, Product reliability advantage was `0/3`, Product human-burden advantage was `0/3`, and the independent contribution of persistent control state was not demonstrated. CONTINUE and REDUCE were unavailable under the frozen rules, so the STOP rule applied.
+
+This STOP is not a failure of AER as a whole, AER Core, the long-term product vision, or the general problem of knowledge and project continuity. It falsifies the tested Minimum Learning value-mechanism hypothesis that this persistent minimum control state would independently improve correctness or remove human work relative to the frozen strong B0 on these Tasks.
+
+#### 19.7.5 Non-Reopening Rule and Transition to Learning
+
+The STOP result is frozen. It must not be reversed by adjusting or rerunning the fixture, sealed truth, Critical Gates, B0, human-cost calculation, Evaluation Contract, verdict rule, or observation package in response to the result. No result-seeking re-execution is authorized.
+
+Product consequence:
+
+- persistent state is removed from the product's defining body, fixed backbone, and user value proposition;
+- it may remain only as an internal mechanism candidate if a later product hypothesis shows that it supports a different user-visible benefit;
+- persistence, state, graph, RAG, or control structures are not value by themselves and must not be restored to product identity without new evidence and an explicit reopen.
+
+Research-state transition:
+
+> `MINIMUM LEARNING MVP → INDEPENDENT EVALUATION STOP → LEARNING / PRODUCT-HYPOTHESIS INTERPRETATION`
+
+The next chronological checkpoint is 19.8. The product-definition, target, pain, and positioning discussion recorded there occurred after this STOP and is a Learning-stage reinterpretation of what AER should be, not a claim that the stopped persistent-state value mechanism succeeded.
+
+Checkpoint non-effects:
+
+- no new Session, Principle, Decision, Evidence object, fixture, Gate, Product implementation, evaluation criterion, or protected-file change is created;
+- no actual-company effectiveness, product-market fit, comparative superiority beyond the frozen Tasks, or universal claim is established;
+- the first incomplete execution remains historical and excluded from evaluation input;
+- the successful observation and evaluation results are recorded as approved SESSION-022 continuity, while their external reports remain external working artifacts.
+
+### 19.8 Product Definition, Initial Market, and Project Continuity Checkpoint
 
 Checkpoint occurrence and human approval: `2026-08-29T05:30:18.165+09:00`.
 
@@ -773,9 +880,9 @@ State classification relative to the earlier `SESSION-022` working hypothesis:
 - `REVISE` — the current product and market focus is narrowed from a broad cross-functional knowledge-control-layer hypothesis to a first market wedge in development-team project continuity.
 - `CONTINUE` — the repository-wide Session identity, source-retaining boundary, existing-system authority, unvalidated product status, and falsification-first research discipline remain unchanged.
 - This refinement does not reopen the rejected PMS/Jira-replacement path. AER may become part of a project-management environment while continuing not to perform project management.
-- This refinement does not alter the frozen apparatus or execution authority recorded in 19.6 and does not assert that blind execution occurred or that the Product passed any comparative gate.
+- This refinement does not alter the frozen apparatus recorded in 19.6, reopen the frozen STOP in 19.7, or claim that the tested persistent-state mechanism passed a comparative gate.
 
-#### 19.7.1 Approved Current Product Definition
+#### 19.8.1 Approved Current Product Definition
 
 The current product working definition is:
 
@@ -797,7 +904,7 @@ The durable product boundary behind those statements is:
 
 The product is therefore not defined by one LLM vendor. AER owns the work-context structure and judgment boundary; a cloud, local, on-premises, or enterprise-internal model may be a replaceable inference engine. Different engines may support different capability profiles, and model substitution does not imply equal quality.
 
-#### 19.7.2 Initial Market and Actors
+#### 19.8.2 Initial Market and Actors
 
 The approved initial market hypothesis is:
 
@@ -817,7 +924,7 @@ The first value moment is defined at the situation level, not as a frozen UI:
 
 Whether that value is delivered as conversational questions, an onboarding briefing, a context map, a handoff package, or another interaction remains a product-design question.
 
-#### 19.7.3 Primary Pain and Causal Structure
+#### 19.8.3 Primary Pain and Causal Structure
 
 The primary pain selected for first validation is:
 
@@ -849,7 +956,7 @@ A concise problem expression preserved from the discussion is:
 
 This is a candidate market message, not validated customer language.
 
-#### 19.7.4 Competitive Positioning
+#### 19.8.4 Competitive Positioning
 
 The competitive frame has three layers:
 
@@ -863,7 +970,7 @@ Existing platforms already connect external sources and normally center the resu
 
 The concept's limited novelty is acceptable and potentially useful because existing products reduce category-education and technical-feasibility burden. It does not establish competitive advantage. Any future advantage would have to be earned through verified product knowledge about the minimum traces, review boundary, continuity interaction, and adoption pattern that work in small development organizations.
 
-#### 19.7.5 Adoption Principle and Intended Success State
+#### 19.8.5 Adoption Principle and Intended Success State
 
 The adoption constraint is a product existence condition, not a cosmetic UX preference:
 
@@ -882,7 +989,7 @@ The stronger long-term north-star expression is:
 
 These statements are aspirational product success criteria. They are not evidence of present user preference, willingness to pay, or productivity improvement.
 
-#### 19.7.6 Expansion Direction
+#### 19.8.6 Expansion Direction
 
 Expansion is ordered and conditional:
 
@@ -907,7 +1014,7 @@ The client-side hypothesis may also reduce vendor dependence, but it immediately
 
 A project-level deployment may be more plausible than organization-wide governance in SI, and project start/close boundaries may make onboarding, explanation time, context-search time, repeated questions, reanalysis, and maintenance-transfer time measurable. Closed environments also motivate interchangeable inference engines and OSS/on-premises deployment. Whether AER without a strong LLM remains useful rather than becoming another manual management tool is unvalidated.
 
-#### 19.7.7 Unvalidated Hypotheses and Kill Conditions
+#### 19.8.7 Unvalidated Hypotheses and Kill Conditions
 
 The following remain assumptions or open problems:
 
@@ -929,7 +1036,7 @@ The following remain assumptions or open problems:
 
 The current product hypothesis should be reduced, revised, or stopped if target organizations repeatedly show that the pain is tolerable, the traces are insufficient, the output is not more useful than current search or manual work, or the behavior and governance required before first value are substantial.
 
-#### 19.7.8 Validation and Resumption Contract
+#### 19.8.8 Validation and Resumption Contract
 
 The next sequence is:
 
@@ -947,5 +1054,5 @@ Checkpoint non-effects:
 
 - no commercial product value, product-market fit, demand, willingness to pay, comparative advantage, or organizational effectiveness is claimed;
 - no UI, connector minimum, model vendor, deployment mode, price, company-size threshold, SI product requirement, or long-term category standard is frozen;
-- no new Session, Principle, Decision, Evidence object, evaluation gate, blind result, AER Core change, release, or protected-file change is created;
-- the current apparatus state and authorized next action recorded in 19.6 remain unchanged by this product-definition checkpoint.
+- no new Session, Principle, Decision, Evidence object, evaluation gate, blind execution or evaluation result, AER Core change, release, or protected-file change is created;
+- the frozen STOP and Learning-stage transition recorded in 19.7 remain the baseline; this product-definition checkpoint narrows the next hypothesis without reviving the stopped persistent-state value mechanism.
