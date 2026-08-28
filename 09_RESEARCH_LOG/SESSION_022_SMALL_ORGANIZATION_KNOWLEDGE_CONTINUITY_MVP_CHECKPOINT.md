@@ -763,3 +763,189 @@ Freeze boundary and non-effects:
 - Performance improvements or changes intended to improve PASS probability remain prohibited after this freeze.
 - This checkpoint does not claim Product performance, comparative advantage, organizational effectiveness, market demand, or production readiness.
 - This checkpoint creates no new Session, Principle, Decision, Evidence object, evaluation Gate, or blind result.
+
+### 19.7 Product Definition, Initial Market, and Project Continuity Checkpoint
+
+Checkpoint occurrence and human approval: `2026-08-29T05:30:18.165+09:00`.
+
+State classification relative to the earlier `SESSION-022` working hypothesis:
+
+- `REVISE` — the current product and market focus is narrowed from a broad cross-functional knowledge-control-layer hypothesis to a first market wedge in development-team project continuity.
+- `CONTINUE` — the repository-wide Session identity, source-retaining boundary, existing-system authority, unvalidated product status, and falsification-first research discipline remain unchanged.
+- This refinement does not reopen the rejected PMS/Jira-replacement path. AER may become part of a project-management environment while continuing not to perform project management.
+- This refinement does not alter the frozen apparatus or execution authority recorded in 19.6 and does not assert that blind execution occurred or that the Product passed any comparative gate.
+
+#### 19.7.1 Approved Current Product Definition
+
+The current product working definition is:
+
+> **AER is a lightweight project continuity tool for development organizations with frequent personnel change. It connects work traces already distributed across Jira, Slack, Confluence, GitHub, and similar systems so that a project does not have to reconstruct its context from the beginning whenever a person changes.**
+
+The shorter category statement is:
+
+> **Jira manages project execution state; AER keeps project memory and continuity from leaving with a person.**
+
+The durable product boundary behind those statements is:
+
+- existing work systems remain the systems of record and retain their original authority, provenance, permissions, and locations;
+- AER does not replace Jira, Slack, Confluence, GitHub, a PMS, a KMS, a wiki, a document store, or an enterprise search product;
+- AER does not plan schedules or WBS, assign issues, track sprint progress, manage resources, or manage project cost;
+- AER does not claim to recover knowledge that was never recorded; its realistic input boundary is work context already left as digital traces but not connected into a usable sequence;
+- the product value is not accumulation or persistent state by itself. Internal state, graphs, RAG, or adapters are mechanisms only when they produce a user-visible continuity benefit;
+- a generic multi-source search or connector collection is not the product. The candidate value is the meaning across sources: why work arose, what changed, what is currently valid, what evidence supports that state, and what a successor should understand first;
+- the user should not have to perform a separate knowledge-management job for AER. The intended operating pattern is `connect → continue normal work → receive value when context must be recovered`.
+
+The product is therefore not defined by one LLM vendor. AER owns the work-context structure and judgment boundary; a cloud, local, on-premises, or enterprise-internal model may be a replaceable inference engine. Different engines may support different capability profiles, and model substitution does not imply equal quality.
+
+#### 19.7.2 Initial Market and Actors
+
+The approved initial market hypothesis is:
+
+> **A small Seed-to-Series-A/B IT organization, especially its development team, that has frequent personnel movement and hiring difficulty, lacks the scale or operating capacity for a strong KMS and governance program, yet leaves substantial digital work traces in Jira, Confluence, Slack, GitHub, or comparable tools and still relies on people to reconnect those traces when responsibility changes.**
+
+`Seed-to-Series-A/B` is a practical market proxy, not an asserted causal boundary. Development-team size, number of simultaneous products or projects, turnover events, organizational maturity, and dependence on key individuals may prove more explanatory. A team of roughly 10–30 developers that has already experienced a key developer's departure or reassignment is a concrete interview and experiment candidate, not an approved universal threshold.
+
+The relevant actors are distinct:
+
+- the successor, newly hired developer, or internally reassigned developer bears the reconstruction and learning cost;
+- the Tech Lead, development lead, CTO, PM, or PO repeatedly explains history and compensates for missing continuity and is a plausible first adopter or economic sponsor;
+- the organization bears delayed independent work, lost expert focus, repeated analysis, implementation errors, and key-person risk.
+
+The first value moment is defined at the situation level, not as a frozen UI:
+
+> A developer leaves or moves, another developer assumes the work, and the successor can understand the necessary prior context without manually reconstructing Jira issues, Slack discussions, documents, pull requests, and oral explanations from the beginning.
+
+Whether that value is delivered as conversational questions, an onboarding briefing, a context map, a handoff package, or another interaction remains a product-design question.
+
+#### 19.7.3 Primary Pain and Causal Structure
+
+The primary pain selected for first validation is:
+
+> **When a developer changes or a new person joins, necessary work context is distributed across tools and people, so the successor and the existing team jointly reconstruct the past: the successor searches and relearns while experienced people repeatedly explain.**
+
+The working causal chain is:
+
+```text
+personnel change or new hire
+        ↓
+digital traces remain, but context and validity are distributed
+        ↓
+the successor searches Jira, Slack, documents, PRs, code, and people
+        ↓
+experienced staff repeat explanations and recover missing links
+        ↓
+slower independent work + lost expert focus
+        ↓
+repeated decisions, misunderstanding, rework, or transfer omissions
+        ↓
+the organization repays a learning cost each time a person changes
+```
+
+Frequent turnover, hiring difficulty, weak governance, and distributed information are conditions or causes, not the user pain itself. AER does not directly solve hiring. The initial value hypothesis is the combined cost of the successor's context reconstruction and the existing expert's repeated explanation.
+
+A concise problem expression preserved from the discussion is:
+
+> **Every time one developer joins, the whole team is onboarding again.**
+
+This is a candidate market message, not validated customer language.
+
+#### 19.7.4 Competitive Positioning
+
+The competitive frame has three layers:
+
+1. Enterprise context and knowledge platforms such as Glean, Atlassian Rovo, Microsoft, and adjacent products demonstrate that cross-system AI context is an existing product category. Their existence does not validate AER's target, wedge, or product value.
+2. Lower-cost AI search, knowledge, and OSS products remain material alternatives. AER cannot rely on being cheaper, being Korean, being OSS, or using an LLM as differentiation.
+3. The strongest initial competitor is current behavior: ask a person, search Slack or Jira, inspect folders and code, write a handoff document, call a former colleague, or simply relearn the work.
+
+AER is not intended to be a reduced enterprise knowledge platform or a "small Glean." The proposed difference is a different customer, cost structure, operating burden, and vertically narrow continuity task. It should provide enough value for a team that would not buy or operate enterprise knowledge infrastructure, without importing enterprise feature scope into the initial product.
+
+Existing platforms already connect external sources and normally center the resulting context on their own ecosystem. The possible AER position is a source-neutral continuity layer that preserves original provenance and authority rather than claiming a new central system of record. Source neutrality and connector count alone are not defensible differentiation; the unresolved candidate edge is deeper handling of change, current validity, handoff order, and long-lived context across personnel transitions.
+
+The concept's limited novelty is acceptable and potentially useful because existing products reduce category-education and technical-feasibility burden. It does not establish competitive advantage. Any future advantage would have to be earned through verified product knowledge about the minimum traces, review boundary, continuity interaction, and adoption pattern that work in small development organizations.
+
+#### 19.7.5 Adoption Principle and Intended Success State
+
+The adoption constraint is a product existence condition, not a cosmetic UX preference:
+
+- the first useful result should require almost no new routine behavior;
+- a dedicated administrator, taxonomy project, mandatory knowledge-authoring process, or consulting engagement must not be a prerequisite for first value;
+- default behavior must work before organization-specific customization becomes an optional deeper service;
+- connection, permission, indexing, and trust costs count as adoption cost even when the software license is free.
+
+The intended user reaction is:
+
+> **AER is not required to perform the work, but after using it properly, the user does not want to return to an environment without it.**
+
+The stronger long-term north-star expression is:
+
+> **If AER cannot be used in a closed environment, practitioners recognize the restored context-search, handoff, and relearning labor as additional project cost.**
+
+These statements are aspirational product success criteria. They are not evidence of present user preference, willingness to pay, or productivity improvement.
+
+#### 19.7.6 Expansion Direction
+
+Expansion is ordered and conditional:
+
+```text
+growth-stage development teams
+        ↓ validate personnel-change continuity value
+project-based development and SI organizations
+        ↓ validate project-level adoption and repeated handoffs
+closed, on-premises, and internal-LLM environments
+        ↓ validate security, ownership, deployment, and reduced-model capability
+optional project-standard supporting tool
+```
+
+SI is no longer only an adversarial fixture in the product discussion. Repeated reports received by the human researcher from multiple large-SI developers support the existence and recurrence of personnel changes, hidden local know-how, repeated learning, and project-bounded loss. This is qualitative field observation, not prevalence measurement or proof that AER can reduce the loss.
+
+The SI value hypothesis has two sides:
+
+- performer: the project continues when freelancers, partner staff, developers, PMs, or vendors change;
+- client: authorized project memory remains available when the delivery organization leaves or a maintenance or successor vendor changes.
+
+The client-side hypothesis may also reduce vendor dependence, but it immediately introduces ownership, contract, security, retention, deletion, and cross-party permission boundaries. It therefore remains a later hypothesis, not an initial requirement.
+
+A project-level deployment may be more plausible than organization-wide governance in SI, and project start/close boundaries may make onboarding, explanation time, context-search time, repeated questions, reanalysis, and maintenance-transfer time measurable. Closed environments also motivate interchangeable inference engines and OSS/on-premises deployment. Whether AER without a strong LLM remains useful rather than becoming another manual management tool is unvalidated.
+
+#### 19.7.7 Unvalidated Hypotheses and Kill Conditions
+
+The following remain assumptions or open problems:
+
+- the Seed-to-Series-A/B development segment is the best initial market rather than only a convenient proxy;
+- the primary pain is severe and frequent enough to cause adoption, budget, or meaningful behavior change rather than continued tolerance of the status quo;
+- weak-governance teams still retain enough trustworthy digital traces to create useful continuity;
+- one or two initial source connections can produce first value without a broad connector program;
+- AER can outperform existing search, a general-purpose LLM, and manual reconstruction on a continuity task that users actually care about;
+- useful context can be formed with near-zero additional authoring, classification, or review labor;
+- provenance, uncertainty, current validity, conflict, and human-confirmation rules can prevent confidently wrong context without recreating the management burden the product aims to remove;
+- authentication, permission synchronization, source freshness, indexing, and connection setup can remain proportionate to a small organization's capacity;
+- the default product can create material first value without organization-specific consulting; if consulting or governance design is required before first value, the current lightweight-product hypothesis is close to failure;
+- successors and experienced team members obtain enough combined benefit to create a viable adopter and buyer path;
+- the development-team result, if established, transfers to SI performers, SI clients, closed networks, other project organizations, or organization-wide continuity;
+- internal or local LLMs can support a useful capability profile, and an LLM-free minimum mode has independent value;
+- source-neutrality, workflow fit, and accumulated continuity practice can become a durable advantage; no current moat is claimed;
+- pricing, per-user versus per-project economics, paid connectors, support, customization, and OSS commercialization remain future questions;
+- industry-standard status, strategic partnership, marketplace distribution, or acquisition by an incumbent are optional future outcomes, not current strategy evidence or decisions.
+
+The current product hypothesis should be reduced, revised, or stopped if target organizations repeatedly show that the pain is tolerable, the traces are insufficient, the output is not more useful than current search or manual work, or the behavior and governance required before first value are substantial.
+
+#### 19.7.8 Validation and Resumption Contract
+
+The next sequence is:
+
+> **product definition → evidence of actual target pain and past behavior → selection of one minimum value hypothesis → very small product or comparison experiment → observation of actual use**
+
+The next research question is not "What is AER?" but:
+
+> **Which pain in the selected target should AER attack first, and does the target's actual past behavior show enough cost to justify an experiment?**
+
+Interviews, when used, should ask about a recent personnel-change event and past behavior: what the successor did first, which artifacts and people were consulted, how much existing-team time was consumed, what could not be found, what was misunderstood, and what rework followed. Hypothetical preference questions such as "Would this be useful?" are insufficient evidence.
+
+A stronger later test may use one real project's authorized historical materials to compare the existing reconstruction method with an AER candidate method. Candidate outcome measures include time to independent work, experienced-staff explanation time, context-search time, repeated questions, repeated analysis, rework, and maintenance-transfer time. Search accuracy or graph quality alone is not the product outcome.
+
+Checkpoint non-effects:
+
+- no commercial product value, product-market fit, demand, willingness to pay, comparative advantage, or organizational effectiveness is claimed;
+- no UI, connector minimum, model vendor, deployment mode, price, company-size threshold, SI product requirement, or long-term category standard is frozen;
+- no new Session, Principle, Decision, Evidence object, evaluation gate, blind result, AER Core change, release, or protected-file change is created;
+- the current apparatus state and authorized next action recorded in 19.6 remain unchanged by this product-definition checkpoint.
